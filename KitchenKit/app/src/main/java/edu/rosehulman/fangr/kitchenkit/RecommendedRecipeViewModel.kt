@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import edu.rosehulman.fangr.kitchenkit.ui.main.RecommenedRecipeViewModelFragment
 
-class RecommenedRecipeViewModel : AppCompatActivity() {
+class RecommendedRecipeViewModel : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

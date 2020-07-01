@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RecommenedRecipeViewModel"></activity>
+        <activity android:name=".RecommendedRecipeViewModel"></activity>
         <activity
             android:name=".TabbedActivity"
             android:label="@string/title_activity_tabbed"
