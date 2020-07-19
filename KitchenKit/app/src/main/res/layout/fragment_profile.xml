@@ -57,4 +57,5 @@
         android:layout_above="@id/name_text_view"
         android:layout_alignStart="@id/name_text_view"
         tools:src="@tools:sample/avatars" />
+
 </RelativeLayout>
