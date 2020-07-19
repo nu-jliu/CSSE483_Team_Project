@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="20dp"
+    tools:context=".SecondFragment"
+    android:layout_marginTop="30dp">
+
+
+    <ImageView
+        android:id="@+id/food_image"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="25dp"
+        android:padding="6dp"
+        android:foreground="@drawable/font_card_border"
+        android:layout_toEndOf="@+id/name"
+        app:srcCompat="@drawable/banana" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/default_name"
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"/>
+
+    <EditText
+        android:id="@+id/name_edit_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/name"
+        android:layout_marginTop="10dp"
+        android:textSize="18sp"
+        android:text="Banana                      " />
+
+    <TextView
+        android:id="@+id/amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Amount"
+        android:textColor="@android:color/black"
+        android:layout_below="@+id/name_edit_text"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"/>
+
+    <EditText
+        android:id="@+id/amount_edit_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/amount"
+        android:layout_marginTop="10dp"
+        android:textSize="18sp"
+        android:text="2                " />
+
+    <TextView
+        android:id="@+id/amount_unit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/amount"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/amount_edit_text"
+        android:text="kg"
+        android:textColor="@android:color/black"
+        android:textSize="24sp" />
+
+    <ImageButton
+        android:id="@+id/imageButton5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/amount"
+        android:layout_toEndOf="@+id/amount_unit"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="10dp"
+        app:srcCompat="@drawable/ic_drop_down_menu"
+        android:backgroundTint="@color/colorPrimary"/>
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/amount_edit_text"
+        android:layout_marginTop="20dp"
+        android:textSize="18sp"
+        android:text="Is Frozen" />
+
+    <Button
+        android:id="@+id/button_add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/checkBox"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="@android:color/black"
+        android:text="ADD"
+        android:textColor="@android:color/white"
+        android:padding="18dp"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/cant_find_your_ingredient"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button_add"
+        android:layout_marginTop="43dp"
+        android:layout_marginStart="40dp"
+        android:text="Can't find your ingredient?"
+        android:textColor="@android:color/black"
+        android:textSize="14sp" />
+
+    <Button
+        android:id="@+id/button_customize_one"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button_add"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="30dp"
+        android:layout_toEndOf="@+id/cant_find_your_ingredient"
+        android:backgroundTint="@color/colorPrimary"
+        android:text="Customize one"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+
+
+
+</RelativeLayout>

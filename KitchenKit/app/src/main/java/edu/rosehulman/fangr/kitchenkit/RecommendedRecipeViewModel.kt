@@ -8,7 +8,7 @@ class RecommendedRecipeViewModel : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.recommened_recipe_page)
+        setContentView(R.layout.recommended_recipe_page)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.container, RecommenedRecipeViewModelFragment.newInstance())
