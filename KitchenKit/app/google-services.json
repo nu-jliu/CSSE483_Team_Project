@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "153314152986",
+    "firebase_url": "https://kitchen-kit-a8c32.firebaseio.com",
+    "project_id": "kitchen-kit-a8c32",
+    "storage_bucket": "kitchen-kit-a8c32.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:153314152986:android:448e39823c9a8da6e6f7a3",
+        "android_client_info": {
+          "package_name": "edu.rosehulman.fangr.kitchenkit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "153314152986-benfk6b66pqgobrvttuqit2kmj32vb2c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAM6rqZ3EB9HoeBkPsR6VEPEuDEoBJxwlE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "153314152986-benfk6b66pqgobrvttuqit2kmj32vb2c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
