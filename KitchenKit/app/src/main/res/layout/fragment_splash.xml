@@ -21,7 +21,8 @@
         android:layout_height="match_parent"
         android:text="@string/button_sign_in"
         android:layout_weight="10"
-        android:backgroundTint="@android:color/black"
+        android:layout_margin="8dp"
+        android:background="@drawable/button_sign_in"
         android:textColor="@android:color/white"
         android:textSize="20sp"/>
 

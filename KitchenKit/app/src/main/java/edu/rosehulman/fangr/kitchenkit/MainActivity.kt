@@ -2,27 +2,25 @@ package edu.rosehulman.fangr.kitchenkit
 
 import android.os.Bundle
 import android.util.Log
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
-import android.view.MenuItem
-import androidx.fragment.app.replace
+import androidx.fragment.app.Fragment
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
-import java.lang.invoke.ConstantCallSite
 
-class MainActivity : AppCompatActivity(), SplashFragment.OnSignInButtonPressedListener {
+class MainActivity : AppCompatActivity(),
+    SplashFragment.OnSignInButtonPressedListener,
+    RecipeBrowserFragment.OnButtonPressedListener {
 
     private val auth = FirebaseAuth.getInstance()
-    lateinit var authStateListener: FirebaseAuth.AuthStateListener
+    private lateinit var authStateListener: FirebaseAuth.AuthStateListener
 
     private val RC_SIGN_IN = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.setContentView(R.layout.activity_main)
-        this.setSupportActionBar(findViewById(R.id.toolbar))
+//        this.setSupportActionBar(this.toolbar)
         this.initializeListeners()
     }
 
@@ -45,28 +43,16 @@ class MainActivity : AppCompatActivity(), SplashFragment.OnSignInButtonPressedLi
                 Log.d(Constans.TAG, "E-Mail: ${user.email}")
                 Log.d(Constans.TAG, "Phone: ${user.phoneNumber}")
                 Log.d(Constans.TAG, "Photo: ${user.photoUrl}")
-                this.switchToMainFragment()
+                this.switchTo(RecipeBrowserFragment())
             } else
-                this.switchToSplashFragment()
+                this.switchTo(SplashFragment())
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
+        this.menuInflater.inflate(R.menu.menu_main, menu)
         return true
-    }
-
-    private fun switchToSplashFragment() {
-        val ft = this.supportFragmentManager.beginTransaction()
-        ft.replace(R.id.fragment_container, SplashFragment())
-        ft.commit()
-    }
-
-    private fun switchToMainFragment() {
-        val ft = this.supportFragmentManager.beginTransaction()
-        ft.replace(R.id.fragment_container, BlankFragment())
-        ft.commit()
     }
 
     override fun onSignInButtonPressed() {
@@ -89,16 +75,18 @@ class MainActivity : AppCompatActivity(), SplashFragment.OnSignInButtonPressedLi
         this.startActivityForResult(loginIntent, this.RC_SIGN_IN)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_settings -> {
-                auth.signOut()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
+    private fun switchTo(fragment: Fragment) {
+        val ft = this.supportFragmentManager.beginTransaction()
+        ft.replace(R.id.fragment_container, fragment)
+        ft.addToBackStack(null)
+        ft.commit()
+    }
+
+    override fun onProfileButtonPressed() {
+        this.switchTo(ProfileFragment())
+    }
+
+    override fun onMyIngredientsButtonPressed() {
+        this.switchTo(MyIngredientsFragment())
     }
 }
