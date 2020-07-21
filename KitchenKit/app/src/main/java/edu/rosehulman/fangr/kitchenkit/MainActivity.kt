@@ -72,6 +72,7 @@ class MainActivity : AppCompatActivity(),
             AuthUI.getInstance()
                 .createSignInIntentBuilder()
                 .setAvailableProviders(providers)
+                .setLogo(R.drawable.ic_logo)
                 .build()
 
         this.startActivityForResult(loginIntent, this.RC_SIGN_IN)
@@ -88,7 +89,9 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onProfileButtonPressed() {
-        this.switchTo(ProfileFragment())
+        this.auth.currentUser?.displayName
+            ?.let { ProfileFragment.newInstance(it) }
+            ?.let { this.switchTo(it) }
     }
 
     override fun onMyIngredientsButtonPressed() {
