@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:contentDescription="@string/background"
-        android:src="@android:color/darker_gray"/>
+        android:src="@drawable/background_splash" />
 
     <Button
         android:id="@+id/button_sign_in"
