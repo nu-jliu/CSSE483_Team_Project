@@ -10,7 +10,9 @@ import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity(),
     SplashFragment.OnSignInButtonPressedListener,
-    RecipeBrowserFragment.OnButtonPressedListener {
+    RecipeBrowserFragment.OnButtonPressedListener,
+    ProfileFragment.OnLogoutPressedListener,
+    MyIngredientsFragment.OnBackButtonPressedListener {
 
     private val auth = FirebaseAuth.getInstance()
     private lateinit var authStateListener: FirebaseAuth.AuthStateListener
@@ -78,7 +80,10 @@ class MainActivity : AppCompatActivity(),
     private fun switchTo(fragment: Fragment) {
         val ft = this.supportFragmentManager.beginTransaction()
         ft.replace(R.id.fragment_container, fragment)
-        ft.addToBackStack(null)
+        if (fragment !is RecipeBrowserFragment)
+            ft.addToBackStack(null)
+        else
+            this.supportFragmentManager.popBackStack()
         ft.commit()
     }
 
@@ -88,5 +93,13 @@ class MainActivity : AppCompatActivity(),
 
     override fun onMyIngredientsButtonPressed() {
         this.switchTo(MyIngredientsFragment())
+    }
+
+    override fun onLogoutPressed() {
+        this.auth.signOut()
+    }
+
+    override fun onBackButtonPressed() {
+        this.switchTo(RecipeBrowserFragment())
     }
 }

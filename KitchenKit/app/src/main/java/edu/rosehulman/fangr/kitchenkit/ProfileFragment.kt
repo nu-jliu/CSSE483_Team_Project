@@ -1,12 +1,17 @@
 package edu.rosehulman.fangr.kitchenkit
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import kotlinx.android.synthetic.main.fragment_profile.view.*
+import java.lang.RuntimeException
 
 class ProfileFragment : Fragment() {
+
+    private var listener: ProfileFragment.OnLogoutPressedListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,7 +22,19 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false)
+        val view = inflater.inflate(R.layout.fragment_profile, container, false)
+        view.button_logout.setOnClickListener {
+            this.listener?.onLogoutPressed()
+        }
+        return view
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnLogoutPressedListener)
+            this.listener = context
+        else
+            throw RuntimeException("$context must implement OnLogoutPressedListener")
     }
 
 //    companion object {
@@ -35,4 +52,8 @@ class ProfileFragment : Fragment() {
 //
 //        }
 //    }
+
+    interface OnLogoutPressedListener {
+        fun onLogoutPressed()
+    }
 }

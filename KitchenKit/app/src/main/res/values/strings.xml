@@ -32,4 +32,6 @@
     <string name="button_sign_in">SIGN IN</string>
     <string name="message_sign_up">SIGN UP</string>
     <string name="background">Backgronud</string>
+    <string name="button_logout">LOGOUT</string>
+    <string name="my_ingredients_title">My Ingredients</string>
 </resources>

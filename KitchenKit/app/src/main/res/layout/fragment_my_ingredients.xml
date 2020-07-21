@@ -18,7 +18,49 @@
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
             android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme" />
+            android:theme="?attr/actionBarTheme">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageButton
+                    android:id="@+id/button_back"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#00FFFFFF"
+                    android:tint="@android:color/black"
+                    app:layout_anchor="@+id/appBarLayout"
+                    app:layout_anchorGravity="start|top"
+                    app:srcCompat="@drawable/ic_back" />
+
+                <TextView
+                    android:id="@+id/my_ingredients"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/my_ingredients_title"
+                    android:textColor="@android:color/black"
+                    android:textSize="24sp" />
+
+                <ImageButton
+                    android:id="@+id/button_search"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="20dp"
+                    android:background="#00FFFFFF"
+                    android:tint="@android:color/black"
+                    app:layout_anchor="@+id/appBarLayout"
+                    app:layout_anchorGravity="end|top"
+                    app:srcCompat="@android:drawable/ic_menu_search" />
+
+            </LinearLayout>
+
+        </androidx.appcompat.widget.Toolbar>
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar5"
@@ -39,40 +81,6 @@
     </androidx.viewpager.widget.ViewPager>
 
     <include layout="@layout/recipe_card_recycler" />
-
-    <TextView
-        android:id="@+id/my_ingredients"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="My Ingredients"
-        android:textSize="24sp"
-        app:layout_anchor="@+id/appBarLayout"
-        app:layout_anchorGravity="top|center" />
-
-    <ImageButton
-        android:id="@+id/button_search"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginTop="10dp"
-        android:background="#00FFFFFF"
-        android:tint="#000"
-        app:layout_anchor="@+id/appBarLayout"
-        app:layout_anchorGravity="end|top"
-        app:srcCompat="@android:drawable/ic_menu_search" />
-
-    <ImageButton
-        android:id="@+id/button_profile"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:background="#00FFFFFF"
-        android:tint="#000"
-        app:layout_anchor="@+id/appBarLayout"
-        app:layout_anchorGravity="start|top"
-        app:srcCompat="@drawable/ic_back" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_my_ingredients"

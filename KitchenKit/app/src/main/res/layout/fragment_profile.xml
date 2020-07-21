@@ -58,4 +58,13 @@
         android:layout_alignStart="@id/name_text_view"
         tools:src="@tools:sample/avatars" />
 
+    <Button
+        android:id="@+id/button_logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:backgroundTint="@android:color/holo_red_light"
+        android:text="@string/button_logout" />
+
 </RelativeLayout>
