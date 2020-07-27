@@ -59,7 +59,7 @@
         android:layout_height="wrap_content"
         android:text="Title"
         android:textSize="40sp"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="55dp"
         android:paddingStart="12dp"
         tools:ignore="RtlSymmetry" />
 
