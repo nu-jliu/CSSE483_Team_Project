@@ -19,9 +19,15 @@ class SplashFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_splash, container, false)
+
         view.button_sign_in.setOnClickListener {
             this.listener?.onSignInButtonPressed()
         }
+
+        view.button_rose_sign_in.setOnClickListener {
+            this.listener?.onRoseSignInButtonPressed()
+        }
+
         return view
     }
 
@@ -40,5 +46,6 @@ class SplashFragment : Fragment() {
 
     interface OnSignInButtonPressedListener {
         fun onSignInButtonPressed()
+        fun onRoseSignInButtonPressed()
     }
 }

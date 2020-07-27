@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,36 +11,55 @@
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="65dp"
         android:contentDescription="@string/background"
         android:scaleType="centerCrop"
-        android:src="@drawable/background_splash"
-        android:layout_marginBottom="65dp"/>
+        android:src="@drawable/background_splash" />
 
-    <Button
-        android:id="@+id/button_sign_in"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_margin="8dp"
-        android:background="@drawable/button_sign_in"
-        android:text="@string/button_sign_in"
-        android:textColor="@android:color/white"
-        android:textSize="20sp"
-        />
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <Button
+            android:id="@+id/button_sign_in"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@drawable/button_sign_in"
+            android:layout_weight="1"
+            android:text="@string/button_sign_in"
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/button_rose_sign_in"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+            android:background="@drawable/button_rose_sign_in"
+            android:text="@string/button_rose_sign_in"
+            android:textColor="@android:color/white"
+            android:layout_marginStart="4dp"
+            android:textSize="20sp" />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/text_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="200dp"
-        android:paddingVertical="10dp"
         android:background="@android:color/black"
         android:freezesText="false"
         android:gravity="center"
+        android:paddingVertical="10dp"
         android:text="@string/app_name"
         android:textColor="@android:color/white"
         android:textSize="40sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
 
 </FrameLayout>

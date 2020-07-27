@@ -24,14 +24,14 @@
     <string name="tab_text_2">Tab 2</string>
     <string name="recipe_detail_default_message">Recipe Details goes here</string>
     <string name="default_name">Name</string>
-    <string name="template_user_info">Cooked for X years\n\nFavorite Categories</string>
-    <string name="list_fav">\t\t1..</string>
-    <string name="list_fav2">\t\t2..</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <plurals name="title_user_info">
+        <item quantity="one">Cooked for %d year\n\nFavorite Categories</item>
+        <item quantity="other">Cooked for %d years\n\nFavorite Categories</item>
+    </plurals>
+    <string name="default_user_info_title">>Cooked for %d year\n\nFavorite Categories</string>
     <string name="button_sign_in">SIGN IN</string>
     <string name="message_sign_up">SIGN UP</string>
-    <string name="background">Backgronud</string>
+    <string name="background">Background</string>
     <string name="button_logout">LOGOUT</string>
     <string name="my_ingredients_title">My Ingredients</string>
     <string name="message_is_frozen">Is Frozen</string>
@@ -56,4 +56,14 @@
     <string name="best_before_date_up">Best-before date↑</string>
     <string name="bought_date_up">Bought date↑</string>
     <string name="my_ingredients">My Ingredients</string>
+    <string name="button_rose_sign_in">ROSE SIGN IN</string>
+    <string name="title_profile">Profile</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_edit_name">Name:</string>
+    <string name="new_name_hint">New Name</string>
+    <string name="title_cooked_year">Cooked Year:</string>
+    <string name="hint_cooked_year">Cooked Year</string>
+    <string name="back_description">go back</string>
+    <string name="button_save">SAVE</string>
 </resources>
