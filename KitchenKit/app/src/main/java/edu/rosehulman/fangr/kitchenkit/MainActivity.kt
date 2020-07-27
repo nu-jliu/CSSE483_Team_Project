@@ -12,7 +12,8 @@ class MainActivity : AppCompatActivity(),
     SplashFragment.OnSignInButtonPressedListener,
     RecipeBrowserFragment.OnButtonPressedListener,
     ProfileFragment.OnLogoutPressedListener,
-    MyIngredientsFragment.OnBackButtonPressedListener {
+    MyIngredientsFragment.OnButtonPressedListener,
+    AddIngredientFragment.OnAddButtonPressedListener {
 
     private val auth = FirebaseAuth.getInstance()
     private lateinit var authStateListener: FirebaseAuth.AuthStateListener
@@ -40,11 +41,11 @@ class MainActivity : AppCompatActivity(),
         this.authStateListener = FirebaseAuth.AuthStateListener { auth: FirebaseAuth ->
             val user = auth.currentUser
             if (user != null) {
-                Log.d(Constans.TAG, "UID: ${user.uid}")
-                Log.d(Constans.TAG, "Name: ${user.displayName}")
-                Log.d(Constans.TAG, "E-Mail: ${user.email}")
-                Log.d(Constans.TAG, "Phone: ${user.phoneNumber}")
-                Log.d(Constans.TAG, "Photo: ${user.photoUrl}")
+                Log.d(Constants.TAG, "UID: ${user.uid}")
+                Log.d(Constants.TAG, "Name: ${user.displayName}")
+                Log.d(Constants.TAG, "E-Mail: ${user.email}")
+                Log.d(Constants.TAG, "Phone: ${user.phoneNumber}")
+                Log.d(Constants.TAG, "Photo: ${user.photoUrl}")
                 this.switchTo(RecipeBrowserFragment())
             } else
                 this.switchTo(SplashFragment())
@@ -80,8 +81,9 @@ class MainActivity : AppCompatActivity(),
 
     private fun switchTo(fragment: Fragment) {
         val ft = this.supportFragmentManager.beginTransaction()
+        val currentFragment = this.supportFragmentManager.findFragmentById(R.id.fragment_container)
         ft.replace(R.id.fragment_container, fragment)
-        if (fragment !is RecipeBrowserFragment)
+        if (fragment !is RecipeBrowserFragment && currentFragment !is AddIngredientFragment)
             ft.addToBackStack(null)
         else
             this.supportFragmentManager.popBackStack()
@@ -95,7 +97,9 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onMyIngredientsButtonPressed() {
-        this.switchTo(MyIngredientsFragment())
+        this.auth.currentUser?.uid
+            ?.let { MyIngredientsFragment.newInstance(it) }
+            ?.let { this.switchTo(it) }
     }
 
     override fun onLogoutPressed() {
@@ -104,5 +108,17 @@ class MainActivity : AppCompatActivity(),
 
     override fun onBackButtonPressed() {
         this.switchTo(RecipeBrowserFragment())
+    }
+
+    override fun onAddFABPressed() {
+        this.auth.currentUser?.uid
+            ?.let { AddIngredientFragment.newInstance(it) }
+            ?.let { this.switchTo(it) }
+    }
+
+    override fun onAddButtonPressed() {
+        this.auth.currentUser?.uid
+            ?.let { MyIngredientsFragment.newInstance(it) }
+            ?.let { this.switchTo(it) }
     }
 }

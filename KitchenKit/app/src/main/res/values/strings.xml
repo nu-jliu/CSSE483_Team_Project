@@ -34,4 +34,12 @@
     <string name="background">Backgronud</string>
     <string name="button_logout">LOGOUT</string>
     <string name="my_ingredients_title">My Ingredients</string>
+    <string name="message_is_frozen">Is Frozen</string>
+    <string name="message_amount">Amount</string>
+    <string name="text_banana">Banana</string>
+    <string name="title_new_ingredient">New Ingredient</string>
+    <string name="hint_ingredient_name">Ingredient Name</string>
+    <string name="ingredient_image">Ingredient Image</string>
+    <string name="title_amount">Amount</string>
+    <string name="unit_kg">kg</string>
 </resources>

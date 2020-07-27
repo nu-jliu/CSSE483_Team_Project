@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginTop="30dp"
     android:padding="20dp"
-    tools:context=".SecondFragment"
-    android:layout_marginTop="30dp">
+    tools:context=".AddIngredientFragment">
 
 
     <ImageView
@@ -15,49 +15,54 @@
         android:layout_height="140dp"
         android:layout_marginStart="160dp"
         android:layout_marginTop="25dp"
-        android:padding="6dp"
-        android:foreground="@drawable/font_card_border"
         android:layout_toEndOf="@+id/name"
-        app:srcCompat="@drawable/banana" />
+        android:foreground="@drawable/font_card_border"
+        android:padding="6dp"
+        app:srcCompat="@drawable/banana"
+        android:contentDescription="@string/ingredient_image" />
 
     <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="@string/default_name"
         android:textColor="@android:color/black"
         android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_marginTop="20dp"/>
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/name_edit_text"
-        android:layout_width="wrap_content"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/name"
         android:layout_marginTop="10dp"
+        android:gravity="start"
+        android:inputType="textCapWords"
+        android:hint="@string/hint_ingredient_name"
         android:textSize="18sp"
-        android:text="Banana                      " />
+        android:autofillHints="Name" />
 
     <TextView
         android:id="@+id/amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Amount"
-        android:textColor="@android:color/black"
         android:layout_below="@+id/name_edit_text"
+        android:layout_marginTop="20dp"
+        android:text="@string/message_amount"
+        android:textColor="@android:color/black"
         android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_marginTop="20dp"/>
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/amount_edit_text"
-        android:layout_width="wrap_content"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/amount"
         android:layout_marginTop="10dp"
-        android:textSize="18sp"
-        android:text="2                " />
+        android:inputType="numberDecimal"
+        android:hint="@string/title_amount"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/amount_unit"
@@ -67,7 +72,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_toEndOf="@+id/amount_edit_text"
-        android:text="kg"
+        android:text="@string/unit_kg"
         android:textColor="@android:color/black"
         android:textSize="24sp" />
 
@@ -76,11 +81,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/amount"
-        android:layout_toEndOf="@+id/amount_unit"
         android:layout_marginStart="0dp"
         android:layout_marginTop="10dp"
-        app:srcCompat="@drawable/ic_drop_down_menu"
-        android:backgroundTint="@color/colorPrimary"/>
+        android:layout_toEndOf="@+id/amount_unit"
+        android:backgroundTint="@color/colorPrimary"
+        app:srcCompat="@drawable/ic_drop_down_menu" />
 
     <CheckBox
         android:id="@+id/checkBox"
@@ -88,8 +93,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/amount_edit_text"
         android:layout_marginTop="20dp"
-        android:textSize="18sp"
-        android:text="Is Frozen" />
+        android:text="@string/message_is_frozen"
+        android:textSize="18sp" />
 
     <Button
         android:id="@+id/button_add"
@@ -98,9 +103,9 @@
         android:layout_below="@+id/checkBox"
         android:layout_marginTop="10dp"
         android:backgroundTint="@android:color/black"
+        android:padding="18dp"
         android:text="ADD"
         android:textColor="@android:color/white"
-        android:padding="18dp"
         android:textSize="18sp" />
 
     <TextView
@@ -108,8 +113,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/button_add"
-        android:layout_marginTop="43dp"
         android:layout_marginStart="40dp"
+        android:layout_marginTop="43dp"
         android:text="Can't find your ingredient?"
         android:textColor="@android:color/black"
         android:textSize="14sp" />
@@ -126,8 +131,6 @@
         android:text="Customize one"
         android:textSize="14sp"
         android:textStyle="bold" />
-
-
 
 
 </RelativeLayout>

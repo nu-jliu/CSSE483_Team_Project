@@ -112,8 +112,7 @@
             android:paddingEnd="20dp"
             android:paddingTop="10dp"
             app:srcCompat="@drawable/ic_snow"
-            android:background="#00FFFFFF"
-            />
+            android:background="#00FFFFFF" />
 
         <ImageButton
             android:id="@+id/warning_icon"
@@ -126,8 +125,5 @@
             android:paddingEnd="20dp"
             app:srcCompat="@drawable/ic_warning" />
 
-
     </RelativeLayout>
-
-
 </androidx.cardview.widget.CardView>
