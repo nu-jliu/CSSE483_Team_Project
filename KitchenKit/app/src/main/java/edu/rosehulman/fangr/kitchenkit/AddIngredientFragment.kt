@@ -6,8 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.add_ingredient_view.view.*
+import java.lang.NumberFormatException
 import java.lang.RuntimeException
 
 const val ARG_ADD_UID = "uid_add"
@@ -35,14 +37,26 @@ class AddIngredientFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_add_ingredient, container, false)
         view.button_add.setOnClickListener {
             val name = view.name_edit_text.text.toString()
-            val amount = view.amount_edit_text.text.toString().toDouble()
+            if (name.isEmpty()) {
+                Toast.makeText(this.context, "Name cannot be empty", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+            var amount = 0.0
+            try {
+                amount = view.amount_edit_text.text.toString().toDouble()
+            } catch (e: NumberFormatException) {
+                Toast.makeText(this.context, "Invalid number input", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
             val isFrozen = view.checkBox.isChecked
+
             val ingredientsReference = FirebaseFirestore
                 .getInstance()
                 .collection(Constants.USER_COLLECTION)
                 .document(this.uid)
                 .collection(Constants.INGREDIENT_COLLECTION)
             ingredientsReference.add(Ingredient(name, amount, isFrozen))
+
             this.listener?.onAddButtonPressed()
         }
         return view
