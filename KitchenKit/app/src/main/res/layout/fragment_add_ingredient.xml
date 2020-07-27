@@ -12,13 +12,31 @@
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar4"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme" />
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/button_back"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginVertical="10dp"
+                android:backgroundTint="@android:color/white"
+                android:tint="@android:color/black"
+                app:srcCompat="@drawable/ic_back" />
+
+            <TextView
+                android:id="@+id/new_ingredient"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:text="@string/title_new_ingredient"
+                android:textSize="24sp"
+                android:layout_gravity="center_horizontal" />
+
+        </LinearLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -28,28 +46,9 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <TextView
-        android:id="@+id/recipe"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/title_new_ingredient"
-        android:textSize="24sp"
-        app:layout_anchor="@+id/appBarLayout"
-        app:layout_anchorGravity="top|center" />
-
-    <ImageButton
-        android:id="@+id/button_profile"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:background="#00FFFFFF"
-        android:tint="#000"
-        app:layout_anchor="@+id/appBarLayout"
-        app:layout_anchorGravity="start|center"
-        app:srcCompat="@drawable/ic_back" />
-
-    <include layout="@layout/add_ingredient_view" />
+    <include layout="@layout/add_ingredient_view"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_marginTop="60dp"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

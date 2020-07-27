@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="30dp"
-    android:padding="20dp"
+    android:paddingHorizontal="20dp"
+    android:paddingVertical="5dp"
     tools:context=".AddIngredientFragment">
 
 
@@ -13,7 +13,7 @@
         android:id="@+id/food_image"
         android:layout_width="140dp"
         android:layout_height="140dp"
-        android:layout_marginStart="160dp"
+        android:layout_marginStart="140dp"
         android:layout_marginTop="25dp"
         android:layout_toEndOf="@+id/name"
         android:foreground="@drawable/font_card_border"

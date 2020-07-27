@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.add_ingredient_view.view.*
+import kotlinx.android.synthetic.main.fragment_my_ingredients.view.*
 import java.lang.NumberFormatException
 import java.lang.RuntimeException
 
@@ -59,6 +60,9 @@ class AddIngredientFragment : Fragment() {
 
             this.listener?.onAddButtonPressed()
         }
+        view.button_back.setOnClickListener {
+            this.listener?.onAddIngredientFragmentBackButtonPressed()
+        }
         return view
     }
 
@@ -93,5 +97,6 @@ class AddIngredientFragment : Fragment() {
 
     interface OnAddButtonPressedListener {
         fun onAddButtonPressed()
+        fun onAddIngredientFragmentBackButtonPressed()
     }
 }

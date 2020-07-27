@@ -34,7 +34,7 @@ class MyIngredientsFragment : Fragment() {
         view.recycler_view.adapter = this.context?.let { this.uid?.let { uid -> IngredientsAdapter(uid, it, view.recycler_view) } }
 
         view.button_back.setOnClickListener {
-            this.listener?.onBackButtonPressed()
+            this.listener?.onMyIngredientsFragmentBackButtonPressed()
         }
 
         view.fab_my_ingredients.setOnClickListener {
@@ -77,7 +77,7 @@ class MyIngredientsFragment : Fragment() {
     }
 
     interface OnButtonPressedListener {
-        fun onBackButtonPressed()
+        fun onMyIngredientsFragmentBackButtonPressed()
         fun onAddFABPressed()
     }
 

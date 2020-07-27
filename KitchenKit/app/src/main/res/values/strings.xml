@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">KitchenKit</string>
+    <string name="app_name">KITCHEN KIT</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
@@ -42,4 +42,18 @@
     <string name="ingredient_image">Ingredient Image</string>
     <string name="title_amount">Amount</string>
     <string name="unit_kg">kg</string>
+    <string name="dinner">Dinner</string>
+    <string name="asian">Asian</string>
+    <string name="mexican">Mexican</string>
+    <string name="vegan">Vegan</string>
+    <string name="order_by">Order by: </string>
+    <string name="alphabetical_down">Alphabetical↓</string>
+    <string name="amount_down">Amount↓</string>
+    <string name="best_before_date_down">Best-before date↓</string>
+    <string name="bought_date_down">Bought date↓</string>
+    <string name="alphabetical_up">Alphabetical↑</string>
+    <string name="amount_up">Amount↑</string>
+    <string name="best_before_date_up">Best-before date↑</string>
+    <string name="bought_date_up">Bought date↑</string>
+    <string name="my_ingredients">My Ingredients</string>
 </resources>

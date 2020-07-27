@@ -106,8 +106,12 @@ class MainActivity : AppCompatActivity(),
         this.auth.signOut()
     }
 
-    override fun onBackButtonPressed() {
+    override fun onMyIngredientsFragmentBackButtonPressed() {
         this.switchTo(RecipeBrowserFragment())
+    }
+
+    override fun onAddIngredientFragmentBackButtonPressed() {
+        this.switchTo(MyIngredientsFragment())
     }
 
     override fun onAddFABPressed() {

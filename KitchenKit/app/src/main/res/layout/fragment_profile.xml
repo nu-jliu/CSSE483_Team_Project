@@ -65,6 +65,8 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:backgroundTint="@android:color/holo_red_light"
-        android:text="@string/button_logout" />
+        android:text="@string/button_logout"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"/>
 
 </RelativeLayout>

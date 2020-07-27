@@ -16,25 +16,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-
             <ImageButton
                 android:id="@+id/button_profile"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
-                android:background="#00FFFFFF"
-                android:tint="#000"
+                android:layout_marginVertical="10dp"
+                android:backgroundTint="@android:color/white"
+                android:tint="@android:color/black"
                 app:srcCompat="@drawable/ic_profile" />
 
             <ImageButton
                 android:id="@+id/button_recommend"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginVertical="10dp"
                 android:layout_weight="1"
-                android:background="#00FFFFFF"
-                android:tint="#000"
+                android:backgroundTint="@android:color/white"
+                android:tint="@android:color/black"
                 app:layout_anchorGravity="top|center"
                 app:srcCompat="@drawable/ic_recommend_recipes" />
 
@@ -42,41 +41,13 @@
                 android:id="@+id/button_search"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginVertical="10dp"
                 android:layout_marginEnd="20dp"
-                android:background="#00FFFFFF"
-                android:tint="#000"
+                android:backgroundTint="@android:color/white"
+                android:tint="@android:color/black"
                 app:srcCompat="@android:drawable/ic_menu_search" />
 
         </LinearLayout>
-
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="60dp">
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Dinner" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Asian" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Mexican" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Vegan" />
-
-        </com.google.android.material.tabs.TabLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -84,7 +55,35 @@
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" >
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dinner" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/asian" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/mexican" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/vegan" />
+
+        </com.google.android.material.tabs.TabLayout>
+    </androidx.viewpager.widget.ViewPager>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_my_ingredients"
@@ -97,6 +96,9 @@
     <include
         layout="@layout/recipe_card_recycler"
         app:layout_anchor="@+id/view_pager"
-        app:layout_anchorGravity="center" />
+        app:layout_anchorGravity="center"
+        android:layout_marginTop="110dp"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
