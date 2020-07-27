@@ -41,7 +41,7 @@ class AddIngredientFragment : Fragment() {
                 Toast.makeText(this.context, "Name cannot be empty", Toast.LENGTH_LONG).show()
                 return@setOnClickListener
             }
-            var amount = 0.0
+            val amount: Double
             try {
                 amount = view.amount_edit_text.text.toString().toDouble()
             } catch (e: NumberFormatException) {
@@ -80,11 +80,8 @@ class AddIngredientFragment : Fragment() {
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
          *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
          * @return A new instance of fragment AddIngredientFragment.
          */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(uid: String) =
             AddIngredientFragment().apply {
