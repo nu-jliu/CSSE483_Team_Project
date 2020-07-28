@@ -35,12 +35,15 @@ class IngredientsViewHolder(
         Log.d(Constants.TAG, "current: $currentTime")
 
         val difference = currentTime - time!!
-        val days = (difference / (1000 * 60 * 60 * 24))
-        this.boughtTextView.text = this.context.resources.getQuantityString(
-            R.plurals.day_display,
-            days.toInt(),
-            days
-        )
+        val days = (difference / (1000 * 60 * 60 * 24)).toInt()
+        Log.d(Constants.TAG, "days: $days")
+        if (days == 0)
+            this.boughtTextView.text = this.context.getString(R.string.zero_day_display)
+        else
+            this.boughtTextView.text = this.context.resources.getQuantityString(
+                R.plurals.day_display,
+                days,
+                days
+            )
     }
-
 }

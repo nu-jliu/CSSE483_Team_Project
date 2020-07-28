@@ -66,8 +66,9 @@
     <string name="button_save">SAVE</string>
     <string name="amount_display">%.2f kg</string>
     <plurals name="day_display">
-        <item quantity="zero">Today</item>
+        <item quantity="zero">@string/zero_day_display</item>
         <item quantity="one">%d day ago</item>
         <item quantity="other">%d days ago</item>
     </plurals>
+    <string name="zero_day_display">Today</string>
 </resources>
