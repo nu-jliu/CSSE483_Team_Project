@@ -19,14 +19,13 @@ class ProfileFragment : Fragment() {
 
     private var uid: String? = null
     private var listener: OnButtonsPressedListener? = null
-    private lateinit var rootView: View
 
-    private var profileRef: CollectionReference? = null
+    private var profileReference: CollectionReference? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.uid = this.arguments?.getString(ARG_UID_PROFILE)
-        this.profileRef =
+        this.profileReference =
             this.uid?.let {
                 FirebaseFirestore
                     .getInstance()
@@ -34,26 +33,6 @@ class ProfileFragment : Fragment() {
                     .document(it)
                     .collection(Constants.PROFILE_COLLECTION)
             }
-        val informationRef = this.profileRef?.document(Constants.USER_INFO_DOCUMENT)
-        informationRef?.addSnapshotListener { snapshot: DocumentSnapshot?, exception: FirebaseFirestoreException? ->
-            if (exception != null) {
-                Log.e(Constants.TAG, "EXCEPTION: $exception")
-                return@addSnapshotListener
-            }
-            val information = snapshot?.let { Information.fromSnapshot(it) }
-            Log.d(Constants.TAG, "User information: $information")
-            this.rootView.name_text_view.text = information?.name
-            this.rootView.heading_text_view.text =
-                information?.year
-                    ?.let {
-                        this.context?.resources?.getQuantityString(
-                            R.plurals.title_user_info,
-                            it,
-                            it
-                        )
-                    }
-                    ?: this.context?.getString(R.string.default_user_info_title)
-        }
     }
 
     override fun onCreateView(
@@ -62,6 +41,34 @@ class ProfileFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
+
+        this.profileReference?.document(Constants.USER_INFO_DOCUMENT)
+            ?.addSnapshotListener { snapshot: DocumentSnapshot?, exception: FirebaseFirestoreException? ->
+                if (exception != null) {
+                    Log.e(Constants.TAG, "EXCEPTION: $exception")
+                    return@addSnapshotListener
+                }
+                if (snapshot?.data == null) {
+                    val newInformation =
+                        this.context?.getString(R.string.default_name)?.let { Information(it, 0) }
+                    newInformation?.id = Constants.USER_INFO_DOCUMENT
+                    this.profileReference!!.document(Constants.USER_INFO_DOCUMENT).set(newInformation!!)
+                    return@addSnapshotListener
+                }
+                val information = snapshot.let { Information.fromSnapshot(it) }
+                Log.d(Constants.TAG, "User information: $information")
+                view.name_text_view.text = information.name
+                view.heading_text_view.text =
+                    information.year
+                        .let {
+                            this.context?.resources?.getQuantityString(
+                                R.plurals.title_user_info,
+                                it,
+                                it
+                            )
+                        }
+                        ?: this.context?.getString(R.string.default_user_info_title)
+            }
 
         view.button_logout.setOnClickListener {
             this.listener?.onLogoutPressed()
@@ -75,7 +82,6 @@ class ProfileFragment : Fragment() {
             this.listener?.onEditButtonPressed()
         }
 
-        this.rootView = view
         return view
     }
 

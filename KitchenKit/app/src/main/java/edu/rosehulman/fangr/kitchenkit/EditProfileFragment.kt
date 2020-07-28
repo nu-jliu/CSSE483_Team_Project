@@ -1,5 +1,6 @@
 package edu.rosehulman.fangr.kitchenkit
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_edit_profile.view.*
+import java.lang.RuntimeException
 
 const val ARG_EDIT_UID = "uid_edit"
 
@@ -17,12 +19,13 @@ class EditProfileFragment : Fragment() {
     private var uid: String? = null
     private var profileReference: CollectionReference? = null
     private var information: Information? = null
+    private var listener: OnButtonsPressedListener? = null
+    private var rootView: View? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            this.uid = it.getString(ARG_EDIT_UID)
-        }
+        this.uid = this.arguments?.getString(ARG_EDIT_UID)
+
         this.profileReference =
             this.uid?.let {
                 FirebaseFirestore
@@ -31,9 +34,11 @@ class EditProfileFragment : Fragment() {
                     .document(it)
                     .collection(Constants.PROFILE_COLLECTION)
             }
-        val informationReference = this.profileReference?.document(Constants.USER_INFO_DOCUMENT)
-        informationReference?.get()?.addOnSuccessListener { snapshot: DocumentSnapshot? ->
-            this.information = snapshot?.let { Information.fromSnapshot(it) }!!
+
+        this.profileReference?.document(Constants.USER_INFO_DOCUMENT)?.get()?.addOnSuccessListener {snapshot: DocumentSnapshot? ->
+            this.information = snapshot?.let { Information.fromSnapshot(it) }
+            this.rootView?.name_edit_text_view?.setText(this.information?.name)
+            this.rootView?.cooked_year_edit_text_view?.setText(this.information?.year.toString())
         }
     }
 
@@ -43,13 +48,6 @@ class EditProfileFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_edit_profile, container, false)
-
-//        this.information?.name?.let { view.name_edit_text_view.setText(it) }
-//        this.information?.year?.let { view.cooked_year_edit_text_view.setText(it) }
-
-        view.name_edit_text_view.setText("name")
-        view.cooked_year_edit_text_view.setText("3")
-
 
         view.button_save.setOnClickListener {
             val name = view.name_edit_text_view.text.toString()
@@ -61,9 +59,23 @@ class EditProfileFragment : Fragment() {
                     ?.document(Constants.USER_INFO_DOCUMENT)
                     ?.set(it)
             }
+            this.listener?.onButtonsPressed()
         }
 
+        view.button_edit_profile_back.setOnClickListener {
+            this.listener?.onButtonsPressed()
+        }
+
+        this.rootView = view
         return view
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnButtonsPressedListener)
+            this.listener = context
+        else
+            throw RuntimeException("$context must implement OnSaveButtonPressedListener")
     }
 
     companion object {
@@ -83,5 +95,9 @@ class EditProfileFragment : Fragment() {
                     this.putString(ARG_EDIT_UID, uid)
                 }
             }
+    }
+
+    interface OnButtonsPressedListener {
+        fun onButtonsPressed()
     }
 }

@@ -16,7 +16,8 @@ class MainActivity : AppCompatActivity(),
     RecipeBrowserFragment.OnButtonPressedListener,
     ProfileFragment.OnButtonsPressedListener,
     MyIngredientsFragment.OnButtonPressedListener,
-    AddIngredientFragment.OnAddButtonPressedListener {
+    AddIngredientFragment.OnAddButtonPressedListener,
+    EditProfileFragment.OnButtonsPressedListener {
 
     private val auth = FirebaseAuth.getInstance()
     private lateinit var authStateListener: FirebaseAuth.AuthStateListener
@@ -158,6 +159,12 @@ class MainActivity : AppCompatActivity(),
     override fun onAddButtonPressed() {
         this.auth.currentUser?.uid
             ?.let { MyIngredientsFragment.newInstance(it) }
+            ?.let { this.switchTo(it) }
+    }
+
+    override fun onButtonsPressed() {
+        this.auth.currentUser?.uid
+            ?.let { ProfileFragment.newInstance(it) }
             ?.let { this.switchTo(it) }
     }
 }
