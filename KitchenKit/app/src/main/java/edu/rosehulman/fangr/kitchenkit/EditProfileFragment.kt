@@ -35,11 +35,12 @@ class EditProfileFragment : Fragment() {
                     .collection(Constants.PROFILE_COLLECTION)
             }
 
-        this.profileReference?.document(Constants.USER_INFO_DOCUMENT)?.get()?.addOnSuccessListener {snapshot: DocumentSnapshot? ->
-            this.information = snapshot?.let { Information.fromSnapshot(it) }
-            this.rootView?.name_edit_text_view?.setText(this.information?.name)
-            this.rootView?.cooked_year_edit_text_view?.setText(this.information?.year.toString())
-        }
+        this.profileReference?.document(Constants.USER_INFO_DOCUMENT)?.get()
+            ?.addOnSuccessListener { snapshot: DocumentSnapshot? ->
+                this.information = snapshot?.let { Information.fromSnapshot(it) }
+                this.rootView?.name_edit_text_view?.setText(this.information?.name)
+                this.rootView?.cooked_year_edit_text_view?.setText(this.information?.year.toString())
+            }
     }
 
     override fun onCreateView(
@@ -83,11 +84,9 @@ class EditProfileFragment : Fragment() {
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
          *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
+         * @param uid unique ID of the current user
          * @return A new instance of fragment EditProfileFragment.
          */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(uid: String) =
             EditProfileFragment().apply {

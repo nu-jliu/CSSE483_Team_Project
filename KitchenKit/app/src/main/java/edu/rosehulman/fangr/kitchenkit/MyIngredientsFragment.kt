@@ -16,7 +16,7 @@ const val ARG_UID = "uid"
 class MyIngredientsFragment : Fragment() {
 
     private var uid: String? = null
-    private var listener: MyIngredientsFragment.OnButtonPressedListener? = null
+    private var listener: OnButtonPressedListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +31,14 @@ class MyIngredientsFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_my_ingredients, container, false)
 
         view.recycler_view.layoutManager = LinearLayoutManager(this.context)
-        view.recycler_view.adapter = this.context?.let { this.uid?.let { uid -> IngredientsAdapter(uid, it, view.recycler_view) } }
+        view.recycler_view.adapter = this.context?.let {
+            this.uid?.let { uid ->
+                IngredientsAdapter(
+                    uid,
+                    it
+                )
+            }
+        }
 
         view.button_back.setOnClickListener {
             this.listener?.onMyIngredientsFragmentBackButtonPressed()
@@ -62,12 +69,9 @@ class MyIngredientsFragment : Fragment() {
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
          *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
+         * @param uid the unique ID of the current user
          * @return A new instance of fragment MyRecipeFragment.
          */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
         fun newInstance(uid: String) =
             MyIngredientsFragment().apply {
                 this.arguments = Bundle().apply {

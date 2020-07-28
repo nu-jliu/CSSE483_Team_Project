@@ -3,9 +3,13 @@ package edu.rosehulman.fangr.kitchenkit
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Exclude
 
-data class Information (var name: String = "", var year: Int = 0) {
+data class Information(
+    var name: String = "",
+    var year: Int = 0
+) {
 
-    @get:Exclude var id = ""
+    @get:Exclude
+    var id = ""
 
     companion object {
 

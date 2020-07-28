@@ -84,6 +84,7 @@ class AddIngredientFragment : Fragment() {
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
          *
+         *@param uid the unique ID of the current user
          * @return A new instance of fragment AddIngredientFragment.
          */
         @JvmStatic

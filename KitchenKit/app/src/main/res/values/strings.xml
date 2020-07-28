@@ -58,12 +58,16 @@
     <string name="my_ingredients">My Ingredients</string>
     <string name="button_rose_sign_in">ROSE SIGN IN</string>
     <string name="title_profile">Profile</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_edit_name">Name:</string>
     <string name="new_name_hint">New Name</string>
     <string name="title_cooked_year">Cooked Year:</string>
     <string name="hint_cooked_year">Cooked Year</string>
     <string name="back_description">go back</string>
     <string name="button_save">SAVE</string>
+    <string name="amount_display">%.2f kg</string>
+    <plurals name="day_display">
+        <item quantity="zero">Today</item>
+        <item quantity="one">%d day ago</item>
+        <item quantity="other">%d days ago</item>
+    </plurals>
 </resources>

@@ -9,8 +9,7 @@ import com.google.firebase.firestore.*
 
 class IngredientsAdapter(
     private val uid: String,
-    private val context: Context,
-    private val recyclerView: RecyclerView
+    private val context: Context
 ) : RecyclerView.Adapter<IngredientsViewHolder>() {
 
     private val myIngredients = ArrayList<Ingredient>()
@@ -55,17 +54,13 @@ class IngredientsAdapter(
         val view = LayoutInflater
             .from(this.context)
             .inflate(R.layout.ingredient_card_view, parent, false)
-        return IngredientsViewHolder(view, this)
+        return IngredientsViewHolder(view, this, this.context)
     }
 
     override fun getItemCount(): Int = this.myIngredients.size
 
     override fun onBindViewHolder(holder: IngredientsViewHolder, position: Int) {
         holder.bind(this.myIngredients[position])
-    }
-
-    fun add(ingredient: Ingredient) {
-        this.ingredientsRef.add(ingredient)
     }
 
     fun edit(position: Int, name: String, amount: Double, isFrozen: Boolean) {

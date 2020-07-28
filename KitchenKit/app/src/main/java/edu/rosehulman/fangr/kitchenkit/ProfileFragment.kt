@@ -49,25 +49,21 @@ class ProfileFragment : Fragment() {
                     return@addSnapshotListener
                 }
                 if (snapshot?.data == null) {
-                    val newInformation =
-                        this.context?.getString(R.string.default_name)?.let { Information(it, 0) }
-                    newInformation?.id = Constants.USER_INFO_DOCUMENT
-                    this.profileReference!!.document(Constants.USER_INFO_DOCUMENT).set(newInformation!!)
+                    val newInformation = Information("user@${this.uid}", 0)
+                    newInformation.id = Constants.USER_INFO_DOCUMENT
+                    this.profileReference!!
+                        .document(Constants.USER_INFO_DOCUMENT)
+                        .set(newInformation)
                     return@addSnapshotListener
                 }
-                val information = snapshot.let { Information.fromSnapshot(it) }
+                val information = Information.fromSnapshot(snapshot)
                 Log.d(Constants.TAG, "User information: $information")
                 view.name_text_view.text = information.name
-                view.heading_text_view.text =
+                view.heading_text_view.text = this.context?.resources?.getQuantityString(
+                    R.plurals.title_user_info,
+                    information.year,
                     information.year
-                        .let {
-                            this.context?.resources?.getQuantityString(
-                                R.plurals.title_user_info,
-                                it,
-                                it
-                            )
-                        }
-                        ?: this.context?.getString(R.string.default_user_info_title)
+                ) ?: this.context?.getString(R.string.default_user_info_title)
             }
 
         view.button_logout.setOnClickListener {
@@ -103,11 +99,9 @@ class ProfileFragment : Fragment() {
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
          *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment BlankFragment2.
+         * @param uid unique ID of the current user
+         * @return A new instance of fragment ProfileFragment.
          */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(uid: String) = ProfileFragment().apply {
             this.arguments = Bundle().apply {
