@@ -63,6 +63,9 @@ class AddIngredientFragment : Fragment() {
         view.button_back.setOnClickListener {
             this.listener?.onAddIngredientFragmentBackButtonPressed()
         }
+        view.button_customize_one.setOnClickListener {
+            this.listener?.onCustomizeIngredientButtonPressed()
+        }
         return view
     }
 
@@ -99,5 +102,6 @@ class AddIngredientFragment : Fragment() {
     interface OnAddButtonPressedListener {
         fun onAddButtonPressed()
         fun onAddIngredientFragmentBackButtonPressed()
+        fun onCustomizeIngredientButtonPressed()
     }
 }
