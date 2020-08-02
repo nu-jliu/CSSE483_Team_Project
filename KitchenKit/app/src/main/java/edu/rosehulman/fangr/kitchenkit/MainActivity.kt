@@ -1,9 +1,12 @@
 package edu.rosehulman.fangr.kitchenkit
 
 import android.app.Activity
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import androidx.fragment.app.Fragment
@@ -129,7 +132,14 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onLogoutPressed() {
-        this.auth.signOut()
+        val builder= AlertDialog.Builder(this)
+        val view = LayoutInflater.from(this).inflate(R.layout.logout_alert_view, null, false)
+        builder.setView(view)
+        builder.setNegativeButton(android.R.string.no, null)
+        builder.setPositiveButton(android.R.string.yes, DialogInterface.OnClickListener { _, _ ->
+            this.auth.signOut()
+        })
+        builder.create().show()
     }
 
     override fun onProfileBackPressed() {

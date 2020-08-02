@@ -71,4 +71,6 @@
         <item quantity="other">%d days ago</item>
     </plurals>
     <string name="zero_day_display">Today</string>
+    <string name="your_avatar">Your Avatar:</string>
+    <string name="logout_alert">Are you sure you want to logout?</string>
 </resources>
