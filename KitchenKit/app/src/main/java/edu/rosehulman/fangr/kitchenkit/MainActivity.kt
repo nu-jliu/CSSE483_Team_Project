@@ -12,7 +12,11 @@ import android.view.Menu
 import androidx.fragment.app.Fragment
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import edu.rosehulman.rosefire.Rosefire
+import kotlinx.android.synthetic.main.add_ingredient_view.view.*
+import kotlinx.android.synthetic.main.custom_ingredient_alert_view.view.*
+import kotlinx.android.synthetic.main.custom_ingredient_alert_view.view.name_edit_text
 
 class MainActivity : AppCompatActivity(),
     SplashFragment.OnSignInButtonPressedListener,
@@ -176,5 +180,29 @@ class MainActivity : AppCompatActivity(),
         this.auth.currentUser?.uid
             ?.let { ProfileFragment.newInstance(it) }
             ?.let { this.switchTo(it) }
+    }
+
+    override fun onCustomizeIngredientButtonPressed() {
+        val builder= AlertDialog.Builder(this)
+        val view = LayoutInflater.from(this).inflate(R.layout.custom_ingredient_alert_view, null, false)
+        builder.setView(view)
+
+        val ingRef = FirebaseFirestore.getInstance().collection("storedIngredient")
+
+        val name = view.name_edit_text.toString()
+        val url = view.url_edit_text.toString()
+        val expire1 = view.expire_edit_text_1.toString()
+        val expire2 = view.expire_edit_text_2.toString()
+        val expireFrozen1 = view.expire_frozen_edit_text_1.toString()
+        val expireFrozen2 = view.expire_frozen_edit_text_2.toString()
+        val canFroze = view.can_froze_button.isChecked
+
+        val ing = StoredIngredient(name, url, expire1, expire2, expireFrozen1, expireFrozen2, canFroze)
+
+        builder.setNegativeButton(android.R.string.cancel, null)
+        builder.setPositiveButton(android.R.string.ok, DialogInterface.OnClickListener { _, _ ->
+            ingRef.add(ing)
+        })
+        builder.create().show()
     }
 }
