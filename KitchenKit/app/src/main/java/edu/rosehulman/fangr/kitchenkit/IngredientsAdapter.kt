@@ -9,7 +9,8 @@ import com.google.firebase.firestore.*
 
 class IngredientsAdapter(
     private val uid: String,
-    private val context: Context
+    private val context: Context,
+    private val recyclerView: RecyclerView
 ) : RecyclerView.Adapter<IngredientsViewHolder>() {
 
     private val myIngredients = ArrayList<Ingredient>()
@@ -30,12 +31,13 @@ class IngredientsAdapter(
                 }
                 for (documentChange in snapshot!!.documentChanges) {
                     val ingredient = Ingredient.fromSnapshot(documentChange.document)
+                    Log.d(Constants.TAG, "Timestamp: ${ingredient.bought}")
                     val position = this.myIngredients.indexOfFirst { ingredient.id == it.id }
                     when (documentChange.type) {
                         DocumentChange.Type.ADDED -> {
                             this.myIngredients.add(0, ingredient)
                             this.notifyItemInserted(0)
-//                            this.recyclerView.smoothScrollToPosition(0)
+                            this.recyclerView.smoothScrollToPosition(0)
                         }
                         DocumentChange.Type.REMOVED -> {
                             this.myIngredients.removeAt(position)

@@ -35,7 +35,8 @@ class MyIngredientsFragment : Fragment() {
             this.uid?.let { uid ->
                 IngredientsAdapter(
                     uid,
-                    it
+                    it,
+                    view.recycler_view
                 )
             }
         }
