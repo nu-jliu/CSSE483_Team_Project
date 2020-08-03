@@ -14,7 +14,6 @@ import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import edu.rosehulman.rosefire.Rosefire
-import kotlinx.android.synthetic.main.add_ingredient_view.view.*
 import kotlinx.android.synthetic.main.custom_ingredient_alert_view.view.*
 import kotlinx.android.synthetic.main.custom_ingredient_alert_view.view.name_edit_text
 import kotlinx.android.synthetic.main.search_alert_view.view.*
@@ -165,9 +164,9 @@ class MainActivity : AppCompatActivity(),
         this.switchTo(MyIngredientsFragment())
     }
 
-    override fun onAddFABPressed() {
+    override fun onAddFABPressed(ingredientList: ArrayList<String>) {
         this.auth.currentUser?.uid
-            ?.let { AddIngredientFragment.newInstance(it) }
+            ?.let { AddIngredientFragment.newInstance(it, ingredientList) }
             ?.let { this.switchTo(it) }
     }
 

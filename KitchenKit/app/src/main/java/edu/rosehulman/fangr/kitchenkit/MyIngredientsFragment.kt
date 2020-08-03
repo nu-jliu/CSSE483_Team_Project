@@ -2,11 +2,14 @@ package edu.rosehulman.fangr.kitchenkit
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.android.synthetic.main.fragment_my_ingredients.view.*
 import kotlinx.android.synthetic.main.recipe_card_recycler.view.*
 import java.lang.RuntimeException
@@ -30,7 +33,7 @@ class MyIngredientsFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_my_ingredients, container, false)
-
+        val ingNameArr = initializeIngNameArray()
         view.recycler_view.layoutManager = LinearLayoutManager(this.context)
         adapter = this.context?.let {
             this.uid?.let { uid ->
@@ -48,7 +51,7 @@ class MyIngredientsFragment : Fragment() {
         }
 
         view.fab_my_ingredients.setOnClickListener {
-            this.listener?.onAddFABPressed()
+            this.listener?.onAddFABPressed(ingNameArr)
         }
 
         view.button_search.setOnClickListener{
@@ -71,6 +74,19 @@ class MyIngredientsFragment : Fragment() {
         this.listener = null
     }
 
+    fun initializeIngNameArray(): ArrayList<String> {
+        val ingsRef = FirebaseFirestore.getInstance().collection("storedIngredient")
+        val nameArr = ArrayList<String>()
+        ingsRef.get().addOnSuccessListener { snapshot: QuerySnapshot ->
+            for (doc in snapshot) {
+                val name = doc["name"].toString()
+                Log.d(Constants.TAG, "found ingredient: " + name)
+                nameArr.add(name)
+            }
+        }
+        return nameArr
+    }
+
     companion object {
         /**
          * Use this factory method to create a new instance of
@@ -89,7 +105,7 @@ class MyIngredientsFragment : Fragment() {
 
     interface OnButtonPressedListener {
         fun onMyIngredientsFragmentBackButtonPressed()
-        fun onAddFABPressed()
+        fun onAddFABPressed(ingredientList: ArrayList<String>)
         fun onIngredientSearchButtonPressed(adapter: IngredientsAdapter?)
     }
 

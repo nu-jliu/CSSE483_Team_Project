@@ -31,23 +31,22 @@
         android:textSize="24sp"
         android:textStyle="bold" />
 
-    <EditText
-        android:id="@+id/name_edit_text"
-        android:layout_width="160dp"
+    <Spinner
+        android:id="@+id/name_text_spinner"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/name"
         android:layout_marginTop="10dp"
+        android:layout_marginStart="-10dp"
         android:gravity="start"
-        android:inputType="textCapWords"
-        android:hint="@string/hint_ingredient_name"
-        android:textSize="18sp"
-        android:autofillHints="Name" />
+        android:textSize="14sp"
+        android:spinnerMode="dialog" />
 
     <TextView
         android:id="@+id/amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/name_edit_text"
+        android:layout_below="@+id/name_text_spinner"
         android:layout_marginTop="20dp"
         android:text="@string/message_amount"
         android:textColor="@android:color/black"
@@ -131,6 +130,5 @@
         android:text="Customize one"
         android:textSize="14sp"
         android:textStyle="bold" />
-
 
 </RelativeLayout>
