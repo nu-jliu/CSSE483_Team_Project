@@ -28,7 +28,7 @@ object BitmapUtils {
             } catch (e: IOException) {
                 e.printStackTrace()
             }
-            return rotateAndScaleBitmapByRatio(exif, bitmap, ratio)
+            this.rotateAndScaleBitmapByRatio(exif, bitmap, ratio)
         } else if (localPath.startsWith("/storage")) {
             val bitmap = BitmapFactory.decodeFile(localPath)
             var exif: ExifInterface? = null
@@ -37,7 +37,7 @@ object BitmapUtils {
             } catch (e: IOException) {
                 Log.e(Constants.TAG, "Exif error: $e")
             }
-            return rotateAndScaleBitmapByRatio(exif, bitmap, ratio)
+            this.rotateAndScaleBitmapByRatio(exif, bitmap, ratio)
         } else
             null
 

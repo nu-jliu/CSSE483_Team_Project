@@ -14,6 +14,7 @@ import java.lang.NumberFormatException
 import java.lang.RuntimeException
 
 const val ARG_ADD_UID = "uid_add"
+const val ARG_INGREDIENT = "ingredient"
 
 /**
  * A simple [Fragment] subclass.
@@ -23,11 +24,15 @@ const val ARG_ADD_UID = "uid_add"
 class AddIngredientFragment : Fragment() {
 
     private var uid: String = ""
+    private var ingredient: Ingredient? = null
     private var listener: OnAddButtonPressedListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        this.arguments?.let { this.uid = it.getString(ARG_ADD_UID).toString() }
+        this.arguments?.let {
+            this.uid = it.getString(ARG_ADD_UID).toString()
+//            this.ingredient = it.getParcelable(ARG_INGREDIENT)
+        }
     }
 
     override fun onCreateView(
@@ -60,12 +65,15 @@ class AddIngredientFragment : Fragment() {
 
             this.listener?.onAddButtonPressed()
         }
+
         view.button_back.setOnClickListener {
             this.listener?.onAddIngredientFragmentBackButtonPressed()
         }
+
         view.button_customize_one.setOnClickListener {
             this.listener?.onCustomizeIngredientButtonPressed()
         }
+
         return view
     }
 
@@ -94,7 +102,23 @@ class AddIngredientFragment : Fragment() {
         fun newInstance(uid: String) =
             AddIngredientFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_ADD_UID, uid)
+                    this.putString(ARG_ADD_UID, uid)
+                }
+            }
+
+        /**
+         * Use this factory method to create a new instance of
+         * this fragment using the provided parameters.
+         *
+         *@param uid the unique ID of the current user
+         * @return A new instance of fragment AddIngredientFragment.
+         */
+        @JvmStatic
+        fun newInstance(uid: String, ingredient: Ingredient) =
+            AddIngredientFragment().apply {
+                arguments = Bundle().apply {
+                    this.putString(ARG_ADD_UID, uid)
+                    this.putParcelable(ARG_INGREDIENT, ingredient)
                 }
             }
     }
