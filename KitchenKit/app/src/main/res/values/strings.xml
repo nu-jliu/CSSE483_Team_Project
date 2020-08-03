@@ -82,4 +82,6 @@
     <string name="frozen_expire_date">Frozen Expire Date</string>
     <string name="ingredient_image_url">Ingredient Image URL</string>
     <string name="url">url</string>
+    <string name="description_go_back">go back</string>
+    <string name="message_upload_avatar">Upload Avatar</string>
 </resources>

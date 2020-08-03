@@ -28,6 +28,11 @@ class IngredientsViewHolder(
             this.context.getString(R.string.amount_display, ingredient.amount)
         this.isFrozenView.isVisible = ingredient.isFrozen
 
+        if (ingredient.bought == null) {
+            this.boughtTextView.text = this.context.getString(R.string.zero_day_display)
+            return
+        }
+
         val time = ingredient.bought?.toDate()?.time
         val currentTime = Timestamp.now().toDate().time
 

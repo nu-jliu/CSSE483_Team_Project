@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.firebase.firestore.*
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_profile.view.*
 import kotlinx.android.synthetic.main.fragment_profile.view.heading_text_view
 import kotlinx.android.synthetic.main.fragment_profile.view.name_text_view
@@ -49,7 +50,7 @@ class ProfileFragment : Fragment() {
                     return@addSnapshotListener
                 }
                 if (snapshot?.data == null) {
-                    val newInformation = Information("user@${this.uid}", 0)
+                    val newInformation = Information("user@${this.uid}", 0, "")
                     newInformation.id = Constants.USER_INFO_DOCUMENT
                     this.profileReference!!
                         .document(Constants.USER_INFO_DOCUMENT)
@@ -64,6 +65,13 @@ class ProfileFragment : Fragment() {
                     information.year,
                     information.year
                 ) ?: this.context?.getString(R.string.default_user_info_title)
+                if (information.photoUrl == "")
+                    view.avatar_image_view.setImageResource(R.drawable.default_avatar)
+                else
+                    Picasso
+                        .get()
+                        .load(information.photoUrl)
+                        .into(view.avatar_image_view)
             }
 
         view.button_logout.setOnClickListener {

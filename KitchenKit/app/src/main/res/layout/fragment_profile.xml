@@ -82,8 +82,8 @@
 
     <ImageView
         android:id="@+id/avatar_image_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_above="@id/name_text_view"
         android:layout_alignStart="@id/name_text_view"
         tools:src="@tools:sample/avatars" />

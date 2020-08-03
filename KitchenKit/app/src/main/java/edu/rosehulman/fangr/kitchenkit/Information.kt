@@ -5,7 +5,8 @@ import com.google.firebase.firestore.Exclude
 
 data class Information(
     var name: String = "",
-    var year: Int = 0
+    var year: Int = 0,
+    var photoUrl: String = ""
 ) {
 
     @get:Exclude

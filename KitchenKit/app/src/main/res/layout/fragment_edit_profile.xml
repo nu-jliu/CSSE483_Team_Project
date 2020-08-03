@@ -83,20 +83,37 @@
             android:textSize="32sp"
             android:textStyle="bold" />
 
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            tools:src="@tools:sample/avatars" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/edit_avatar_image"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="8dp"
+                tools:src="@tools:sample/avatars" />
+
+            <Button
+                android:id="@+id/button_upload_avatar"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="20dp"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/button_upload_avatar"
+                android:text="@string/message_upload_avatar"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
 
         <Button
             android:id="@+id/button_save"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="@string/button_save"
             android:backgroundTint="@android:color/black"
+            android:text="@string/button_save"
             android:textColor="@android:color/white"
             android:textSize="36sp" />
 
