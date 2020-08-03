@@ -17,6 +17,7 @@ class MyIngredientsFragment : Fragment() {
 
     private var uid: String? = null
     private var listener: OnButtonPressedListener? = null
+    var adapter: IngredientsAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +32,7 @@ class MyIngredientsFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_my_ingredients, container, false)
 
         view.recycler_view.layoutManager = LinearLayoutManager(this.context)
-        view.recycler_view.adapter = this.context?.let {
+        adapter = this.context?.let {
             this.uid?.let { uid ->
                 IngredientsAdapter(
                     uid,
@@ -40,6 +41,7 @@ class MyIngredientsFragment : Fragment() {
                 )
             }
         }
+        view.recycler_view.adapter = adapter
 
         view.button_back.setOnClickListener {
             this.listener?.onMyIngredientsFragmentBackButtonPressed()
@@ -47,6 +49,10 @@ class MyIngredientsFragment : Fragment() {
 
         view.fab_my_ingredients.setOnClickListener {
             this.listener?.onAddFABPressed()
+        }
+
+        view.button_search.setOnClickListener{
+            this.listener?.onIngredientSearchButtonPressed(adapter)
         }
 
         return view
@@ -84,6 +90,7 @@ class MyIngredientsFragment : Fragment() {
     interface OnButtonPressedListener {
         fun onMyIngredientsFragmentBackButtonPressed()
         fun onAddFABPressed()
+        fun onIngredientSearchButtonPressed(adapter: IngredientsAdapter?)
     }
 
 }

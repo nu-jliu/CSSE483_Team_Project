@@ -17,6 +17,7 @@ import edu.rosehulman.rosefire.Rosefire
 import kotlinx.android.synthetic.main.add_ingredient_view.view.*
 import kotlinx.android.synthetic.main.custom_ingredient_alert_view.view.*
 import kotlinx.android.synthetic.main.custom_ingredient_alert_view.view.name_edit_text
+import kotlinx.android.synthetic.main.search_alert_view.view.*
 
 class MainActivity : AppCompatActivity(),
     SplashFragment.OnSignInButtonPressedListener,
@@ -188,21 +189,37 @@ class MainActivity : AppCompatActivity(),
         builder.setView(view)
 
         val ingRef = FirebaseFirestore.getInstance().collection("storedIngredient")
-
-        val name = view.name_edit_text.toString()
-        val url = view.url_edit_text.toString()
-        val expire1 = view.expire_edit_text_1.toString()
-        val expire2 = view.expire_edit_text_2.toString()
-        val expireFrozen1 = view.expire_frozen_edit_text_1.toString()
-        val expireFrozen2 = view.expire_frozen_edit_text_2.toString()
-        val canFroze = view.can_froze_button.isChecked
-
-        val ing = StoredIngredient(name, url, expire1, expire2, expireFrozen1, expireFrozen2, canFroze)
-
         builder.setNegativeButton(android.R.string.cancel, null)
         builder.setPositiveButton(android.R.string.ok, DialogInterface.OnClickListener { _, _ ->
+            val name = view.name_edit_text.text.toString()
+            val url = view.url_edit_text.text.toString()
+            val expire1 = view.expire_edit_text_1.text.toString()
+            val expire2 = view.expire_edit_text_2.text.toString()
+            val expireFrozen1 = view.expire_frozen_edit_text_1.text.toString()
+            val expireFrozen2 = view.expire_frozen_edit_text_2.text.toString()
+            val canFroze = view.can_froze_button.isChecked
+            Log.d(Constants.TAG, "customize ingredient: " + name + url + expire1 + expire2 + expireFrozen1 + expireFrozen2 + canFroze)
+
+            val ing = StoredIngredient(name, url, expire1, expire2, expireFrozen1, expireFrozen2, canFroze)
             ingRef.add(ing)
         })
+        builder.create().show()
+    }
+
+    override fun onIngredientSearchButtonPressed(adapter: IngredientsAdapter?) {
+        val builder = AlertDialog.Builder(this)
+        val view = LayoutInflater.from(this).inflate(R.layout.search_alert_view, null, false)
+        builder.setView(view)
+        builder.setNegativeButton(android.R.string.cancel, null)
+        builder.setPositiveButton(android.R.string.ok, DialogInterface.OnClickListener { _, _ ->
+            val filter = view.filter_edit_text.text.toString()
+            adapter?.showFiltered(filter)
+        })
+        builder.setNeutralButton(R.string.clear_search_filter, DialogInterface.OnClickListener { _, _ ->
+            adapter?.showAll()
+            view.filter_edit_text.setText("")
+        })
+
         builder.create().show()
     }
 }

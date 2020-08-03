@@ -21,9 +21,15 @@ class IngredientsAdapter(
             .document(this.uid)
             .collection(Constants.INGREDIENT_COLLECTION)
 
+    private var listenerRegistration: ListenerRegistration? = null
+
     init {
-        this.ingredientsRef
-            .orderBy(Ingredient.BOUGHT_KEY, Query.Direction.ASCENDING)
+        ingredientsRef.orderBy(Ingredient.BOUGHT_KEY, Query.Direction.ASCENDING)
+        showAll()
+    }
+
+    private fun addListenerAll() {
+        listenerRegistration = ingredientsRef
             .addSnapshotListener { snapshot: QuerySnapshot?, exception: FirebaseFirestoreException? ->
                 if (exception != null) {
                     Log.e(Constants.TAG, "EXCEPTION: $exception")
@@ -46,6 +52,40 @@ class IngredientsAdapter(
                         DocumentChange.Type.MODIFIED -> {
                             this.myIngredients[position] = ingredient
                             this.notifyItemChanged(position)
+                        }
+                    }
+                }
+            }
+    }
+
+    private fun addListenerFiltered(filter: String) {
+        listenerRegistration = ingredientsRef
+            .addSnapshotListener { snapshot: QuerySnapshot?, exception: FirebaseFirestoreException? ->
+                if (exception != null) {
+                    Log.e(Constants.TAG, "EXCEPTION: $exception")
+                    return@addSnapshotListener
+                }
+                for (documentChange in snapshot!!.documentChanges) {
+                    val ingredient = Ingredient.fromSnapshot(documentChange.document)
+                    Log.d(Constants.TAG, "Timestamp: ${ingredient.bought}")
+                    val position = this.myIngredients.indexOfFirst { ingredient.id == it.id }
+                    Log.d(Constants.TAG, "ing name: "+ingredient.name)
+                    Log.d(Constants.TAG, "filter: "+filter)
+                    if (ingredient.name == filter) {
+                        when (documentChange.type) {
+                            DocumentChange.Type.ADDED -> {
+                                this.myIngredients.add(0, ingredient)
+                                this.notifyItemInserted(0)
+                                this.recyclerView.smoothScrollToPosition(0)
+                            }
+                            DocumentChange.Type.REMOVED -> {
+                                this.myIngredients.removeAt(position)
+                                this.notifyItemRemoved(position)
+                            }
+                            DocumentChange.Type.MODIFIED -> {
+                                this.myIngredients[position] = ingredient
+                                this.notifyItemChanged(position)
+                            }
                         }
                     }
                 }
@@ -76,5 +116,20 @@ class IngredientsAdapter(
     fun removeAt(position: Int) {
         val ingredient = this.myIngredients[position]
         this.ingredientsRef.document(ingredient.id).delete()
+    }
+
+    fun showAll() {
+        listenerRegistration?.remove()
+        myIngredients.clear()
+        notifyDataSetChanged()
+        addListenerAll()
+
+    }
+
+    fun showFiltered(filter: String) {
+        listenerRegistration?.remove()
+        myIngredients.clear()
+        notifyDataSetChanged()
+        addListenerFiltered(filter)
     }
 }
