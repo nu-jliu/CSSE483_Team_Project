@@ -84,4 +84,8 @@
     <string name="url">url</string>
     <string name="description_go_back">go back</string>
     <string name="message_upload_avatar">Upload Avatar</string>
+    <string name="search">Search</string>
+    <string name="clear_search_filter">Clear Search Filter</string>
+    <string name="search_by_name">Search By Name</string>
+    <string name="choose">Choose</string>
 </resources>
