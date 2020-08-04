@@ -24,7 +24,8 @@ class MainActivity : AppCompatActivity(),
     ProfileFragment.OnButtonsPressedListener,
     MyIngredientsFragment.OnButtonPressedListener,
     AddIngredientFragment.OnAddButtonPressedListener,
-    EditProfileFragment.OnButtonsPressedListener {
+    EditProfileFragment.OnButtonsPressedListener,
+    EditIngredientFragment.OnIngredientSaveButtonPressedListener {
 
     private val auth = FirebaseAuth.getInstance()
     private lateinit var authStateListener: FirebaseAuth.AuthStateListener
@@ -136,7 +137,7 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onLogoutPressed() {
-        val builder= AlertDialog.Builder(this)
+        val builder = AlertDialog.Builder(this)
         val view = LayoutInflater.from(this).inflate(R.layout.logout_alert_view, null, false)
         builder.setView(view)
         builder.setNegativeButton(android.R.string.no, null)
@@ -183,8 +184,9 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onCustomizeIngredientButtonPressed() {
-        val builder= AlertDialog.Builder(this)
-        val view = LayoutInflater.from(this).inflate(R.layout.custom_ingredient_alert_view, null, false)
+        val builder = AlertDialog.Builder(this)
+        val view =
+            LayoutInflater.from(this).inflate(R.layout.custom_ingredient_alert_view, null, false)
         builder.setView(view)
 
         val ingRef = FirebaseFirestore.getInstance().collection("storedIngredient")
@@ -197,9 +199,20 @@ class MainActivity : AppCompatActivity(),
             val expireFrozen1 = view.expire_frozen_edit_text_1.text.toString()
             val expireFrozen2 = view.expire_frozen_edit_text_2.text.toString()
             val canFroze = view.can_froze_button.isChecked
-            Log.d(Constants.TAG, "customize ingredient: " + name + url + expire1 + expire2 + expireFrozen1 + expireFrozen2 + canFroze)
+            Log.d(
+                Constants.TAG,
+                "customize ingredient: " + name + url + expire1 + expire2 + expireFrozen1 + expireFrozen2 + canFroze
+            )
 
-            val ing = StoredIngredient(name, url, expire1, expire2, expireFrozen1, expireFrozen2, canFroze)
+            val ing = StoredIngredient(
+                name,
+                url,
+                expire1,
+                expire2,
+                expireFrozen1,
+                expireFrozen2,
+                canFroze
+            )
             ingRef.add(ing)
         })
         builder.create().show()
@@ -214,11 +227,23 @@ class MainActivity : AppCompatActivity(),
             val filter = view.filter_edit_text.text.toString()
             adapter?.showFiltered(filter)
         })
-        builder.setNeutralButton(R.string.clear_search_filter, DialogInterface.OnClickListener { _, _ ->
+        builder.setNeutralButton(R.string.clear_search_filter) { _, _ ->
             adapter?.showAll()
             view.filter_edit_text.setText("")
-        })
+        }
 
         builder.create().show()
+    }
+
+    override fun onIngredientSelected(ingredientID: String) {
+        this.auth.currentUser?.uid
+            ?.let { EditIngredientFragment.newInstance(it, ingredientID) }
+            ?.let { this.switchTo(it) }
+    }
+
+    override fun onSaveButtonPressed() {
+        this.auth.currentUser?.uid
+            ?.let { MyIngredientsFragment.newInstance(it) }
+            ?.let { this.switchTo(it) }
     }
 }

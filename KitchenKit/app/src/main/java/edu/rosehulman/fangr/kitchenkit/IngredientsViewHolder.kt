@@ -22,6 +22,12 @@ class IngredientsViewHolder(
     private val isFrozenView = itemView.snow_icon as ImageButton
     private val boughtTextView = itemView.bought_time as TextView
 
+    init {
+        this.itemView.setOnClickListener {
+            adapter.selectIngredientAt(this.adapterPosition)
+        }
+    }
+
     fun bind(ingredient: Ingredient) {
         this.nameTextView.text = ingredient.name
         this.amountTextView.text =

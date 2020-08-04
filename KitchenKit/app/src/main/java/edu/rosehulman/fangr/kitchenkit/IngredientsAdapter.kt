@@ -6,11 +6,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.*
+import java.text.ParsePosition
 
 class IngredientsAdapter(
     private val uid: String,
     private val context: Context,
-    private val recyclerView: RecyclerView
+    private val recyclerView: RecyclerView,
+    private val listener: MyIngredientsFragment.OnButtonPressedListener
 ) : RecyclerView.Adapter<IngredientsViewHolder>() {
 
     private val myIngredients = ArrayList<Ingredient>()
@@ -131,5 +133,10 @@ class IngredientsAdapter(
         myIngredients.clear()
         notifyDataSetChanged()
         addListenerFiltered(filter)
+    }
+
+    fun selectIngredientAt(adapterPosition: Int) {
+        val ingredientID = this.myIngredients[adapterPosition].id
+        this.listener.onIngredientSelected(ingredientID)
     }
 }

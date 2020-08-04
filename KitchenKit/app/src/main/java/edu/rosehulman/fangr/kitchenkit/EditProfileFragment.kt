@@ -1,5 +1,6 @@
 package edu.rosehulman.fangr.kitchenkit
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
@@ -148,7 +149,7 @@ class EditProfileFragment : Fragment() {
             takePictureIntent.resolveActivity(this.requireActivity().packageManager)?.also {
                 // Create the File where the photo should go
                 val photoFile: File? = try {
-                    createImageFile()
+                    this.createImageFile()
                 } catch (ex: IOException) {
                     // Error occurred while creating the File
                     null
@@ -173,7 +174,7 @@ class EditProfileFragment : Fragment() {
         // Create an image file name
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
         val storageDir: File =
-            requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
+            this.requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
         return File.createTempFile(
             "JPEG_${timeStamp}_", /* prefix */
             ".jpg", /* suffix */
@@ -220,6 +221,7 @@ class EditProfileFragment : Fragment() {
     }
 
     // Works Not working on phone
+    @Suppress("DEPRECATION")
     private fun addPhotoToGallery() {
         Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE).also { mediaScanIntent ->
             val f = File(this.currentPhotoPath)
@@ -239,7 +241,7 @@ class EditProfileFragment : Fragment() {
         @JvmStatic
         fun newInstance(uid: String) =
             EditProfileFragment().apply {
-                arguments = Bundle().apply {
+                this.arguments = Bundle().apply {
                     this.putString(ARG_EDIT_UID, uid)
                 }
             }
@@ -249,6 +251,7 @@ class EditProfileFragment : Fragment() {
         fun onButtonsPressed()
     }
 
+    @SuppressLint("StaticFieldLeak")
     inner class ImageRescaleTask(private val localPath: String) : AsyncTask<Void, Void, Bitmap>() {
 
         @RequiresApi(Build.VERSION_CODES.N)

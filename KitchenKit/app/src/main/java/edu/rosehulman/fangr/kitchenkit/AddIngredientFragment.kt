@@ -12,7 +12,6 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.add_ingredient_view.*
 import kotlinx.android.synthetic.main.add_ingredient_view.view.*
 import kotlinx.android.synthetic.main.add_ingredient_view.view.name_text_spinner
 import kotlinx.android.synthetic.main.fragment_my_ingredients.view.*
@@ -20,7 +19,6 @@ import java.lang.NumberFormatException
 import java.lang.RuntimeException
 
 const val ARG_ADD_UID = "uid_add"
-const val ARG_INGREDIENT = "ingredient"
 
 /**
  * A simple [Fragment] subclass.
@@ -30,10 +28,11 @@ const val ARG_INGREDIENT = "ingredient"
 class AddIngredientFragment(var ingredientList: ArrayList<String>) : Fragment() {
 
     private var uid: String = ""
-//    private var ingredient: Ingredient? = null
+
+    //    private var ingredient: Ingredient? = null
     private var listener: OnAddButtonPressedListener? = null
-    lateinit var ingName: String
-    lateinit var view1: View
+    lateinit var ingredientName: String
+    private lateinit var rootView: View
     private var name_spinner: Spinner? = null
     private lateinit var name_spinner_adapter: ArrayAdapter<String>
 
@@ -41,7 +40,6 @@ class AddIngredientFragment(var ingredientList: ArrayList<String>) : Fragment() 
         super.onCreate(savedInstanceState)
         this.arguments?.let {
             this.uid = it.getString(ARG_ADD_UID).toString()
-//            this.ingredient = it.getParcelable(ARG_INGREDIENT)
         }
     }
 
@@ -50,23 +48,22 @@ class AddIngredientFragment(var ingredientList: ArrayList<String>) : Fragment() 
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_add_ingredient, container, false)
-        view1 = view
+        this.rootView = inflater.inflate(R.layout.fragment_add_ingredient, container, false)
         initializeIngNameSpinner()
-        view.button_add.setOnClickListener {
-            val name = ingName
+        this.rootView.button_add.setOnClickListener {
+            val name = this.ingredientName
             if (name.isEmpty()) {
                 Toast.makeText(this.context, "Name cannot be empty", Toast.LENGTH_LONG).show()
                 return@setOnClickListener
             }
             val amount: Double
             try {
-                amount = view.amount_edit_text.text.toString().toDouble()
+                amount = this.rootView.amount_edit_text.text.toString().toDouble()
             } catch (e: NumberFormatException) {
                 Toast.makeText(this.context, "Invalid number input", Toast.LENGTH_LONG).show()
                 return@setOnClickListener
             }
-            val isFrozen = view.checkBox.isChecked
+            val isFrozen = this.rootView.checkBox.isChecked
 
             val ingredientsReference = FirebaseFirestore
                 .getInstance()
@@ -78,22 +75,24 @@ class AddIngredientFragment(var ingredientList: ArrayList<String>) : Fragment() 
             this.listener?.onAddButtonPressed()
         }
 
-        view.button_back.setOnClickListener {
+        this.rootView.button_back.setOnClickListener {
             this.listener?.onAddIngredientFragmentBackButtonPressed()
         }
 
-        view.button_customize_one.setOnClickListener {
+        this.rootView.button_customize_one.setOnClickListener {
             this.listener?.onCustomizeIngredientButtonPressed()
         }
 
-        return view
+        return this.rootView
     }
 
     private fun initializeIngNameSpinner() {
-        name_spinner = view1.name_text_spinner
-        name_spinner_adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, ingredientList)
-        name_spinner?.adapter = name_spinner_adapter
-        name_spinner?.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+        this.name_spinner = rootView.name_text_spinner
+        this.name_spinner_adapter =
+            ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, ingredientList)
+        this.name_spinner?.adapter = name_spinner_adapter
+        this.name_spinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 Log.d(Constants.TAG, "Spinner nothing selected")
                 return
@@ -109,7 +108,7 @@ class AddIngredientFragment(var ingredientList: ArrayList<String>) : Fragment() 
                 Log.d(Constants.TAG, "item selected: $content")
                 when (parent?.id) {
                     R.id.name_text_spinner -> {
-                        ingName = content
+                        ingredientName = content
                     }
                 }
             }
@@ -130,8 +129,8 @@ class AddIngredientFragment(var ingredientList: ArrayList<String>) : Fragment() 
         this.listener = null
     }
 
-
     companion object {
+
         /**
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
@@ -143,28 +142,11 @@ class AddIngredientFragment(var ingredientList: ArrayList<String>) : Fragment() 
         fun newInstance(
             uid: String,
             ingredientList: ArrayList<String>
-        ) =
-            AddIngredientFragment(ingredientList).apply {
-                arguments = Bundle().apply {
-                    this.putString(ARG_ADD_UID, uid)
-                }
+        ) = AddIngredientFragment(ingredientList).apply {
+            this.arguments = Bundle().apply {
+                this.putString(ARG_ADD_UID, uid)
             }
-
-//        /**
-//         * Use this factory method to create a new instance of
-//         * this fragment using the provided parameters.
-//         *
-//         * @param uid the unique ID of the current user
-//         * @return A new instance of fragment AddIngredientFragment.
-//         */
-//        @JvmStatic
-//        fun newInstance(uid: String, ingredient: Ingredient, ingredientList: ArrayList<String>) =
-//            AddIngredientFragment(ingredientList).apply {
-//                arguments = Bundle().apply {
-//                    this.putString(ARG_ADD_UID, uid)
-//                    this.putParcelable(ARG_INGREDIENT, ingredient)
-//                }
-//            }
+        }
     }
 
     interface OnAddButtonPressedListener {

@@ -20,7 +20,7 @@ class MyIngredientsFragment : Fragment() {
 
     private var uid: String? = null
     private var listener: OnButtonPressedListener? = null
-    var adapter: IngredientsAdapter? = null
+    private var adapter: IngredientsAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,16 +35,19 @@ class MyIngredientsFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_my_ingredients, container, false)
         val ingNameArr = initializeIngNameArray()
         view.recycler_view.layoutManager = LinearLayoutManager(this.context)
-        adapter = this.context?.let {
+        this.adapter = this.context?.let {
             this.uid?.let { uid ->
-                IngredientsAdapter(
-                    uid,
-                    it,
-                    view.recycler_view
-                )
+                this.listener?.let { listener ->
+                    IngredientsAdapter(
+                        uid,
+                        it,
+                        view.recycler_view,
+                        listener
+                    )
+                }
             }
         }
-        view.recycler_view.adapter = adapter
+        view.recycler_view.adapter = this.adapter
 
         view.button_back.setOnClickListener {
             this.listener?.onMyIngredientsFragmentBackButtonPressed()
@@ -54,8 +57,8 @@ class MyIngredientsFragment : Fragment() {
             this.listener?.onAddFABPressed(ingNameArr)
         }
 
-        view.button_search.setOnClickListener{
-            this.listener?.onIngredientSearchButtonPressed(adapter)
+        view.button_search.setOnClickListener {
+            this.listener?.onIngredientSearchButtonPressed(this.adapter)
         }
 
         return view
@@ -107,6 +110,7 @@ class MyIngredientsFragment : Fragment() {
         fun onMyIngredientsFragmentBackButtonPressed()
         fun onAddFABPressed(ingredientList: ArrayList<String>)
         fun onIngredientSearchButtonPressed(adapter: IngredientsAdapter?)
+        fun onIngredientSelected(ingredientID: String)
     }
 
 }
