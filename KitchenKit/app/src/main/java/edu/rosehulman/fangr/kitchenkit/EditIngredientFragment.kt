@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.android.synthetic.main.fragment_add_ingredient.view.*
 import kotlinx.android.synthetic.main.add_ingredient_view.view.*
 import java.lang.RuntimeException
 
@@ -62,6 +63,10 @@ class EditIngredientFragment : Fragment() {
 
             this.ingredient?.let { data -> this.ingredientReference?.set(data) }
 
+            this.listener?.onSaveButtonPressed()
+        }
+
+        this.rootView?.button_back?.setOnClickListener {
             this.listener?.onSaveButtonPressed()
         }
 

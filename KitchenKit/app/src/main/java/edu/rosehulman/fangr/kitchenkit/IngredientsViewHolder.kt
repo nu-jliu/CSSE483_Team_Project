@@ -32,7 +32,8 @@ class IngredientsViewHolder(
         this.nameTextView.text = ingredient.name
         this.amountTextView.text =
             this.context.getString(R.string.amount_display, ingredient.amount)
-        this.isFrozenView.isVisible = ingredient.isFrozen
+        if(!ingredient.isFrozen)
+            this.isFrozenView.setImageResource(android.R.color.white)
 
         if (ingredient.bought == null) {
             this.boughtTextView.text = this.context.getString(R.string.zero_day_display)

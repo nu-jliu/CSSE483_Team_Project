@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp"
     android:layout_margin="8dp"
-    tools:context=".MainActivity"
-    android:id="@+id/card_view"
-    app:cardCornerRadius="20dp">
+    android:padding="8dp"
+    app:cardCornerRadius="20dp"
+    tools:context=".MainActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -29,10 +28,11 @@
 
         <TextView
             android:id="@+id/ingredient_name"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="110dp"
-            android:text="Banana"
+            android:layout_toStartOf="@id/snow_icon"
+            android:text="@string/default_fruit_name"
             android:textSize="24sp"
             tools:ignore="RtlSymmetry" />
 
@@ -43,8 +43,8 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="50dp"
             android:layout_toEndOf="@+id/ingredient_image"
-            android:text="Bought"
-            android:textSize="10sp"
+            android:text="@string/title_bought_date"
+            android:textSize="12sp"
             tools:ignore="RtlSymmetry" />
 
         <TextView
@@ -54,8 +54,8 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="50dp"
             android:layout_toEndOf="@+id/bought"
-            android:text="x days ago"
-            android:textSize="10sp"
+            android:text="@string/template_bought_date"
+            android:textSize="12sp"
             tools:ignore="RtlSymmetry" />
 
 
@@ -63,22 +63,24 @@
             android:id="@+id/best_before"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="25dp"
+            android:layout_marginStart="15dp"
             android:layout_marginTop="50dp"
             android:layout_toEndOf="@+id/bought_time"
-            android:text="Best Before"
-            android:textSize="10sp"
+            android:text="@string/title_best_before"
+            android:textSize="12sp"
             tools:ignore="RtlSymmetry" />
 
         <TextView
             android:id="@+id/best_before_date"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_toStartOf="@id/snow_icon"
             android:layout_marginStart="5dp"
-            android:layout_marginTop="50dp"
-            android:layout_toEndOf="@+id/best_before"
-            android:text="mm/dd/yyyy"
-            android:textSize="10sp"
+            android:layout_marginTop="3dp"
+            android:layout_alignStart="@id/best_before"
+            android:layout_below="@id/best_before"
+            android:text="@string/template_date_format"
+            android:textSize="12sp"
             tools:ignore="RtlSymmetry" />
 
         <TextView
@@ -88,8 +90,8 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="70dp"
             android:layout_toEndOf="@+id/ingredient_image"
-            android:text="Amount"
-            android:textSize="10sp"
+            android:text="@string/title_amount_card_view"
+            android:textSize="12sp"
             tools:ignore="RtlSymmetry" />
 
         <TextView
@@ -99,8 +101,8 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="70dp"
             android:layout_toEndOf="@+id/amount"
-            android:text="x kg"
-            android:textSize="10sp"
+            android:text="@string/template_weight"
+            android:textSize="12sp"
             tools:ignore="RtlSymmetry" />
 
         <ImageButton
@@ -109,21 +111,23 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:paddingEnd="20dp"
+            android:background="#00FFFFFF"
             android:paddingTop="10dp"
-            app:srcCompat="@drawable/ic_snow"
-            android:background="#00FFFFFF" />
+            android:layout_marginEnd="20dp"
+            app:srcCompat="@drawable/ic_snow" />
 
         <ImageButton
             android:id="@+id/warning_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/snow_icon"
+            android:layout_below="@id/snow_icon"
             android:layout_alignParentEnd="true"
+            android:layout_marginTop="30dp"
             android:background="#00FFFFFF"
             android:paddingTop="10dp"
-            android:paddingEnd="20dp"
-            app:srcCompat="@drawable/ic_warning" />
+            android:layout_marginEnd="20dp"
+            app:srcCompat="@drawable/ic_warning"
+            android:contentDescription="@string/warning" />
 
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

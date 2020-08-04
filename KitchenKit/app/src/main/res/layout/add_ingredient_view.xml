@@ -60,7 +60,7 @@
         android:layout_below="@+id/amount"
         android:layout_marginTop="10dp"
         android:inputType="numberDecimal"
-        android:hint="@string/title_amount"
+        android:hint="@string/title_amount_card_view"
         android:textSize="18sp" />
 
     <TextView
