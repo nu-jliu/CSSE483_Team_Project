@@ -24,7 +24,7 @@
             android:layout_marginTop="6dp"
             android:layout_marginEnd="6dp"
             android:layout_marginBottom="6dp"
-            app:srcCompat="@drawable/banana" />
+            />
 
         <TextView
             android:id="@+id/ingredient_name"
@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="110dp"
             android:layout_toStartOf="@id/snow_icon"
-            android:text="@string/default_fruit_name"
+            android:text="@string/name"
             android:textSize="24sp"
             tools:ignore="RtlSymmetry" />
 
