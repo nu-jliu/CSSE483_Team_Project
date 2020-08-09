@@ -1,9 +1,11 @@
 package edu.rosehulman.fangr.kitchenkit
 
 import android.content.Context
+import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.*
 import java.text.ParsePosition
@@ -31,7 +33,7 @@ class IngredientsAdapter(
     }
 
     private fun addListenerAll() {
-        listenerRegistration = ingredientsRef
+        listenerRegistration = ingredientsRef.orderBy(Ingredient.BOUGHT_KEY, Query.Direction.ASCENDING)
             .addSnapshotListener { snapshot: QuerySnapshot?, exception: FirebaseFirestoreException? ->
                 if (exception != null) {
                     Log.e(Constants.TAG, "EXCEPTION: $exception")
@@ -61,7 +63,7 @@ class IngredientsAdapter(
     }
 
     private fun addListenerFiltered(filter: String) {
-        listenerRegistration = ingredientsRef
+        listenerRegistration = ingredientsRef.orderBy(Ingredient.BOUGHT_KEY, Query.Direction.ASCENDING)
             .addSnapshotListener { snapshot: QuerySnapshot?, exception: FirebaseFirestoreException? ->
                 if (exception != null) {
                     Log.e(Constants.TAG, "EXCEPTION: $exception")
@@ -103,6 +105,7 @@ class IngredientsAdapter(
 
     override fun getItemCount(): Int = this.myIngredients.size
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: IngredientsViewHolder, position: Int) {
         holder.bind(this.myIngredients[position])
     }

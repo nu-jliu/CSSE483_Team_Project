@@ -72,7 +72,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:layout_toEndOf="@+id/order_by"
-            android:text="@string/best_before_date_down"
+            android:text="@string/bought_date_down"
             android:textSize="20sp"
             android:clickable="true"
             android:focusable="true" />
