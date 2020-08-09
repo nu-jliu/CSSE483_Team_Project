@@ -72,7 +72,7 @@ class IngredientsAdapter(
                     Log.d(Constants.TAG, "Timestamp: ${ingredient.bought}")
                     val position = this.myIngredients.indexOfFirst { ingredient.id == it.id }
                     Log.d(Constants.TAG, "ing name: "+ingredient.name)
-                    Log.d(Constants.TAG, "filter: "+filter)
+                    Log.d(Constants.TAG, "filter: $filter")
                     if (ingredient.name == filter) {
                         when (documentChange.type) {
                             DocumentChange.Type.ADDED -> {

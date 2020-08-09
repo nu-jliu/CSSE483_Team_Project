@@ -8,6 +8,8 @@ import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.Timestamp
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.add_ingredient_view.view.*
 import kotlinx.android.synthetic.main.ingredient_card_view.view.*
 
 class IngredientsViewHolder(
@@ -21,6 +23,7 @@ class IngredientsViewHolder(
     private val amountTextView = itemView.amount_num as TextView
     private val isFrozenView = itemView.snow_icon as ImageButton
     private val boughtTextView = itemView.bought_time as TextView
+    private val imageView = itemView.ingredient_image
 
     init {
         this.itemView.setOnClickListener {
@@ -38,6 +41,9 @@ class IngredientsViewHolder(
         if (ingredient.bought == null) {
             this.boughtTextView.text = this.context.getString(R.string.zero_day_display)
             return
+        }
+        if (Utils.existsIngredient(ingredient.name)) {
+            Picasso.get().load(Utils.getIngUrlFromName(ingredient.name)).into(imageView)
         }
 
         val time = ingredient.bought?.toDate()?.time

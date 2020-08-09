@@ -1,10 +1,10 @@
 package edu.rosehulman.fangr.kitchenkit
 
 object Utils {
-    val ingredientNameToUrl: Map<String, String> =
+    private val ingredientNameToUrl: Map<String, String> =
         mapOf("apple cider vinegar" to "http://health-zoom.worldwideshoppingmall.co.uk/TOL62453.jpg",
             "bacon" to "http://www.owaves.com.sg/image/cache/data/Pork/Steacky%20Bacon%20Ps-500x500.png",
-            "beef" to "http://weknowyourdreams.com/images/beef/beef-09.jpg",
+            "beef" to "https://image.shutterstock.com/image-photo/raw-beef-meat-isolated-on-260nw-1050939104.jpg",
             "black pepper" to "https://i.ebayimg.com/00/s/NTYyWDU2Mg==/z/TdYAAOSwDNdVyMiT/${'$'}_35.JPG",
             "butter" to "https://sc01.alicdn.com/kf/UTB8mvkDX1vJXKJkSajhq6A7aFXaz/Unsalted-Butter-82-.jpg_350x350.jpg",
             "buttermilk" to "https://d3cizcpymoenau.cloudfront.net/images/20636/SIL_Buttermilk_Garelick480.jpg",
@@ -30,5 +30,9 @@ object Utils {
 
     fun getIngUrlFromName(name: String): String? {
         return ingredientNameToUrl[name]
+    }
+
+    fun existsIngredient(name: String): Boolean {
+        return ingredientNameToUrl.containsKey(name)
     }
 }
