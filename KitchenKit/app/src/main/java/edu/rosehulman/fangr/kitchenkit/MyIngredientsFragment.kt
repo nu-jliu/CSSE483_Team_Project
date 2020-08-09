@@ -77,15 +77,15 @@ class MyIngredientsFragment : Fragment() {
         this.listener = null
     }
 
-    fun initializeIngNameArray(): ArrayList<String> {
+    private fun initializeIngNameArray(): ArrayList<String> {
         val ingsRef = FirebaseFirestore.getInstance().collection("storedIngredient")
         val nameArr = ArrayList<String>()
         ingsRef.get().addOnSuccessListener { snapshot: QuerySnapshot ->
             for (doc in snapshot) {
                 val name = doc["name"].toString()
-                Log.d(Constants.TAG, "found ingredient: " + name)
                 nameArr.add(name)
             }
+            Log.d(Constants.TAG, "found ingredients: $nameArr")
         }
         return nameArr
     }

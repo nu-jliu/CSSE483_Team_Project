@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
 import com.google.firebase.firestore.FirebaseFirestore
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.add_ingredient_view.view.*
 import kotlinx.android.synthetic.main.add_ingredient_view.view.name_text_spinner
 import kotlinx.android.synthetic.main.fragment_my_ingredients.view.*
@@ -50,6 +51,7 @@ class AddIngredientFragment(var ingredientList: ArrayList<String>) : Fragment() 
         // Inflate the layout for this fragment
         this.rootView = inflater.inflate(R.layout.fragment_add_ingredient, container, false)
         initializeIngNameSpinner()
+
         this.rootView.button_add.setOnClickListener {
             val name = this.ingredientName
             if (name.isEmpty()) {
@@ -111,6 +113,9 @@ class AddIngredientFragment(var ingredientList: ArrayList<String>) : Fragment() 
                         ingredientName = content
                     }
                 }
+                val url: String? = Utils.getIngUrlFromName(ingredientName)
+                Log.d(Constants.TAG, "ingredient url found: $url")
+                Picasso.get().load(url).into(rootView.food_image)
             }
         }
 

@@ -18,7 +18,6 @@
         android:layout_toEndOf="@+id/name"
         android:foreground="@drawable/font_card_border"
         android:padding="6dp"
-        app:srcCompat="@drawable/banana"
         android:contentDescription="@string/ingredient_image" />
 
     <TextView
