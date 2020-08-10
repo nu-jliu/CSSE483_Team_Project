@@ -2,7 +2,6 @@ package edu.rosehulman.fangr.kitchenkit
 
 import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -12,8 +11,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.android.synthetic.main.category_add.view.*
-import java.lang.StringBuilder
-import java.util.zip.Inflater
 
 class FavoritesAdapter(private val context: Context, private val uid: String) :
     RecyclerView.Adapter<FavoritesViewHolder>() {

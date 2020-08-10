@@ -17,7 +17,8 @@ data class Recipe(
     var ingredient: String = "",
     var procedure: String = "",
     var url: String = "",
-    var ingArray: ArrayList<String> = ArrayList()
+    var ingArray: ArrayList<String> = ArrayList(),
+    var category: String = ""
 ) : Parcelable {
 
     @IgnoredOnParcel
@@ -25,6 +26,7 @@ data class Recipe(
     var id = ""
 
     companion object {
+
         fun fromSnapshot(snapshot: DocumentSnapshot): Recipe {
             val recipe = snapshot.toObject(Recipe::class.java)!!
             recipe.id = snapshot.id

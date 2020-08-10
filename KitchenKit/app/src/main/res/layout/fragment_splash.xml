@@ -51,7 +51,7 @@
         android:id="@+id/text_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="250dp"
         android:background="@android:color/black"
         android:freezesText="false"
         android:gravity="center"
@@ -61,5 +61,13 @@
         android:textSize="40sp"
         android:textStyle="bold" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/message_author"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="65dp"
+        android:textColor="@android:color/white"
+        android:layout_marginStart="5dp" />
 
 </FrameLayout>

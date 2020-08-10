@@ -99,4 +99,5 @@
     <string name="default_num_favorite">1.</string>
     <string name="default_favorite">Favorite</string>
     <string name="action_delete">DELETE</string>
+    <string name="message_author"><![CDATA[Created by Allen Liu & Ray Fang]]></string>
 </resources>

@@ -49,6 +49,11 @@ class MainActivity : AppCompatActivity(),
         this.auth.removeAuthStateListener(this.authStateListener)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        this.auth.signOut()
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == this.RC_ROSE_SIGN_IN) {
@@ -187,7 +192,7 @@ class MainActivity : AppCompatActivity(),
 
         val ingRef = FirebaseFirestore.getInstance().collection("storedIngredient")
         builder.setNegativeButton(android.R.string.cancel, null)
-        builder.setPositiveButton(android.R.string.ok, DialogInterface.OnClickListener { _, _ ->
+        builder.setPositiveButton(android.R.string.ok) { _, _ ->
             val name = view.name_edit_text.text.toString()
             val url = view.url_edit_text.text.toString()
             val expire1 = view.expire_edit_text_1.text.toString()
@@ -210,7 +215,7 @@ class MainActivity : AppCompatActivity(),
                 canFroze
             )
             ingRef.add(ing)
-        })
+        }
         builder.create().show()
     }
 

@@ -36,20 +36,20 @@ class MyIngredientsFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_my_ingredients, container, false)
         val ingNameArr = initializeIngNameArray()
-        view.recycler_view.layoutManager = LinearLayoutManager(this.context)
+        view.recipe_recycler_view.layoutManager = LinearLayoutManager(this.context)
         this.adapter = this.context?.let {
             this.uid?.let { uid ->
                 this.listener?.let { listener ->
                     IngredientsAdapter(
                         uid,
                         it,
-                        view.recycler_view,
+                        view.recipe_recycler_view,
                         listener
                     )
                 }
             }
         }
-        view.recycler_view.adapter = this.adapter
+        view.recipe_recycler_view.adapter = this.adapter
 
         ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 
@@ -63,7 +63,7 @@ class MyIngredientsFragment : Fragment() {
                 adapter?.removeAt(viewHolder.adapterPosition)
             }
 
-        }).attachToRecyclerView(view.recycler_view)
+        }).attachToRecyclerView(view.recipe_recycler_view)
 
         view.button_back.setOnClickListener {
             this.listener?.onMyIngredientsFragmentBackButtonPressed()
