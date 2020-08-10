@@ -1,4 +1,4 @@
-package edu.rosehulman.fangr.kitchenkit
+package edu.rosehulman.fangr.kitchenkit.ingredient
 
 import android.content.Context
 import android.os.Bundle
@@ -10,6 +10,8 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.google.firebase.firestore.*
 import com.squareup.picasso.Picasso
+import edu.rosehulman.fangr.kitchenkit.Constants
+import edu.rosehulman.fangr.kitchenkit.R
 import kotlinx.android.synthetic.main.fragment_add_ingredient.view.*
 import kotlinx.android.synthetic.main.add_ingredient_view.view.*
 import java.lang.RuntimeException

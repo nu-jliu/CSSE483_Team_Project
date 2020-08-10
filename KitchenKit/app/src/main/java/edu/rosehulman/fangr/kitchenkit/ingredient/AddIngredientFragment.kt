@@ -1,4 +1,4 @@
-package edu.rosehulman.fangr.kitchenkit
+package edu.rosehulman.fangr.kitchenkit.ingredient
 
 import android.content.Context
 import android.os.Bundle
@@ -13,6 +13,9 @@ import android.widget.Spinner
 import android.widget.Toast
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
+import edu.rosehulman.fangr.kitchenkit.Constants
+import edu.rosehulman.fangr.kitchenkit.R
+import edu.rosehulman.fangr.kitchenkit.Utils
 import kotlinx.android.synthetic.main.add_ingredient_view.view.*
 import kotlinx.android.synthetic.main.add_ingredient_view.view.name_text_spinner
 import kotlinx.android.synthetic.main.fragment_my_ingredients.view.*

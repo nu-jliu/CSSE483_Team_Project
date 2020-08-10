@@ -1,4 +1,4 @@
-package edu.rosehulman.fangr.kitchenkit
+package edu.rosehulman.fangr.kitchenkit.profile
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -28,6 +28,9 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import com.squareup.picasso.Picasso
+import edu.rosehulman.fangr.kitchenkit.BitmapUtils
+import edu.rosehulman.fangr.kitchenkit.Constants
+import edu.rosehulman.fangr.kitchenkit.R
 import kotlinx.android.synthetic.main.fragment_edit_profile.view.*
 import java.io.ByteArrayOutputStream
 import java.io.File

@@ -1,4 +1,4 @@
-package edu.rosehulman.fangr.kitchenkit
+package edu.rosehulman.fangr.kitchenkit.ingredient
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -13,10 +13,10 @@ import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.squareup.picasso.Picasso
+import edu.rosehulman.fangr.kitchenkit.Constants
+import edu.rosehulman.fangr.kitchenkit.R
 import kotlinx.android.synthetic.main.ingredient_card_view.view.*
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 class IngredientsViewHolder(

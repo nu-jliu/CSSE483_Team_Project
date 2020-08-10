@@ -1,4 +1,4 @@
-package edu.rosehulman.fangr.kitchenkit
+package edu.rosehulman.fangr.kitchenkit.ingredient
 
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Exclude

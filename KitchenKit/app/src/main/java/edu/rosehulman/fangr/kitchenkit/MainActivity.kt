@@ -13,6 +13,10 @@ import androidx.fragment.app.Fragment
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import edu.rosehulman.fangr.kitchenkit.ingredient.*
+import edu.rosehulman.fangr.kitchenkit.profile.EditProfileFragment
+import edu.rosehulman.fangr.kitchenkit.profile.ProfileFragment
+import edu.rosehulman.fangr.kitchenkit.recipe.RecipeBrowserFragment
 import edu.rosehulman.rosefire.Rosefire
 import kotlinx.android.synthetic.main.custom_ingredient_alert_view.view.*
 import kotlinx.android.synthetic.main.custom_ingredient_alert_view.view.name_edit_text

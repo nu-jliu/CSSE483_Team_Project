@@ -1,7 +1,8 @@
-package edu.rosehulman.fangr.kitchenkit
+package edu.rosehulman.fangr.kitchenkit.recipe
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import edu.rosehulman.fangr.kitchenkit.R
 import edu.rosehulman.fangr.kitchenkit.ui.main.RecommenedRecipeViewModelFragment
 
 class RecommendedRecipeViewModel : AppCompatActivity() {

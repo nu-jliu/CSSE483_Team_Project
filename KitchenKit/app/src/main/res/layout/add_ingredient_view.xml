@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:paddingHorizontal="20dp"
     android:paddingVertical="5dp"
-    tools:context=".AddIngredientFragment">
+    tools:context=".ingredient.AddIngredientFragment">
 
 
     <ImageView

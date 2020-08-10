@@ -1,4 +1,4 @@
-package edu.rosehulman.fangr.kitchenkit
+package edu.rosehulman.fangr.kitchenkit.profile
 
 import android.app.AlertDialog
 import android.content.Context
@@ -10,6 +10,8 @@ import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.QuerySnapshot
+import edu.rosehulman.fangr.kitchenkit.Constants
+import edu.rosehulman.fangr.kitchenkit.R
 import kotlinx.android.synthetic.main.category_add.view.*
 
 class FavoritesAdapter(private val context: Context, private val uid: String) :

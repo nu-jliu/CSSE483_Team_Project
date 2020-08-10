@@ -1,4 +1,4 @@
-package edu.rosehulman.fangr.kitchenkit
+package edu.rosehulman.fangr.kitchenkit.ingredient
 
 import android.os.Parcelable
 import com.google.firebase.Timestamp

@@ -92,14 +92,13 @@
             tools:ignore="RtlSymmetry" />
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/button_like"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             app:srcCompat="@android:drawable/btn_star"
-            android:background="#00FFFFFF"
-            />
+            android:background="#00FFFFFF" />
 
 
     </RelativeLayout>

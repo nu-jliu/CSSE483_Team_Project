@@ -1,8 +1,9 @@
-package edu.rosehulman.fangr.kitchenkit
+package edu.rosehulman.fangr.kitchenkit.profile
 
 import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import edu.rosehulman.fangr.kitchenkit.profile.FavoritesAdapter
 import kotlinx.android.synthetic.main.favorites_row_view.view.*
 
 class FavoritesViewHolder(itemView: View, adapter: FavoritesAdapter) : RecyclerView.ViewHolder(itemView) {
