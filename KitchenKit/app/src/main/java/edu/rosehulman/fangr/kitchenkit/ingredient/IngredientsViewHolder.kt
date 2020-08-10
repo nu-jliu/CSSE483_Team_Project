@@ -68,7 +68,7 @@ class IngredientsViewHolder(
         this.nameTextView.text = ingredient.name
         this.amountTextView.text =
             this.context.getString(R.string.amount_display, ingredient.amount)
-        if(!ingredient.isFrozen)
+        if (!ingredient.isFrozen)
             this.isFrozenView.setImageResource(android.R.color.white)
 
         if (ingredient.bought == null) {
@@ -91,7 +91,11 @@ class IngredientsViewHolder(
 
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("SimpleDateFormat")
-    private fun updateBestBefore(storedIng: StoredIngredient, ingredient: Ingredient, bought: Date) {
+    private fun updateBestBefore(
+        storedIng: StoredIngredient,
+        ingredient: Ingredient,
+        bought: Date
+    ) {
         val date1: String?
         val date2: String?
         if (ingredient.isFrozen) {

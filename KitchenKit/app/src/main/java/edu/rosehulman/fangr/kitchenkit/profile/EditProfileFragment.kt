@@ -287,7 +287,7 @@ class EditProfileFragment : Fragment() {
         })?.addOnCompleteListener { task: Task<Uri> ->
             if (task.isSuccessful) {
                 val downloadUri = task.result
-                if (this.information?.photoUrl  != "")
+                if (this.information?.photoUrl != "")
                     this.information?.photoUrl?.let {
                         FirebaseStorage
                             .getInstance()

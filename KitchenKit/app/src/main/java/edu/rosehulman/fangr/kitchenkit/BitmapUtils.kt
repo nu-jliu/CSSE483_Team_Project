@@ -16,30 +16,34 @@ object BitmapUtils {
     @RequiresApi(Build.VERSION_CODES.N)
     fun rotateAndScaleByRatio(context: Context, localPath: String, ratio: Int): Bitmap? {
         Log.d(Constants.TAG, "Rotating and scaling by ratio: $localPath")
-        return if (localPath.startsWith("content")) {
-            val bitmap =
-                MediaStore.Images.Media.getBitmap(context.contentResolver, Uri.parse(localPath))
-            // android-developers.googleblog.com/2016/12/introducing-the-exifinterface-support-library.html
-            // stackoverflow.com/questions/34696787/a-final-answer-on-how-to-get-exif-data-from-uri
-            var exif: ExifInterface? = null
-            try {
-                val inputStream = context.contentResolver.openInputStream(Uri.parse(localPath))!!
-                exif = ExifInterface(inputStream)
-            } catch (e: IOException) {
-                e.printStackTrace()
+        return when {
+            localPath.startsWith("content") -> {
+                val bitmap =
+                    MediaStore.Images.Media.getBitmap(context.contentResolver, Uri.parse(localPath))
+                // android-developers.googleblog.com/2016/12/introducing-the-exifinterface-support-library.html
+                // stackoverflow.com/questions/34696787/a-final-answer-on-how-to-get-exif-data-from-uri
+                var exif: ExifInterface? = null
+                try {
+                    val inputStream =
+                        context.contentResolver.openInputStream(Uri.parse(localPath))!!
+                    exif = ExifInterface(inputStream)
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+                this.rotateAndScaleBitmapByRatio(exif, bitmap, ratio)
             }
-            this.rotateAndScaleBitmapByRatio(exif, bitmap, ratio)
-        } else if (localPath.startsWith("/storage")) {
-            val bitmap = BitmapFactory.decodeFile(localPath)
-            var exif: ExifInterface? = null
-            try {
-                exif = ExifInterface(localPath)
-            } catch (e: IOException) {
-                Log.e(Constants.TAG, "Exif error: $e")
+            localPath.startsWith("/storage") -> {
+                val bitmap = BitmapFactory.decodeFile(localPath)
+                var exif: ExifInterface? = null
+                try {
+                    exif = ExifInterface(localPath)
+                } catch (e: IOException) {
+                    Log.e(Constants.TAG, "Exif error: $e")
+                }
+                this.rotateAndScaleBitmapByRatio(exif, bitmap, ratio)
             }
-            this.rotateAndScaleBitmapByRatio(exif, bitmap, ratio)
-        } else
-            null
+            else -> null
+        }
 
     }
 

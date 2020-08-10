@@ -3,7 +3,7 @@ package edu.rosehulman.fangr.kitchenkit.ingredient
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Exclude
 
-class StoredIngredient (
+class StoredIngredient(
     var name: String = "",
     var url: String = "",
     var expire1: String = "",
@@ -11,7 +11,7 @@ class StoredIngredient (
     var expireFrozen1: String = "",
     var expireFrozen2: String = "",
     var canFroze: Boolean = false
-){
+) {
     @get:Exclude
     var id = ""
 

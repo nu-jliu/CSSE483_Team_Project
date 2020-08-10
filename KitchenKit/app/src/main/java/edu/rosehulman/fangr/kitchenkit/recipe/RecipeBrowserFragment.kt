@@ -21,7 +21,8 @@ import java.lang.RuntimeException
 class RecipeBrowserFragment : Fragment() {
 
     private var buttonPressedListener: OnButtonPressedListener? = null
-    private val recipeReference = FirebaseFirestore.getInstance().collection(Constants.RECIPE_COLLECTION)
+    private val recipeReference =
+        FirebaseFirestore.getInstance().collection(Constants.RECIPE_COLLECTION)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,9 +36,12 @@ class RecipeBrowserFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_recipe_browser, container, false)
 
         view.recipe_recycler_view.layoutManager = LinearLayoutManager(this.context)
-        view.recipe_recycler_view.adapter = this.context?.let { RecipeAdapter(it,
-            Constants.VALUE_DINNER
-        ) }
+        view.recipe_recycler_view.adapter = this.context?.let {
+            RecipeAdapter(
+                it,
+                Constants.VALUE_DINNER
+            )
+        }
 
         view.tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
 
@@ -53,18 +57,30 @@ class RecipeBrowserFragment : Fragment() {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 Log.d(Constants.TAG, "Tab selected ${tab?.text}")
                 view.recipe_recycler_view.adapter = when (tab?.text) {
-                    context?.getString(R.string.dinner) -> context?.let { RecipeAdapter(it,
-                        Constants.VALUE_DINNER
-                    ) }
-                    context?.getString(R.string.asian) -> context?.let { RecipeAdapter(it,
-                        Constants.VALUE_ASIAN
-                    ) }
-                    context?.getString(R.string.mexican) -> context?.let { RecipeAdapter(it,
-                        Constants.VALUE_MEXICAN
-                    ) }
-                    context?.getString(R.string.vegan) -> context?.let { RecipeAdapter(it,
-                        Constants.VALUE_VEGAN
-                    ) }
+                    context?.getString(R.string.dinner) -> context?.let {
+                        RecipeAdapter(
+                            it,
+                            Constants.VALUE_DINNER
+                        )
+                    }
+                    context?.getString(R.string.asian) -> context?.let {
+                        RecipeAdapter(
+                            it,
+                            Constants.VALUE_ASIAN
+                        )
+                    }
+                    context?.getString(R.string.mexican) -> context?.let {
+                        RecipeAdapter(
+                            it,
+                            Constants.VALUE_MEXICAN
+                        )
+                    }
+                    context?.getString(R.string.vegan) -> context?.let {
+                        RecipeAdapter(
+                            it,
+                            Constants.VALUE_VEGAN
+                        )
+                    }
                     else -> null
                 }
             }

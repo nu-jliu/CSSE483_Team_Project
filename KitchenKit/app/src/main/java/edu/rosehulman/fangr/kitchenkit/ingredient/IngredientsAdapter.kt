@@ -34,49 +34,17 @@ class IngredientsAdapter(
     }
 
     private fun addListenerAll() {
-        listenerRegistration = ingredientsRef.orderBy(Ingredient.BOUGHT_KEY, Query.Direction.ASCENDING)
-            .addSnapshotListener { snapshot: QuerySnapshot?, exception: FirebaseFirestoreException? ->
-                if (exception != null) {
-                    Log.e(Constants.TAG, "EXCEPTION: $exception")
-                    return@addSnapshotListener
-                }
-                for (documentChange in snapshot!!.documentChanges) {
-                    val ingredient = Ingredient.fromSnapshot(documentChange.document)
-                    Log.d(Constants.TAG, "Timestamp: ${ingredient.bought}")
-                    val position = this.myIngredients.indexOfFirst { ingredient.id == it.id }
-                    when (documentChange.type) {
-                        DocumentChange.Type.ADDED -> {
-                            this.myIngredients.add(0, ingredient)
-                            this.notifyItemInserted(0)
-                            this.recyclerView.smoothScrollToPosition(0)
-                        }
-                        DocumentChange.Type.REMOVED -> {
-                            this.myIngredients.removeAt(position)
-                            this.notifyItemRemoved(position)
-                        }
-                        DocumentChange.Type.MODIFIED -> {
-                            this.myIngredients[position] = ingredient
-                            this.notifyItemChanged(position)
-                        }
+        listenerRegistration =
+            ingredientsRef.orderBy(Ingredient.BOUGHT_KEY, Query.Direction.ASCENDING)
+                .addSnapshotListener { snapshot: QuerySnapshot?, exception: FirebaseFirestoreException? ->
+                    if (exception != null) {
+                        Log.e(Constants.TAG, "EXCEPTION: $exception")
+                        return@addSnapshotListener
                     }
-                }
-            }
-    }
-
-    private fun addListenerFiltered(filter: String) {
-        listenerRegistration = ingredientsRef.orderBy(Ingredient.BOUGHT_KEY, Query.Direction.ASCENDING)
-            .addSnapshotListener { snapshot: QuerySnapshot?, exception: FirebaseFirestoreException? ->
-                if (exception != null) {
-                    Log.e(Constants.TAG, "EXCEPTION: $exception")
-                    return@addSnapshotListener
-                }
-                for (documentChange in snapshot!!.documentChanges) {
-                    val ingredient = Ingredient.fromSnapshot(documentChange.document)
-                    Log.d(Constants.TAG, "Timestamp: ${ingredient.bought}")
-                    val position = this.myIngredients.indexOfFirst { ingredient.id == it.id }
-                    Log.d(Constants.TAG, "ing name: "+ingredient.name)
-                    Log.d(Constants.TAG, "filter: $filter")
-                    if (ingredient.name == filter) {
+                    for (documentChange in snapshot!!.documentChanges) {
+                        val ingredient = Ingredient.fromSnapshot(documentChange.document)
+                        Log.d(Constants.TAG, "Timestamp: ${ingredient.bought}")
+                        val position = this.myIngredients.indexOfFirst { ingredient.id == it.id }
                         when (documentChange.type) {
                             DocumentChange.Type.ADDED -> {
                                 this.myIngredients.add(0, ingredient)
@@ -94,7 +62,41 @@ class IngredientsAdapter(
                         }
                     }
                 }
-            }
+    }
+
+    private fun addListenerFiltered(filter: String) {
+        listenerRegistration =
+            ingredientsRef.orderBy(Ingredient.BOUGHT_KEY, Query.Direction.ASCENDING)
+                .addSnapshotListener { snapshot: QuerySnapshot?, exception: FirebaseFirestoreException? ->
+                    if (exception != null) {
+                        Log.e(Constants.TAG, "EXCEPTION: $exception")
+                        return@addSnapshotListener
+                    }
+                    for (documentChange in snapshot!!.documentChanges) {
+                        val ingredient = Ingredient.fromSnapshot(documentChange.document)
+                        Log.d(Constants.TAG, "Timestamp: ${ingredient.bought}")
+                        val position = this.myIngredients.indexOfFirst { ingredient.id == it.id }
+                        Log.d(Constants.TAG, "ing name: " + ingredient.name)
+                        Log.d(Constants.TAG, "filter: $filter")
+                        if (ingredient.name == filter) {
+                            when (documentChange.type) {
+                                DocumentChange.Type.ADDED -> {
+                                    this.myIngredients.add(0, ingredient)
+                                    this.notifyItemInserted(0)
+                                    this.recyclerView.smoothScrollToPosition(0)
+                                }
+                                DocumentChange.Type.REMOVED -> {
+                                    this.myIngredients.removeAt(position)
+                                    this.notifyItemRemoved(position)
+                                }
+                                DocumentChange.Type.MODIFIED -> {
+                                    this.myIngredients[position] = ingredient
+                                    this.notifyItemChanged(position)
+                                }
+                            }
+                        }
+                    }
+                }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, position: Int): IngredientsViewHolder {

@@ -55,7 +55,7 @@ class EditIngredientFragment : Fragment() {
             this.rootView?.checkBox?.isChecked = this.ingredient?.isFrozen ?: false
             this.rootView?.name?.text = this.ingredient?.name?.toUpperCase()
 
-            this.storedIngredientReference.addSnapshotListener {ingredientSnapshot: QuerySnapshot?, exception: FirebaseFirestoreException? ->
+            this.storedIngredientReference.addSnapshotListener { ingredientSnapshot: QuerySnapshot?, exception: FirebaseFirestoreException? ->
                 if (exception != null) {
                     Log.e(Constants.TAG, "EXCEPTION: $exception")
                     return@addSnapshotListener
