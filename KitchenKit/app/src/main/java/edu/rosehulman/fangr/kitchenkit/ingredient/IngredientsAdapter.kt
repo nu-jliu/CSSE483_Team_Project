@@ -29,13 +29,12 @@ class IngredientsAdapter(
     private var listenerRegistration: ListenerRegistration? = null
 
     init {
-        this.ingredientsRef.orderBy(Ingredient.BOUGHT_KEY, Query.Direction.ASCENDING)
         this.showAll()
     }
 
     private fun addListenerAll() {
         listenerRegistration =
-            ingredientsRef
+            ingredientsRef.orderBy(Ingredient.BOUGHT_KEY, Query.Direction.ASCENDING)
                 .addSnapshotListener { snapshot: QuerySnapshot?, exception: FirebaseFirestoreException? ->
                     if (exception != null) {
                         Log.e(Constants.TAG, "EXCEPTION: $exception")
@@ -65,7 +64,7 @@ class IngredientsAdapter(
 
     private fun addListenerFiltered(filter: String) {
         listenerRegistration =
-            ingredientsRef
+            ingredientsRef.orderBy(Ingredient.BOUGHT_KEY, Query.Direction.ASCENDING)
                 .addSnapshotListener { snapshot: QuerySnapshot?, exception: FirebaseFirestoreException? ->
                     if (exception != null) {
                         Log.e(Constants.TAG, "EXCEPTION: $exception")
