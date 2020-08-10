@@ -26,7 +26,7 @@ const val ARG_ADD_UID = "uid_add"
  * Use the [AddIngredientFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class AddIngredientFragment(var ingredientList: ArrayList<String>) : Fragment() {
+class AddIngredientFragment(private var ingredientList: ArrayList<String>) : Fragment() {
 
     private var uid: String = ""
 
@@ -34,8 +34,8 @@ class AddIngredientFragment(var ingredientList: ArrayList<String>) : Fragment() 
     private var listener: OnAddButtonPressedListener? = null
     lateinit var ingredientName: String
     private lateinit var rootView: View
-    private var name_spinner: Spinner? = null
-    private lateinit var name_spinner_adapter: ArrayAdapter<String>
+    private var nameSpinner: Spinner? = null
+    private lateinit var nameSpinnerAdapter: ArrayAdapter<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,11 +89,11 @@ class AddIngredientFragment(var ingredientList: ArrayList<String>) : Fragment() 
     }
 
     private fun initializeIngNameSpinner() {
-        this.name_spinner = rootView.name_text_spinner
-        this.name_spinner_adapter =
+        this.nameSpinner = rootView.name_text_spinner
+        this.nameSpinnerAdapter =
             ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, ingredientList)
-        this.name_spinner?.adapter = name_spinner_adapter
-        this.name_spinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        this.nameSpinner?.adapter = nameSpinnerAdapter
+        this.nameSpinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 Log.d(Constants.TAG, "Spinner nothing selected")

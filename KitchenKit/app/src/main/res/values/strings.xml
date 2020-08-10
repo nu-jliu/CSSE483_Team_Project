@@ -96,4 +96,7 @@
     <string name="title_amount_card_view">Amount</string>
     <string name="template_weight">x kg</string>
     <string name="warning">warning</string>
+    <string name="default_num_favorite">1.</string>
+    <string name="default_favorite">Favorite</string>
+    <string name="action_delete">DELETE</string>
 </resources>

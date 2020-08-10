@@ -2,13 +2,14 @@ package edu.rosehulman.fangr.kitchenkit
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.*
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_add_ingredient.view.*
 import kotlinx.android.synthetic.main.add_ingredient_view.view.*
 import java.lang.RuntimeException
@@ -24,6 +25,10 @@ class EditIngredientFragment : Fragment() {
     private var ingredient: Ingredient? = null
     private var rootView: View? = null
     private var listener: OnIngredientSaveButtonPressedListener? = null
+
+    private val storedIngredientReference = FirebaseFirestore
+        .getInstance()
+        .collection(Constants.STORED_INGREDIENT_COLLECTION)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,10 +47,25 @@ class EditIngredientFragment : Fragment() {
             }
         }
 
-        this.ingredientReference?.get()?.addOnSuccessListener {snapshot: DocumentSnapshot? ->
+        this.ingredientReference?.get()?.addOnSuccessListener { snapshot: DocumentSnapshot? ->
             this.ingredient = snapshot?.let { Ingredient.fromSnapshot(it) }
             this.rootView?.amount_edit_text?.setText(this.ingredient?.amount.toString())
             this.rootView?.checkBox?.isChecked = this.ingredient?.isFrozen ?: false
+            this.rootView?.name?.text = this.ingredient?.name?.toUpperCase()
+
+            this.storedIngredientReference.addSnapshotListener {ingredientSnapshot: QuerySnapshot?, exception: FirebaseFirestoreException? ->
+                if (exception != null) {
+                    Log.e(Constants.TAG, "EXCEPTION: $exception")
+                    return@addSnapshotListener
+                }
+                for (document in ingredientSnapshot!!) {
+                    val storedIngredient = StoredIngredient.fromSnapshot(document)
+                    if (storedIngredient.name == this.ingredient?.name ?: "") {
+                        Picasso.get().load(storedIngredient.url).into(this.rootView?.food_image)
+                        return@addSnapshotListener
+                    }
+                }
+            }
         }
     }
 
@@ -65,6 +85,11 @@ class EditIngredientFragment : Fragment() {
 
             this.listener?.onSaveButtonPressed()
         }
+
+        this.rootView?.new_ingredient?.text = "Edit Ingredient"
+        this.rootView?.name_text_spinner?.isVisible = false
+        this.rootView?.button_customize_one?.isVisible = false
+        this.rootView?.cant_find_your_ingredient?.isVisible = false
 
         this.rootView?.button_back?.setOnClickListener {
             this.listener?.onSaveButtonPressed()

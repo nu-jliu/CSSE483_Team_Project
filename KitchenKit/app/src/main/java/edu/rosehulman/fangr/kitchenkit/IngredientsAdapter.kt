@@ -28,8 +28,8 @@ class IngredientsAdapter(
     private var listenerRegistration: ListenerRegistration? = null
 
     init {
-        ingredientsRef.orderBy(Ingredient.BOUGHT_KEY, Query.Direction.ASCENDING)
-        showAll()
+        this.ingredientsRef.orderBy(Ingredient.BOUGHT_KEY, Query.Direction.ASCENDING)
+        this.showAll()
     }
 
     private fun addListenerAll() {
@@ -119,8 +119,7 @@ class IngredientsAdapter(
     }
 
     fun removeAt(position: Int) {
-        val ingredient = this.myIngredients[position]
-        this.ingredientsRef.document(ingredient.id).delete()
+        this.ingredientsRef.document(this.myIngredients[position].id).delete()
     }
 
     fun showAll() {

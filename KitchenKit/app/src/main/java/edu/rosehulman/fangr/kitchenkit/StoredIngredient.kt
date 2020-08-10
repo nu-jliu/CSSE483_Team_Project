@@ -16,11 +16,10 @@ class StoredIngredient (
     var id = ""
 
     companion object {
-        fun fromSnapshot(snapshot: DocumentSnapshot): Ingredient {
-            val ingredient = snapshot.toObject(Ingredient::class.java)!!
-            ingredient.id = snapshot.id
-            return ingredient
+        fun fromSnapshot(snapshot: DocumentSnapshot): StoredIngredient {
+            val storedIngredient = snapshot.toObject(StoredIngredient::class.java)!!
+            storedIngredient.id = snapshot.id
+            return storedIngredient
         }
-
     }
 }

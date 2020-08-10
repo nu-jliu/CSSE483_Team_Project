@@ -11,20 +11,21 @@
 
     <ImageView
         android:id="@+id/food_image"
-        android:layout_width="140dp"
-        android:layout_height="140dp"
-        android:layout_marginStart="140dp"
+        android:layout_width="120dp"
+        android:layout_height="150dp"
+        android:layout_alignParentEnd="true"
         android:layout_marginTop="25dp"
-        android:layout_toEndOf="@+id/name"
+        android:layout_marginEnd="20dp"
+        android:contentDescription="@string/ingredient_image"
         android:foreground="@drawable/font_card_border"
-        android:padding="6dp"
-        android:contentDescription="@string/ingredient_image" />
+        android:padding="6dp" />
 
     <TextView
         android:id="@+id/name"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:layout_toStartOf="@id/food_image"
         android:text="@string/default_name"
         android:textColor="@android:color/black"
         android:textSize="24sp"
@@ -32,14 +33,15 @@
 
     <Spinner
         android:id="@+id/name_text_spinner"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/name"
-        android:layout_marginTop="10dp"
         android:layout_marginStart="-10dp"
+        android:layout_marginTop="10dp"
+        android:layout_toStartOf="@id/food_image"
         android:gravity="start"
-        android:textSize="14sp"
-        android:spinnerMode="dialog" />
+        android:spinnerMode="dialog"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/amount"
@@ -58,8 +60,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/amount"
         android:layout_marginTop="10dp"
-        android:inputType="numberDecimal"
         android:hint="@string/title_amount_card_view"
+        android:inputType="numberDecimal"
         android:textSize="18sp" />
 
     <TextView

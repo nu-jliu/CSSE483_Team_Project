@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.*
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_profile.view.*
@@ -73,6 +75,14 @@ class ProfileFragment : Fragment() {
                         .load(information.photoUrl)
                         .into(view.avatar_image_view)
             }
+
+        view.favorites_recycler_view.layoutManager = LinearLayoutManager(this.context)
+        val adapter = this.context?.let { this.uid?.let { id -> FavoritesAdapter(it, id) } }
+        view.favorites_recycler_view.adapter = adapter
+
+        view.fab_add_favorite.setOnClickListener {
+            adapter?.showAddDialog()
+        }
 
         view.button_logout.setOnClickListener {
             this.listener?.onLogoutPressed()

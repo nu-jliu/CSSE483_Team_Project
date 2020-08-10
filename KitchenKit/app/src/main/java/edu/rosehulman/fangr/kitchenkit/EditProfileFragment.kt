@@ -136,7 +136,6 @@ class EditProfileFragment : Fragment() {
         builder.setNegativeButton("Choose Picture") { _, _ ->
             this.launchChooseIntent()
         }
-        builder.setNeutralButton(android.R.string.cancel, null)
 
         builder.create().show()
     }

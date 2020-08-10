@@ -36,7 +36,6 @@ class MainActivity : AppCompatActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.setContentView(R.layout.activity_main)
-//        this.setSupportActionBar(this.toolbar)
         this.initializeListeners()
     }
 
@@ -138,12 +137,11 @@ class MainActivity : AppCompatActivity(),
 
     override fun onLogoutPressed() {
         val builder = AlertDialog.Builder(this)
-        val view = LayoutInflater.from(this).inflate(R.layout.logout_alert_view, null, false)
-        builder.setView(view)
+        builder.setMessage(R.string.logout_alert)
         builder.setNegativeButton(android.R.string.no, null)
-        builder.setPositiveButton(android.R.string.yes, DialogInterface.OnClickListener { _, _ ->
+        builder.setPositiveButton(android.R.string.yes) { _, _ ->
             this.auth.signOut()
-        })
+        }
         builder.create().show()
     }
 
@@ -158,11 +156,11 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onMyIngredientsFragmentBackButtonPressed() {
-        this.switchTo(RecipeBrowserFragment())
+        this.onProfileBackPressed()
     }
 
     override fun onAddIngredientFragmentBackButtonPressed() {
-        this.switchTo(MyIngredientsFragment())
+        this.onMyIngredientsButtonPressed()
     }
 
     override fun onAddFABPressed(ingredientList: ArrayList<String>) {
@@ -172,9 +170,7 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onAddButtonPressed() {
-        this.auth.currentUser?.uid
-            ?.let { MyIngredientsFragment.newInstance(it) }
-            ?.let { this.switchTo(it) }
+        this.onMyIngredientsButtonPressed()
     }
 
     override fun onButtonsPressed() {
@@ -201,7 +197,7 @@ class MainActivity : AppCompatActivity(),
             val canFroze = view.can_froze_button.isChecked
             Log.d(
                 Constants.TAG,
-                "customize ingredient: " + name + url + expire1 + expire2 + expireFrozen1 + expireFrozen2 + canFroze
+                "customize ingredient: $name$url$expire1$expire2$expireFrozen1$expireFrozen2$canFroze"
             )
 
             val ing = StoredIngredient(
@@ -242,8 +238,6 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onSaveButtonPressed() {
-        this.auth.currentUser?.uid
-            ?.let { MyIngredientsFragment.newInstance(it) }
-            ?.let { this.switchTo(it) }
+        this.onMyIngredientsButtonPressed()
     }
 }

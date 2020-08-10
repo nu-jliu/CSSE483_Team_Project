@@ -42,7 +42,7 @@ class IngredientsViewHolder(
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun bind(ingredient: Ingredient) {
-        var storedIng: StoredIngredient? = null
+        var storedIng: StoredIngredient?
         val boughtTime = ingredient.bought?.toDate()?.time
         val currentTime = Timestamp.now().toDate().time
 
@@ -57,9 +57,8 @@ class IngredientsViewHolder(
                     Picasso.get().load(storedIng!!.url).into(imageView)
                     //Update Best Before date
                     //Update warning icon
-                    if (ingredient.bought != null) {
-                        updateBestBefore(storedIng!!, ingredient, ingredient.bought!!.toDate())
-                    }
+                    if (ingredient.bought != null)
+                        this.updateBestBefore(storedIng!!, ingredient, ingredient.bought!!.toDate())
 
                     break
                 }
@@ -80,16 +79,14 @@ class IngredientsViewHolder(
         val difference = currentTime - boughtTime!!
         val days = (difference / (1000 * 60 * 60 * 24)).toInt()
         Log.d(Constants.TAG, "days: $days")
-        if (days == 0) {
+        if (days == 0)
             this.boughtTextView.text = this.context.getString(R.string.zero_day_display)
-        }
-        else {
+        else
             this.boughtTextView.text = this.context.resources.getQuantityString(
                 R.plurals.day_display,
                 days,
                 days
             )
-        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -126,9 +123,9 @@ class IngredientsViewHolder(
                 month -= 12
                 year += 1
             }
-        } else if (date2.contains("year")) {
+        } else if (date2.contains("year"))
             year += variance
-        }
+
         val expireDate = StringBuilder()
         expireDate.append(month)
         expireDate.append('/')
@@ -144,13 +141,13 @@ class IngredientsViewHolder(
         val currentDay = currentFormatted.substring(3, 5).toInt()
         val currentMonth = currentFormatted.substring(0, 2).toInt()
         val currentYear = currentFormatted.substring(6, 10).toInt()
-        if (currentYear < year) {
+
+        if (currentYear < year)
             this.warningView.setImageResource(android.R.color.white)
-        } else if (currentYear == year && currentMonth < month) {
+        else if (currentYear == year && currentMonth < month)
             this.warningView.setImageResource(android.R.color.white)
-        } else if (currentMonth == month && currentDay < day) {
+        else if (currentMonth == month && currentDay < day)
             this.warningView.setImageResource(android.R.color.white)
-        }
     }
 
 }
