@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TabbedActivity">
+    tools:context=".recipe.RecipeDetailFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -33,7 +34,7 @@
         app:layout_anchorGravity="top|center" />
 
     <ImageButton
-        android:id="@+id/button_profile"
+        android:id="@+id/button_back"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="20dp"
@@ -54,7 +55,7 @@
     </androidx.viewpager.widget.ViewPager>
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/recipe_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Title"
@@ -64,7 +65,7 @@
         tools:ignore="RtlSymmetry" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/recipe_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:textSize="20sp"

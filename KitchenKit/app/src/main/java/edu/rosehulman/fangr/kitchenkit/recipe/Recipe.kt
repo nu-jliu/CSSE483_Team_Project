@@ -24,7 +24,7 @@ data class Recipe(
     var id = ""
 
     companion object {
-
+        const val NAME_KEY = "name"
         fun fromSnapshot(snapshot: DocumentSnapshot): Recipe {
             val recipe = snapshot.toObject(Recipe::class.java)!!
             recipe.id = snapshot.id

@@ -16,7 +16,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import edu.rosehulman.fangr.kitchenkit.ingredient.*
 import edu.rosehulman.fangr.kitchenkit.profile.EditProfileFragment
 import edu.rosehulman.fangr.kitchenkit.profile.ProfileFragment
+import edu.rosehulman.fangr.kitchenkit.recipe.RecipeAdapter
 import edu.rosehulman.fangr.kitchenkit.recipe.RecipeBrowserFragment
+import edu.rosehulman.fangr.kitchenkit.recipe.RecipeDetailFragment
 import edu.rosehulman.rosefire.Rosefire
 import kotlinx.android.synthetic.main.custom_ingredient_alert_view.view.*
 import kotlinx.android.synthetic.main.custom_ingredient_alert_view.view.name_edit_text
@@ -29,7 +31,8 @@ class MainActivity : AppCompatActivity(),
     MyIngredientsFragment.OnButtonPressedListener,
     AddIngredientFragment.OnAddButtonPressedListener,
     EditProfileFragment.OnButtonsPressedListener,
-    EditIngredientFragment.OnIngredientSaveButtonPressedListener {
+    EditIngredientFragment.OnIngredientSaveButtonPressedListener,
+    RecipeDetailFragment.OnButtonPressedListener{
 
     private val auth = FirebaseAuth.getInstance()
     private lateinit var authStateListener: FirebaseAuth.AuthStateListener
@@ -172,6 +175,10 @@ class MainActivity : AppCompatActivity(),
         this.onMyIngredientsButtonPressed()
     }
 
+    override fun onRecipeDetailFragmentBackButtonPressed() {
+        this.onProfileBackPressed()
+    }
+
     override fun onAddFABPressed(ingredientList: ArrayList<String>) {
         this.auth.currentUser?.uid
             ?.let { AddIngredientFragment.newInstance(it, ingredientList) }
@@ -243,6 +250,29 @@ class MainActivity : AppCompatActivity(),
     override fun onIngredientSelected(ingredientID: String) {
         this.auth.currentUser?.uid
             ?.let { EditIngredientFragment.newInstance(it, ingredientID) }
+            ?.let { this.switchTo(it) }
+    }
+
+    override fun onRecipeSearchButtonPressed(adapter: RecipeAdapter?) {
+        val builder = AlertDialog.Builder(this)
+        val view = LayoutInflater.from(this).inflate(R.layout.search_alert_view, null, false)
+        builder.setView(view)
+        builder.setNegativeButton(android.R.string.cancel, null)
+        builder.setPositiveButton(android.R.string.ok, DialogInterface.OnClickListener { _, _ ->
+            val filter = view.filter_edit_text.text.toString()
+            Log.d(Constants.TAG, filter)
+            adapter?.showFiltered(filter)
+        })
+        builder.setNeutralButton(R.string.clear_search_filter) { _, _ ->
+            adapter?.showAll()
+            view.filter_edit_text.setText("")
+        }
+        builder.create().show()
+    }
+
+    override fun onRecipeSelected(recipeID: String) {
+        this.auth.currentUser?.uid
+            ?.let { RecipeDetailFragment.newInstance(recipeID) }
             ?.let { this.switchTo(it) }
     }
 

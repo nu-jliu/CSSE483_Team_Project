@@ -8,8 +8,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.*
 import edu.rosehulman.fangr.kitchenkit.Constants
 import edu.rosehulman.fangr.kitchenkit.R
+import edu.rosehulman.fangr.kitchenkit.ingredient.Ingredient
+import edu.rosehulman.fangr.kitchenkit.ingredient.MyIngredientsFragment
 
-class RecipeAdapter(private val context: Context, category: String) :
+class RecipeAdapter(private val context: Context,
+                    private val category: String,
+                    private val listener: RecipeBrowserFragment.OnButtonPressedListener
+) :
     RecyclerView.Adapter<RecipeViewHolder>() {
 
     private val recipes = ArrayList<Recipe>()
@@ -17,8 +22,15 @@ class RecipeAdapter(private val context: Context, category: String) :
         .getInstance()
         .collection(Constants.RECIPE_COLLECTION)
 
+    private var listenerRegistration: ListenerRegistration? = null
+
     init {
-        this.recipeReference
+        this.recipeReference.orderBy(Recipe.NAME_KEY, Query.Direction.ASCENDING)
+        this.showAll()
+    }
+
+    private fun addListenerAll() {
+        listenerRegistration = this.recipeReference
             .whereEqualTo(Constants.KEY_CATEGORY, category)
             .addSnapshotListener { snapshot: QuerySnapshot?, exception: FirebaseFirestoreException? ->
                 if (exception != null) {
@@ -46,15 +58,66 @@ class RecipeAdapter(private val context: Context, category: String) :
             }
     }
 
+    private fun addListenerFiltered(filter: String) {
+        listenerRegistration = this.recipeReference
+            .whereEqualTo(Constants.KEY_CATEGORY, category)
+            .addSnapshotListener { snapshot: QuerySnapshot?, exception: FirebaseFirestoreException? ->
+                if (exception != null) {
+                    Log.e(Constants.TAG, "EXCEPTION: $exception")
+                    return@addSnapshotListener
+                }
+                for (docChange in snapshot?.documentChanges!!) {
+                    val recipe = Recipe.fromSnapshot(docChange.document)
+                    val position = this.recipes.indexOfFirst { it.id == recipe.id }
+                    if (recipe.name.contains(filter)) {
+                        when (docChange.type) {
+                            DocumentChange.Type.ADDED -> {
+                                this.recipes.add(0, recipe)
+                                this.notifyItemInserted(0)
+                            }
+                            DocumentChange.Type.REMOVED -> {
+                                this.recipes.removeAt(position)
+                                this.notifyItemRemoved(position)
+                            }
+                            DocumentChange.Type.MODIFIED -> {
+                                this.recipes[position] = recipe
+                                this.notifyItemChanged(position)
+                            }
+                        }
+                    }
+                }
+            }
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeViewHolder {
         val view =
             LayoutInflater.from(this.context).inflate(R.layout.recipe_card_view, parent, false)
-        return RecipeViewHolder(view)
+        return RecipeViewHolder(view, this)
     }
 
     override fun getItemCount(): Int = this.recipes.size
 
     override fun onBindViewHolder(holder: RecipeViewHolder, position: Int) {
         holder.bind(this.recipes[position])
+    }
+
+    fun showAll() {
+        listenerRegistration?.remove()
+        recipes.clear()
+        notifyDataSetChanged()
+        addListenerAll()
+
+    }
+
+    fun showFiltered(filter: String) {
+        listenerRegistration?.remove()
+        recipes.clear()
+        notifyDataSetChanged()
+        addListenerFiltered(filter)
+    }
+
+    fun selectRecipeAt(adapterPosition: Int) {
+        val recipeID = this.recipes[adapterPosition].id
+        this.listener.onRecipeSelected(recipeID)
     }
 }

@@ -13,16 +13,15 @@ import com.google.firebase.firestore.FirebaseFirestore
 import edu.rosehulman.fangr.kitchenkit.Constants
 import edu.rosehulman.fangr.kitchenkit.R
 import kotlinx.android.synthetic.main.fragment_recipe_browser.view.*
-import kotlinx.android.synthetic.main.my_ingredients_page.view.button_profile
-import kotlinx.android.synthetic.main.my_ingredients_page.view.fab_my_ingredients
 import kotlinx.android.synthetic.main.recipe_card_recycler.view.*
 import java.lang.RuntimeException
 
-class RecipeBrowserFragment : Fragment() {
+class RecipeBrowserFragment : Fragment(), TabLayout.OnTabSelectedListener {
 
-    private var buttonPressedListener: OnButtonPressedListener? = null
+    var buttonPressedListener: OnButtonPressedListener? = null
     private val recipeReference =
         FirebaseFirestore.getInstance().collection(Constants.RECIPE_COLLECTION)
+    private var adapter: RecipeAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,55 +35,18 @@ class RecipeBrowserFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_recipe_browser, container, false)
 
         view.recipe_recycler_view.layoutManager = LinearLayoutManager(this.context)
-        view.recipe_recycler_view.adapter = this.context?.let {
-            RecipeAdapter(
-                it,
-                Constants.VALUE_DINNER
-            )
+        this.adapter = this.context?.let {
+            this.buttonPressedListener?.let { listener ->
+                RecipeAdapter(
+                    it,
+                    Constants.VALUE_DINNER,
+                    listener
+                )
+            }
         }
+        view.recipe_recycler_view.adapter = this.adapter
 
-        view.tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-                Log.d(Constants.TAG, "Tab reselected ${tab?.text}")
-//                this.onTabSelected(tab)
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
-                Log.d(Constants.TAG, "Tab unselected ${tab?.text}")
-            }
-
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                Log.d(Constants.TAG, "Tab selected ${tab?.text}")
-                view.recipe_recycler_view.adapter = when (tab?.text) {
-                    context?.getString(R.string.dinner) -> context?.let {
-                        RecipeAdapter(
-                            it,
-                            Constants.VALUE_DINNER
-                        )
-                    }
-                    context?.getString(R.string.asian) -> context?.let {
-                        RecipeAdapter(
-                            it,
-                            Constants.VALUE_ASIAN
-                        )
-                    }
-                    context?.getString(R.string.mexican) -> context?.let {
-                        RecipeAdapter(
-                            it,
-                            Constants.VALUE_MEXICAN
-                        )
-                    }
-                    context?.getString(R.string.vegan) -> context?.let {
-                        RecipeAdapter(
-                            it,
-                            Constants.VALUE_VEGAN
-                        )
-                    }
-                    else -> null
-                }
-            }
-        })
+        view.tabs.addOnTabSelectedListener(this)
 
         view.button_profile.setOnClickListener {
             this.buttonPressedListener?.onProfileButtonPressed()
@@ -92,6 +54,9 @@ class RecipeBrowserFragment : Fragment() {
 
         view.fab_my_ingredients.setOnClickListener {
             this.buttonPressedListener?.onMyIngredientsButtonPressed()
+        }
+        view.button_search.setOnClickListener {
+            this.buttonPressedListener?.onRecipeSearchButtonPressed(adapter)
         }
 
         return view
@@ -102,7 +67,7 @@ class RecipeBrowserFragment : Fragment() {
         if (context is OnButtonPressedListener)
             this.buttonPressedListener = context
         else
-            throw RuntimeException("$context must implement OnProfileButtonPressedListener")
+            throw RuntimeException("$context must implement OnButtonPressedListener")
     }
 
     override fun onDetach() {
@@ -113,8 +78,60 @@ class RecipeBrowserFragment : Fragment() {
     interface OnButtonPressedListener {
         fun onProfileButtonPressed()
         fun onMyIngredientsButtonPressed()
+        fun onRecipeSearchButtonPressed(adapter: RecipeAdapter?)
+        fun onRecipeSelected(recipeID: String)
     }
 
+    override fun onTabReselected(tab: TabLayout.Tab?) {
+        Log.d(Constants.TAG, "Tab reselected ${tab?.text}")
+    }
+
+    override fun onTabUnselected(tab: TabLayout.Tab?) {
+        Log.d(Constants.TAG, "Tab unselected ${tab?.text}")
+    }
+
+    override fun onTabSelected(tab: TabLayout.Tab?) {
+        Log.d(Constants.TAG, "Tab selected ${tab?.text}")
+        requireView().recipe_recycler_view.adapter = when (tab?.text) {
+            context?.getString(R.string.dinner) -> context?.let {
+                this.buttonPressedListener?.let { listener ->
+                    RecipeAdapter(
+                        it,
+                        Constants.VALUE_DINNER,
+                        listener
+                    )
+                }
+            }
+            context?.getString(R.string.asian) -> context?.let {
+                this.buttonPressedListener?.let { listener ->
+                    RecipeAdapter(
+                        it,
+                        Constants.VALUE_ASIAN,
+                        listener
+                    )
+                }
+            }
+            context?.getString(R.string.mexican) -> context?.let {
+                this.buttonPressedListener?.let { listener ->
+                    RecipeAdapter(
+                        it,
+                        Constants.VALUE_MEXICAN,
+                        listener
+                    )
+                }
+            }
+            context?.getString(R.string.vegan) -> context?.let {
+                this.buttonPressedListener?.let { listener ->
+                    RecipeAdapter(
+                        it,
+                        Constants.VALUE_VEGAN,
+                        listener
+                    )
+                }
+            }
+            else -> null
+        }
+    }
 
 //    companion object {
 //        /**

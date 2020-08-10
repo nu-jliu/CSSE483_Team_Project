@@ -15,7 +15,7 @@ object Utils {
             "dried cranberry" to "https://www.duncraft.com/common/images/products/large/3000R_zoom.jpg",
             "flour" to "https://shop.kingarthurbaking.com//item-img/3020_03_29_2016__11_15_32_700",
             "fresh sage" to "https://food.fnr.sndimg.com/content/dam/images/food/fullset/2013/8/9/1/FN_sage-thinkstock_s4x3.jpg.rend.hgtvcom.616.462.suffix/1382545713166.jpeg",
-            "garlic" to "http://www.italianfoodforever.com/wp-content/uploads/2017/03/garlic.jpg",
+            "garlic" to "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Garlic_whole.jpg/220px-Garlic_whole.jpg",
             "garlic powder" to "https://target.scene7.com/is/image/Target/GUEST_29ba29c4-1d98-4ecc-9f93-c9bac35df386?wid=488&hei=488&fmt=pjpeg",
             "honey" to "https://5.imimg.com/data5/UQ/LH/MY-66919833/glass-honey-jar-250-ml-2-500x500.jpg",
             "mayonnaise" to "https://target.scene7.com/is/image/Target/13028016",

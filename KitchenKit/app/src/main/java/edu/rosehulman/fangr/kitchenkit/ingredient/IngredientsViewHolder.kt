@@ -51,7 +51,6 @@ class IngredientsViewHolder(
             for (doc in snapshot) {
                 val temp = doc.toObject(StoredIngredient::class.java)
                 if (temp.name == ingredient.name) {
-                    Log.d(Constants.TAG, "updating " + temp.name + " data")
                     //Update Image
                     storedIng = temp
                     Picasso.get().load(storedIng!!.url).into(imageView)
@@ -136,7 +135,6 @@ class IngredientsViewHolder(
         expireDate.append(day)
         expireDate.append('/')
         expireDate.append(year)
-        Log.d(Constants.TAG, expireDate.toString())
         bestBeforeTextView.text = expireDate.toString()
 
         //Update warning icon

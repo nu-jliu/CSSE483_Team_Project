@@ -35,7 +35,7 @@ class IngredientsAdapter(
 
     private fun addListenerAll() {
         listenerRegistration =
-            ingredientsRef.orderBy(Ingredient.BOUGHT_KEY, Query.Direction.ASCENDING)
+            ingredientsRef
                 .addSnapshotListener { snapshot: QuerySnapshot?, exception: FirebaseFirestoreException? ->
                     if (exception != null) {
                         Log.e(Constants.TAG, "EXCEPTION: $exception")
@@ -43,7 +43,6 @@ class IngredientsAdapter(
                     }
                     for (documentChange in snapshot!!.documentChanges) {
                         val ingredient = Ingredient.fromSnapshot(documentChange.document)
-                        Log.d(Constants.TAG, "Timestamp: ${ingredient.bought}")
                         val position = this.myIngredients.indexOfFirst { ingredient.id == it.id }
                         when (documentChange.type) {
                             DocumentChange.Type.ADDED -> {
@@ -66,7 +65,7 @@ class IngredientsAdapter(
 
     private fun addListenerFiltered(filter: String) {
         listenerRegistration =
-            ingredientsRef.orderBy(Ingredient.BOUGHT_KEY, Query.Direction.ASCENDING)
+            ingredientsRef
                 .addSnapshotListener { snapshot: QuerySnapshot?, exception: FirebaseFirestoreException? ->
                     if (exception != null) {
                         Log.e(Constants.TAG, "EXCEPTION: $exception")
@@ -74,11 +73,8 @@ class IngredientsAdapter(
                     }
                     for (documentChange in snapshot!!.documentChanges) {
                         val ingredient = Ingredient.fromSnapshot(documentChange.document)
-                        Log.d(Constants.TAG, "Timestamp: ${ingredient.bought}")
                         val position = this.myIngredients.indexOfFirst { ingredient.id == it.id }
-                        Log.d(Constants.TAG, "ing name: " + ingredient.name)
-                        Log.d(Constants.TAG, "filter: $filter")
-                        if (ingredient.name == filter) {
+                        if (ingredient.name.contains(filter)) {
                             when (documentChange.type) {
                                 DocumentChange.Type.ADDED -> {
                                     this.myIngredients.add(0, ingredient)
