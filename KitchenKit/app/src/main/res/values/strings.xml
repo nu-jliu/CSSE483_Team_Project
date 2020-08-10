@@ -22,7 +22,7 @@
     <string name="title_activity_tabbed">TabbedActivity</string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
-    <string name="recipe_detail_default_message">Recipe Details goes here</string>
+    <string name="recipe_detail_default_message">Ingredients &amp; Procedures</string>
     <string name="default_name">Name</string>
     <plurals name="title_user_info">
         <item quantity="one">Cooked for %d year\n\nFavorite Categories</item>
@@ -100,4 +100,6 @@
     <string name="default_favorite">Favorite</string>
     <string name="action_delete">DELETE</string>
     <string name="message_author"><![CDATA[Created by Allen Liu & Ray Fang]]></string>
+    <string name="recipe">Recipe</string>
+    <string name="title">Title</string>
 </resources>

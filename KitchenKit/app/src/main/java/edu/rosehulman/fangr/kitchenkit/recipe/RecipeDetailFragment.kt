@@ -42,7 +42,8 @@ class RecipeDetailFragment : Fragment() {
                 val recipe = Recipe.fromSnapshot(document                )
                 if (recipe.id == recipeID) {
                     rootView?.recipe_title?.text = recipe.name
-                    val detail = recipe.ingredient + "\n" + recipe.procedure
+                    var detail = recipe.ingredient + "\n" + recipe.procedure
+                    detail = System.getProperty("line.separator")?.let { detail.replace("\\n", it) }.toString()
                     rootView?.recipe_detail?.text = detail
                 }
             }
