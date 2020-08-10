@@ -39,7 +39,7 @@ class RecipeBrowserFragment : Fragment(), TabLayout.OnTabSelectedListener {
             this.buttonPressedListener?.let { listener ->
                 RecipeAdapter(
                     it,
-                    Constants.VALUE_DINNER,
+                    Constants.VALUE_ALL,
                     listener
                 )
             }
@@ -93,6 +93,15 @@ class RecipeBrowserFragment : Fragment(), TabLayout.OnTabSelectedListener {
     override fun onTabSelected(tab: TabLayout.Tab?) {
         Log.d(Constants.TAG, "Tab selected ${tab?.text}")
         requireView().recipe_recycler_view.adapter = when (tab?.text) {
+            context?.getString(R.string.all) -> context?.let {
+                this.buttonPressedListener?.let { listener ->
+                    RecipeAdapter(
+                        it,
+                        Constants.VALUE_ALL,
+                        listener
+                    )
+                }
+            }
             context?.getString(R.string.dinner) -> context?.let {
                 this.buttonPressedListener?.let { listener ->
                     RecipeAdapter(
@@ -102,29 +111,20 @@ class RecipeBrowserFragment : Fragment(), TabLayout.OnTabSelectedListener {
                     )
                 }
             }
-            context?.getString(R.string.asian) -> context?.let {
-                this.buttonPressedListener?.let { listener ->
-                    RecipeAdapter(
-                        it,
-                        Constants.VALUE_ASIAN,
-                        listener
-                    )
-                }
-            }
-            context?.getString(R.string.mexican) -> context?.let {
-                this.buttonPressedListener?.let { listener ->
-                    RecipeAdapter(
-                        it,
-                        Constants.VALUE_MEXICAN,
-                        listener
-                    )
-                }
-            }
             context?.getString(R.string.vegan) -> context?.let {
                 this.buttonPressedListener?.let { listener ->
                     RecipeAdapter(
                         it,
                         Constants.VALUE_VEGAN,
+                        listener
+                    )
+                }
+            }
+            context?.getString(R.string.snack) -> context?.let {
+                this.buttonPressedListener?.let { listener ->
+                    RecipeAdapter(
+                        it,
+                        Constants.VALUE_SNACK,
                         listener
                     )
                 }

@@ -15,8 +15,8 @@ data class Recipe(
     var ingredient: String = "",
     var procedure: String = "",
     var url: String = "",
-    var ingArray: ArrayList<String> = ArrayList(),
-    var category: String = ""
+    var ingArray: List<String> = ArrayList(),
+    var category: List<String> = listOf("all")
 ) : Parcelable {
 
     @IgnoredOnParcel

@@ -25,13 +25,11 @@ class RecipeAdapter(private val context: Context,
     private var listenerRegistration: ListenerRegistration? = null
 
     init {
-        this.recipeReference.orderBy(Recipe.NAME_KEY, Query.Direction.ASCENDING)
         this.showAll()
     }
 
     private fun addListenerAll() {
-        listenerRegistration = this.recipeReference
-            .whereEqualTo(Constants.KEY_CATEGORY, category)
+        listenerRegistration = this.recipeReference.orderBy(Recipe.NAME_KEY, Query.Direction.ASCENDING)
             .addSnapshotListener { snapshot: QuerySnapshot?, exception: FirebaseFirestoreException? ->
                 if (exception != null) {
                     Log.e(Constants.TAG, "EXCEPTION: $exception")
@@ -39,19 +37,22 @@ class RecipeAdapter(private val context: Context,
                 }
                 for (docChange in snapshot?.documentChanges!!) {
                     val recipe = Recipe.fromSnapshot(docChange.document)
+                    Log.d(Constants.TAG, "Cat: " + recipe.category.toString() + " " + category)
                     val position = this.recipes.indexOfFirst { it.id == recipe.id }
-                    when (docChange.type) {
-                        DocumentChange.Type.ADDED -> {
-                            this.recipes.add(0, recipe)
-                            this.notifyItemInserted(0)
-                        }
-                        DocumentChange.Type.REMOVED -> {
-                            this.recipes.removeAt(position)
-                            this.notifyItemRemoved(position)
-                        }
-                        DocumentChange.Type.MODIFIED -> {
-                            this.recipes[position] = recipe
-                            this.notifyItemChanged(position)
+                    if (recipe.category.contains(category)) {
+                        when (docChange.type) {
+                            DocumentChange.Type.ADDED -> {
+                                this.recipes.add(0, recipe)
+                                this.notifyItemInserted(0)
+                            }
+                            DocumentChange.Type.REMOVED -> {
+                                this.recipes.removeAt(position)
+                                this.notifyItemRemoved(position)
+                            }
+                            DocumentChange.Type.MODIFIED -> {
+                                this.recipes[position] = recipe
+                                this.notifyItemChanged(position)
+                            }
                         }
                     }
                 }
@@ -59,8 +60,7 @@ class RecipeAdapter(private val context: Context,
     }
 
     private fun addListenerFiltered(filter: String) {
-        listenerRegistration = this.recipeReference
-            .whereEqualTo(Constants.KEY_CATEGORY, category)
+        listenerRegistration = this.recipeReference.orderBy(Recipe.NAME_KEY, Query.Direction.ASCENDING)
             .addSnapshotListener { snapshot: QuerySnapshot?, exception: FirebaseFirestoreException? ->
                 if (exception != null) {
                     Log.e(Constants.TAG, "EXCEPTION: $exception")
@@ -69,7 +69,7 @@ class RecipeAdapter(private val context: Context,
                 for (docChange in snapshot?.documentChanges!!) {
                     val recipe = Recipe.fromSnapshot(docChange.document)
                     val position = this.recipes.indexOfFirst { it.id == recipe.id }
-                    if (recipe.name.contains(filter)) {
+                    if (recipe.name.contains(filter) && recipe.category.contains(category)) {
                         when (docChange.type) {
                             DocumentChange.Type.ADDED -> {
                                 this.recipes.add(0, recipe)

@@ -46,6 +46,8 @@
     <string name="asian">Asian</string>
     <string name="mexican">Mexican</string>
     <string name="vegan">Vegan</string>
+    <string name="snack">Snack</string>
+    <string name="all">All</string>
     <string name="order_by">Order by: </string>
     <string name="alphabetical_down">Alphabetical↓</string>
     <string name="amount_down">Amount↓</string>

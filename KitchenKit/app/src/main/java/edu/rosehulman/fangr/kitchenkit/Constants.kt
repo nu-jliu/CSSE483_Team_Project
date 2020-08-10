@@ -13,8 +13,8 @@ object Constants {
     const val RECIPE_COLLECTION = "recipe"
 
     const val KEY_CATEGORY = "category"
+    const val VALUE_ALL = "all"
     const val VALUE_DINNER = "dinner"
-    const val VALUE_ASIAN = "asian"
-    const val VALUE_MEXICAN = "mexican"
     const val VALUE_VEGAN = "vegan"
+    const val VALUE_SNACK = "snack"
 }
