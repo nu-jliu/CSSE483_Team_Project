@@ -4,6 +4,10 @@ object Constants {
 
     const val TAG = "KK"
 
+    const val CHANNEL_INGREDIENT = "ingredient_channel"
+    const val RC_SIGN_IN = 1
+    const val RC_ROSE_SIGN_IN = 2
+
     const val USER_COLLECTION = "user"
     const val INGREDIENT_COLLECTION = "ingredient"
     const val PROFILE_COLLECTION = "profile"

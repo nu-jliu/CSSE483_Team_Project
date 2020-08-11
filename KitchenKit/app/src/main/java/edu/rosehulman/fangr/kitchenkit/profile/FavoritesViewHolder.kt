@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import edu.rosehulman.fangr.kitchenkit.profile.FavoritesAdapter
 import kotlinx.android.synthetic.main.favorites_row_view.view.*
 
+@ExperimentalStdlibApi
 class FavoritesViewHolder(itemView: View, adapter: FavoritesAdapter) :
     RecyclerView.ViewHolder(itemView) {
 

@@ -1,18 +1,23 @@
 package edu.rosehulman.fangr.kitchenkit
 
-import android.app.Activity
-import android.app.AlertDialog
-import android.content.DialogInterface
+import android.app.*
+import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreException
+import com.google.firebase.firestore.QuerySnapshot
 import edu.rosehulman.fangr.kitchenkit.ingredient.*
 import edu.rosehulman.fangr.kitchenkit.profile.EditProfileFragment
 import edu.rosehulman.fangr.kitchenkit.profile.ProfileFragment
@@ -21,7 +26,6 @@ import edu.rosehulman.fangr.kitchenkit.recipe.RecipeBrowserFragment
 import edu.rosehulman.fangr.kitchenkit.recipe.RecipeDetailFragment
 import edu.rosehulman.rosefire.Rosefire
 import kotlinx.android.synthetic.main.custom_ingredient_alert_view.view.*
-import kotlinx.android.synthetic.main.custom_ingredient_alert_view.view.name_edit_text
 import kotlinx.android.synthetic.main.search_alert_view.view.*
 
 class MainActivity : AppCompatActivity(),
@@ -32,14 +36,12 @@ class MainActivity : AppCompatActivity(),
     AddIngredientFragment.OnAddButtonPressedListener,
     EditProfileFragment.OnButtonsPressedListener,
     EditIngredientFragment.OnIngredientSaveButtonPressedListener,
-    RecipeDetailFragment.OnButtonPressedListener{
+    RecipeDetailFragment.OnButtonPressedListener {
 
     private val auth = FirebaseAuth.getInstance()
     private lateinit var authStateListener: FirebaseAuth.AuthStateListener
 
-    private val RC_SIGN_IN = 1
-    private val RC_ROSE_SIGN_IN = 2
-
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.setContentView(R.layout.activity_main)
@@ -63,7 +65,7 @@ class MainActivity : AppCompatActivity(),
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK && requestCode == this.RC_ROSE_SIGN_IN) {
+        if (resultCode == Activity.RESULT_OK && requestCode == Constants.RC_ROSE_SIGN_IN) {
             val result = Rosefire.getSignInResultFromIntent(data)
             if (result.isSuccessful) {
                 this.auth.signInWithCustomToken(result.token)
@@ -76,6 +78,64 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun registerNotification(uid: String) {
+        FirebaseFirestore
+            .getInstance()
+            .collection(Constants.USER_COLLECTION).document(uid)
+            .collection(Constants.INGREDIENT_COLLECTION)
+            .addSnapshotListener { snapshot: QuerySnapshot?, exception: FirebaseFirestoreException? ->
+                if (exception != null) {
+                    Log.e(Constants.TAG, "EXCEPTION: $exception")
+                    return@addSnapshotListener
+                }
+                snapshot?.size()?.let { this.showNotification(it) }
+            }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun showNotification(size: Int) {
+        val message = "You currently have $size item in the refrigerator"
+
+        this.createNotificationChannel()
+
+        val intent = Intent(this, this.supportFragmentManager.javaClass).apply {
+            this.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        val pendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
+
+        val builder =
+            NotificationCompat
+                .Builder(this, Constants.CHANNEL_INGREDIENT)
+                .setSmallIcon(R.drawable.ic_launcher)
+                .setContentTitle(this.getString(R.string.app_name))
+                .setContentText(message)
+                .setStyle(NotificationCompat.BigTextStyle().bigText(message))
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
+
+        NotificationManagerCompat.from(this).notify(0, builder.build())
+    }
+
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "channel_ingredient"
+            val descriptionText = "ingredient_changes"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(
+                Constants.CHANNEL_INGREDIENT,
+                name,
+                importance
+            ).apply { this.description = descriptionText }
+
+            val notificationManager =
+                this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun initializeListeners() {
         this.authStateListener = FirebaseAuth.AuthStateListener { auth: FirebaseAuth ->
             val user = auth.currentUser
@@ -85,7 +145,8 @@ class MainActivity : AppCompatActivity(),
                 Log.d(Constants.TAG, "E-Mail: ${user.email}")
                 Log.d(Constants.TAG, "Phone: ${user.phoneNumber}")
                 Log.d(Constants.TAG, "Photo: ${user.photoUrl}")
-                this.switchTo(RecipeBrowserFragment())
+                this.switchTo(RecipeBrowserFragment.newInstance(user.uid))
+                this.registerNotification(user.uid)
             } else
                 this.switchTo(SplashFragment())
         }
@@ -111,7 +172,7 @@ class MainActivity : AppCompatActivity(),
                 .setLogo(R.drawable.ic_logo)
                 .build()
 
-        this.startActivityForResult(loginIntent, this.RC_SIGN_IN)
+        this.startActivityForResult(loginIntent, Constants.RC_SIGN_IN)
     }
 
     private fun switchTo(fragment: Fragment) {
@@ -132,7 +193,7 @@ class MainActivity : AppCompatActivity(),
     override fun onRoseSignInButtonPressed() {
         val roseFireSignInIntent =
             Rosefire.getSignInIntent(this, this.getString(R.string.token_rosefire_log_in))
-        this.startActivityForResult(roseFireSignInIntent, this.RC_ROSE_SIGN_IN)
+        this.startActivityForResult(roseFireSignInIntent, Constants.RC_ROSE_SIGN_IN)
     }
 
     override fun onProfileButtonPressed() {
@@ -158,7 +219,9 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onProfileBackPressed() {
-        this.switchTo(RecipeBrowserFragment())
+        this.auth.currentUser?.uid
+            ?.let { RecipeBrowserFragment.newInstance(it) }
+            ?.let { this.switchTo(it) }
     }
 
     override fun onEditButtonPressed() {
@@ -230,15 +293,16 @@ class MainActivity : AppCompatActivity(),
         builder.create().show()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onIngredientSearchButtonPressed(adapter: IngredientsAdapter?) {
         val builder = AlertDialog.Builder(this)
         val view = LayoutInflater.from(this).inflate(R.layout.search_alert_view, null, false)
         builder.setView(view)
         builder.setNegativeButton(android.R.string.cancel, null)
-        builder.setPositiveButton(android.R.string.ok, DialogInterface.OnClickListener { _, _ ->
+        builder.setPositiveButton(android.R.string.ok) { _, _ ->
             val filter = view.filter_edit_text.text.toString()
             adapter?.showFiltered(filter)
-        })
+        }
         builder.setNeutralButton(R.string.clear_search_filter) { _, _ ->
             adapter?.showAll()
             view.filter_edit_text.setText("")
@@ -258,11 +322,11 @@ class MainActivity : AppCompatActivity(),
         val view = LayoutInflater.from(this).inflate(R.layout.search_alert_view, null, false)
         builder.setView(view)
         builder.setNegativeButton(android.R.string.cancel, null)
-        builder.setPositiveButton(android.R.string.ok, DialogInterface.OnClickListener { _, _ ->
+        builder.setPositiveButton(android.R.string.ok) { _, _ ->
             val filter = view.filter_edit_text.text.toString()
             Log.d(Constants.TAG, filter)
             adapter?.showFiltered(filter)
-        })
+        }
         builder.setNeutralButton(R.string.clear_search_filter) { _, _ ->
             adapter?.showAll()
             view.filter_edit_text.setText("")
@@ -275,6 +339,9 @@ class MainActivity : AppCompatActivity(),
             ?.let { RecipeDetailFragment.newInstance(recipeID) }
             ?.let { this.switchTo(it) }
     }
+
+    override fun onFavoriteListButtonPressed(adapter: RecipeAdapter?): Boolean? =
+        adapter?.toggleFavoriteViewOption()
 
     override fun onSaveButtonPressed() {
         this.onMyIngredientsButtonPressed()

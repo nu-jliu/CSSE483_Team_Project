@@ -1,16 +1,24 @@
 package edu.rosehulman.fangr.kitchenkit.ingredient
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.*
 import edu.rosehulman.fangr.kitchenkit.Constants
+import edu.rosehulman.fangr.kitchenkit.MainActivity
 import edu.rosehulman.fangr.kitchenkit.R
 
+@RequiresApi(Build.VERSION_CODES.O)
 class IngredientsAdapter(
     private val uid: String,
     private val context: Context,
@@ -32,6 +40,7 @@ class IngredientsAdapter(
         this.showAll()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun addListenerAll() {
         listenerRegistration =
             ingredientsRef.orderBy(Ingredient.BOUGHT_KEY, Query.Direction.ASCENDING)
@@ -43,25 +52,12 @@ class IngredientsAdapter(
                     for (documentChange in snapshot!!.documentChanges) {
                         val ingredient = Ingredient.fromSnapshot(documentChange.document)
                         val position = this.myIngredients.indexOfFirst { ingredient.id == it.id }
-                        when (documentChange.type) {
-                            DocumentChange.Type.ADDED -> {
-                                this.myIngredients.add(0, ingredient)
-                                this.notifyItemInserted(0)
-                                this.recyclerView.smoothScrollToPosition(0)
-                            }
-                            DocumentChange.Type.REMOVED -> {
-                                this.myIngredients.removeAt(position)
-                                this.notifyItemRemoved(position)
-                            }
-                            DocumentChange.Type.MODIFIED -> {
-                                this.myIngredients[position] = ingredient
-                                this.notifyItemChanged(position)
-                            }
-                        }
+                        this.processListener(documentChange.type, ingredient, position)
                     }
                 }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun addListenerFiltered(filter: String) {
         listenerRegistration =
             ingredientsRef.orderBy(Ingredient.BOUGHT_KEY, Query.Direction.ASCENDING)
@@ -73,25 +69,29 @@ class IngredientsAdapter(
                     for (documentChange in snapshot!!.documentChanges) {
                         val ingredient = Ingredient.fromSnapshot(documentChange.document)
                         val position = this.myIngredients.indexOfFirst { ingredient.id == it.id }
-                        if (ingredient.name.contains(filter)) {
-                            when (documentChange.type) {
-                                DocumentChange.Type.ADDED -> {
-                                    this.myIngredients.add(0, ingredient)
-                                    this.notifyItemInserted(0)
-                                    this.recyclerView.smoothScrollToPosition(0)
-                                }
-                                DocumentChange.Type.REMOVED -> {
-                                    this.myIngredients.removeAt(position)
-                                    this.notifyItemRemoved(position)
-                                }
-                                DocumentChange.Type.MODIFIED -> {
-                                    this.myIngredients[position] = ingredient
-                                    this.notifyItemChanged(position)
-                                }
-                            }
-                        }
+                        if (ingredient.name.contains(filter))
+                            this.processListener(documentChange.type, ingredient, position)
                     }
                 }
+    }
+
+
+    private fun processListener(type: DocumentChange.Type, ingredient: Ingredient, position: Int) {
+        when (type) {
+            DocumentChange.Type.ADDED -> {
+                this.myIngredients.add(0, ingredient)
+                this.notifyItemInserted(0)
+                this.recyclerView.smoothScrollToPosition(0)
+            }
+            DocumentChange.Type.REMOVED -> {
+                this.myIngredients.removeAt(position)
+                this.notifyItemRemoved(position)
+            }
+            DocumentChange.Type.MODIFIED -> {
+                this.myIngredients[position] = ingredient
+                this.notifyItemChanged(position)
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, position: Int): IngredientsViewHolder {
@@ -103,7 +103,6 @@ class IngredientsAdapter(
 
     override fun getItemCount(): Int = this.myIngredients.size
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: IngredientsViewHolder, position: Int) {
         holder.bind(this.myIngredients[position])
     }
@@ -125,7 +124,6 @@ class IngredientsAdapter(
         myIngredients.clear()
         notifyDataSetChanged()
         addListenerAll()
-
     }
 
     fun showFiltered(filter: String) {

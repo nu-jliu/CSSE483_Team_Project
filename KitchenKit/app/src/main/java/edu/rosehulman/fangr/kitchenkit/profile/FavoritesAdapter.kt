@@ -5,6 +5,8 @@ import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
@@ -13,7 +15,10 @@ import com.google.firebase.firestore.QuerySnapshot
 import edu.rosehulman.fangr.kitchenkit.Constants
 import edu.rosehulman.fangr.kitchenkit.R
 import kotlinx.android.synthetic.main.category_add.view.*
+import java.util.*
+import kotlin.collections.ArrayList
 
+@ExperimentalStdlibApi
 class FavoritesAdapter(private val context: Context, private val uid: String) :
     RecyclerView.Adapter<FavoritesViewHolder>() {
 
@@ -32,7 +37,7 @@ class FavoritesAdapter(private val context: Context, private val uid: String) :
                 return@addSnapshotListener
             }
             for (docChange in snapshot?.documentChanges!!) {
-                val category = docChange.document.data[Constants.KEY_CATEGORY] as String
+                val category = docChange.document.data[Constants.KEY_CATEGORY].toString()
                 val id = docChange.document.id
                 val position = this.categoryIDs.indexOfFirst { it == id }
                 when (docChange.type) {
@@ -69,6 +74,7 @@ class FavoritesAdapter(private val context: Context, private val uid: String) :
         holder.bind(this.favorites[position])
     }
 
+    @ExperimentalStdlibApi
     fun showAddDialog(position: Int = -1) {
         val builder = AlertDialog.Builder(this.context)
         builder.setTitle(
@@ -79,28 +85,52 @@ class FavoritesAdapter(private val context: Context, private val uid: String) :
         )
 
         val view = LayoutInflater.from(this.context).inflate(R.layout.category_add, null, false)
-        if (position != -1)
-            view.category_edit_text_view.setText(this.favorites[position])
+        val spinner = view.category_spinner
+        val categories = arrayListOf(
+            Constants.VALUE_DINNER,
+            Constants.VALUE_VEGAN,
+            Constants.VALUE_SNACK
+        )
+        val adapter = ArrayAdapter(
+            this.context,
+            android.R.layout.simple_spinner_dropdown_item,
+            categories
+        )
+        spinner.adapter = adapter
+        if (position != -1) {
+            val category = this.favorites[position].toLowerCase()
+            val index = categories.indexOfFirst { it == category }
+            spinner.setSelection(index)
+        }
         builder.setView(view)
 
         builder.setPositiveButton(android.R.string.ok) { _, _ ->
-            if (position == -1)
+            if (position == -1) {
+                val selectedCategory = spinner.selectedItem.toString().capitalize(Locale.ROOT)
+                if (this.favorites.contains(selectedCategory)) {
+                    Toast.makeText(
+                        this.context,
+                        "The selected category has already been added to the favorite list",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    return@setPositiveButton
+                }
                 this.favoritesReference.add(
                     mapOf(
                         Pair(
                             Constants.KEY_CATEGORY,
-                            view.category_edit_text_view.text.toString()
+                            spinner.selectedItem.toString().capitalize(Locale.ROOT)
                         )
                     )
                 )
-            else
+            } else
                 this.favoritesReference
                     .document(this.categoryIDs[position])
                     .set(
                         mapOf(
                             Pair(
                                 Constants.KEY_CATEGORY,
-                                view.category_edit_text_view.text.toString()
+                                spinner.selectedItem.toString().capitalize(Locale.ROOT)
                             )
                         )
                     )
