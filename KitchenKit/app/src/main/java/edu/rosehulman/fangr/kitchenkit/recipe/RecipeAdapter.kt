@@ -88,6 +88,8 @@ class RecipeAdapter(
 
     private fun addListenerFavorite() {
         Log.d(Constants.TAG, "size: ${this.categories.size}, ${this.categories}")
+        if (this.categories.isEmpty())
+            return
         this.listenerRegistration = this.recipeReference
             .orderBy(Recipe.NAME_KEY, Query.Direction.ASCENDING)
             .whereArrayContainsAny(Constants.KEY_CATEGORY, this.categories)

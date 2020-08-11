@@ -66,7 +66,7 @@ class EditProfileFragment : Fragment() {
                     .collection(Constants.PROFILE_COLLECTION)
             }
 
-        this.storageReference = FirebaseStorage.getInstance().reference.child("images/${this.uid}")
+        this.storageReference = FirebaseStorage.getInstance().reference.child("images")
 
         this.profileReference?.document(Constants.USER_INFO_DOCUMENT)?.get()
             ?.addOnSuccessListener { snapshot: DocumentSnapshot? ->
@@ -275,25 +275,18 @@ class EditProfileFragment : Fragment() {
         val uploadTask = this.uid?.let { this.storageReference.child(it).putBytes(data) }
 
         uploadTask?.addOnFailureListener {
-            Log.d(Constants.TAG, "Image upload failed: $localPath $id")
+            Log.d(Constants.TAG, "Image upload failed: $localPath ${this.uid}")
         }?.addOnSuccessListener {
-            Log.d(Constants.TAG, "Image upload succeeded: $localPath $id")
+            Log.d(Constants.TAG, "Image upload succeeded: $localPath ${this.uid}")
         }
 
         uploadTask?.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task: Task<UploadTask.TaskSnapshot> ->
-            if (task.isSuccessful)
+            if (!task.isSuccessful)
                 task.exception?.let { throw it }
             return@Continuation this.uid?.let { this.storageReference.child(it).downloadUrl }
         })?.addOnCompleteListener { task: Task<Uri> ->
             if (task.isSuccessful) {
                 val downloadUri = task.result
-                if (this.information?.photoUrl != "")
-                    this.information?.photoUrl?.let {
-                        FirebaseStorage
-                            .getInstance()
-                            .getReferenceFromUrl(it)
-                            .delete()
-                    }
                 this.information?.photoUrl = downloadUri.toString()
                 this.information?.let {
                     this.profileReference
