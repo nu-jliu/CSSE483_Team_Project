@@ -42,12 +42,14 @@ class FavoritesAdapter(private val context: Context, private val uid: String) :
                 val position = this.categoryIDs.indexOfFirst { it == id }
                 when (docChange.type) {
                     DocumentChange.Type.ADDED -> {
-                        this.favorites.add(this.favorites.size, category)
-                        this.categoryIDs.add(id)
+                        val addPosition = this.favorites.size
+                        this.favorites.add(addPosition, category)
+                        this.categoryIDs.add(addPosition, id)
                         this.notifyItemInserted(this.favorites.size)
                     }
                     DocumentChange.Type.REMOVED -> {
                         this.favorites.removeAt(position)
+                        this.categoryIDs.removeAt(position)
                         this.notifyItemRemoved(position)
                         for (index in position until this.favorites.size)
                             this.notifyItemChanged(index)

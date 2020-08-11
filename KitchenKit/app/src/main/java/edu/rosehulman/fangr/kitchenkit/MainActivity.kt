@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity(),
                 Log.d(Constants.TAG, "E-Mail: ${result.email}")
                 Log.d(Constants.TAG, "Group: ${result.group}")
             } else
-                Log.d(Constants.TAG, "Rosefire Failed")
+                Log.d(Constants.TAG, "RoseFire Failed")
         }
     }
 
