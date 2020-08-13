@@ -102,7 +102,18 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="70dp"
             android:layout_toEndOf="@+id/amount"
-            android:text="@string/template_weight"
+            android:text="@string/x"
+            android:textSize="12sp"
+            tools:ignore="RtlSymmetry" />
+
+        <TextView
+            android:id="@+id/amount_unit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="70dp"
+            android:layout_toEndOf="@+id/amount_num"
+            android:text="@string/ea"
             android:textSize="12sp"
             tools:ignore="RtlSymmetry" />
 

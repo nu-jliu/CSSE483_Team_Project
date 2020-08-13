@@ -40,7 +40,6 @@ class IngredientsAdapter(
         this.showAll()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun addListenerAll() {
         listenerRegistration =
             ingredientsRef.orderBy(Ingredient.BOUGHT_KEY, Query.Direction.ASCENDING)
@@ -57,7 +56,6 @@ class IngredientsAdapter(
                 }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun addListenerFiltered(filter: String) {
         listenerRegistration =
             ingredientsRef.orderBy(Ingredient.BOUGHT_KEY, Query.Direction.ASCENDING)

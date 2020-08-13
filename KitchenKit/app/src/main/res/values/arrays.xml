@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="units">
+        <item>ea</item>
+        <item>g</item>
+        <item>kg</item>
+        <item>L</item>
+        <item>lb(s)</item>
+        <item>ml</item>
+        <item>oz</item>
+        <item>pt</item>
+    </string-array>
+</resources>

@@ -36,8 +36,10 @@ class AddIngredientFragment(private var ingredientList: ArrayList<String>) : Fra
     //    private var ingredient: Ingredient? = null
     private var listener: OnAddButtonPressedListener? = null
     lateinit var ingredientName: String
+    lateinit var ingredientUnit: String
     private lateinit var rootView: View
     private var nameSpinner: Spinner? = null
+    private var unitSpinner: Spinner? = null
     private lateinit var nameSpinnerAdapter: ArrayAdapter<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,6 +56,7 @@ class AddIngredientFragment(private var ingredientList: ArrayList<String>) : Fra
         // Inflate the layout for this fragment
         this.rootView = inflater.inflate(R.layout.fragment_add_ingredient, container, false)
         initializeIngNameSpinner()
+        initializeUnitSpinner()
 
         this.rootView.button_add.setOnClickListener {
             val name = this.ingredientName
@@ -68,6 +71,7 @@ class AddIngredientFragment(private var ingredientList: ArrayList<String>) : Fra
                 Toast.makeText(this.context, "Invalid number input", Toast.LENGTH_LONG).show()
                 return@setOnClickListener
             }
+            val unit = this.ingredientUnit
             val isFrozen = this.rootView.checkBox.isChecked
 
             val ingredientsReference = FirebaseFirestore
@@ -75,7 +79,7 @@ class AddIngredientFragment(private var ingredientList: ArrayList<String>) : Fra
                 .collection(Constants.USER_COLLECTION)
                 .document(this.uid)
                 .collection(Constants.INGREDIENT_COLLECTION)
-            ingredientsReference.add(Ingredient(name, amount, isFrozen))
+            ingredientsReference.add(Ingredient(name, amount, isFrozen, unit))
 
             this.listener?.onAddButtonPressed()
         }
@@ -103,12 +107,7 @@ class AddIngredientFragment(private var ingredientList: ArrayList<String>) : Fra
                 return
             }
 
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val content: String = parent?.getItemAtPosition(position).toString()
                 Log.d(Constants.TAG, "item selected: $content")
                 when (parent?.id) {
@@ -121,7 +120,26 @@ class AddIngredientFragment(private var ingredientList: ArrayList<String>) : Fra
                 Picasso.get().load(url).into(rootView.food_image)
             }
         }
+    }
 
+    private fun initializeUnitSpinner() {
+        this.unitSpinner = rootView.amount_unit_spinner
+        this.unitSpinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                Log.d(Constants.TAG, "Spinner nothing selected")
+                return
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val content: String = parent?.getItemAtPosition(position).toString()
+                Log.d(Constants.TAG, "item selected: $content")
+                when (parent?.id) {
+                    R.id.amount_unit_spinner -> {
+                        ingredientUnit = content
+                    }
+                }
+            }
+        }
     }
 
     override fun onAttach(context: Context) {

@@ -33,12 +33,11 @@
 
     <Spinner
         android:id="@+id/name_text_spinner"
-        android:layout_width="match_parent"
+        android:layout_width="220dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/name"
         android:layout_marginStart="-10dp"
         android:layout_marginTop="10dp"
-        android:layout_toStartOf="@id/food_image"
         android:gravity="start"
         android:spinnerMode="dialog"
         android:textSize="14sp" />
@@ -64,28 +63,18 @@
         android:inputType="numberDecimal"
         android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/amount_unit"
-        android:layout_width="wrap_content"
+    <Spinner
+        android:id="@+id/amount_unit_spinner"
+        android:layout_width="110dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/amount"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_toEndOf="@+id/amount_edit_text"
-        android:text="@string/unit_kg"
-        android:textColor="@android:color/black"
-        android:textSize="24sp" />
-
-    <ImageButton
-        android:id="@+id/imageButton5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/amount"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="10dp"
-        android:layout_toEndOf="@+id/amount_unit"
-        android:backgroundTint="@color/colorPrimary"
-        app:srcCompat="@drawable/ic_drop_down_menu" />
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="20dp"
+        android:layout_toEndOf="@id/amount_edit_text"
+        android:gravity="start"
+        android:spinnerMode="dropdown"
+        android:textSize="14sp"
+        android:entries="@array/units"/>
 
     <CheckBox
         android:id="@+id/checkBox"

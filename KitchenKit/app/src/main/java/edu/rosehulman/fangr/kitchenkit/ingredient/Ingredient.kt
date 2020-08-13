@@ -12,7 +12,8 @@ import kotlinx.android.parcel.Parcelize
 data class Ingredient(
     var name: String = "",
     var amount: Double = 0.0,
-    var isFrozen: Boolean = false
+    var isFrozen: Boolean = false,
+    var unit: String = ""
 ) : Parcelable {
 
     @IgnoredOnParcel

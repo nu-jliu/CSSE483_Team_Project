@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.ingredient_card_view.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 
+@RequiresApi(Build.VERSION_CODES.O)
 class IngredientsViewHolder(
     itemView: View,
     adapter: IngredientsAdapter,
@@ -27,7 +28,8 @@ class IngredientsViewHolder(
     RecyclerView.ViewHolder(itemView) {
 
     private val nameTextView = itemView.ingredient_name as TextView
-    private val amountTextView = itemView.amount_num as TextView
+    private val amountNumTextView = itemView.amount_num as TextView
+    private val amountUnitTextView = itemView.amount_unit as TextView
     private val isFrozenView = itemView.snow_icon as ImageButton
     private val warningView = itemView.warning_icon as ImageButton
     private val boughtTextView = itemView.bought_time as TextView
@@ -40,7 +42,6 @@ class IngredientsViewHolder(
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun bind(ingredient: Ingredient) {
         var storedIng: StoredIngredient?
         val boughtTime = ingredient.bought?.toDate()?.time
@@ -65,8 +66,8 @@ class IngredientsViewHolder(
         }
 
         this.nameTextView.text = ingredient.name
-        this.amountTextView.text =
-            this.context.getString(R.string.amount_display, ingredient.amount)
+        this.amountNumTextView.text = this.context.getString(R.string.amount_display, ingredient.amount)
+        this.amountUnitTextView.text = ingredient.unit
         if (!ingredient.isFrozen)
             this.isFrozenView.setImageResource(android.R.color.white)
 
@@ -88,7 +89,6 @@ class IngredientsViewHolder(
             )
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("SimpleDateFormat")
     private fun updateBestBefore(
         storedIng: StoredIngredient,

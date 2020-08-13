@@ -66,7 +66,7 @@
     <string name="hint_cooked_year">Cooked Year</string>
     <string name="back_description">go back</string>
     <string name="button_save">SAVE</string>
-    <string name="amount_display">%.2f kg</string>
+    <string name="amount_display">%.2f </string>
     <plurals name="day_display">
         <item quantity="zero">@string/zero_day_display</item>
         <item quantity="one">%d day ago</item>
@@ -104,4 +104,6 @@
     <string name="message_author"><![CDATA[Created by Allen Liu & Ray Fang]]></string>
     <string name="recipe">Recipe</string>
     <string name="title">Title</string>
+    <string name="x">x</string>
+    <string name="ea">ea</string>
 </resources>

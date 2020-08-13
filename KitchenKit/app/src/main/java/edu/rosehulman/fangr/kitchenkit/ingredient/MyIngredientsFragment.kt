@@ -42,12 +42,7 @@ class MyIngredientsFragment : Fragment() {
         this.adapter = this.context?.let {
             this.uid?.let { uid ->
                 this.listener?.let { listener ->
-                    IngredientsAdapter(
-                        uid,
-                        it,
-                        view.recipe_recycler_view,
-                        listener
-                    )
+                    IngredientsAdapter(uid, it, view.recipe_recycler_view, listener)
                 }
             }
         }
