@@ -18,7 +18,8 @@ data class Recipe(
     var procedure: String = "",
     var url: String = "",
     var ingArray: List<String> = ArrayList(),
-    var category: ArrayList<String> = arrayListOf("all")
+    var category: ArrayList<String> = arrayListOf("all"),
+    var recommendPercentage: Float = 0.8f
 //    var category: String = ""
 ) : Parcelable {
 
@@ -29,7 +30,6 @@ data class Recipe(
     companion object {
         const val NAME_KEY = "name"
         fun fromSnapshot(snapshot: DocumentSnapshot): Recipe {
-            Log.d(Constants.TAG, "$snapshot")
             val recipe = snapshot.toObject(Recipe::class.java)!!
             recipe.id = snapshot.id
             return recipe

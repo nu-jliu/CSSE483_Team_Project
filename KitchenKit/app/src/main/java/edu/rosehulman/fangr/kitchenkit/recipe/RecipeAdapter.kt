@@ -4,32 +4,55 @@ import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.*
 import edu.rosehulman.fangr.kitchenkit.Constants
 import edu.rosehulman.fangr.kitchenkit.R
 import edu.rosehulman.fangr.kitchenkit.ingredient.Ingredient
-import edu.rosehulman.fangr.kitchenkit.ingredient.MyIngredientsFragment
-import java.lang.RuntimeException
 
 class RecipeAdapter(
     private val context: Context,
     val category: String,
     private val categories: ArrayList<String>,
-    private val listener: RecipeBrowserFragment.OnButtonPressedListener
+    private val listener: RecipeBrowserFragment.OnButtonPressedListener,
+    private val uid: String? = null
 ) :
     RecyclerView.Adapter<RecipeViewHolder>() {
-
-    private var showFavorite = false
+    private var showRecommended = false
     private val recipes = ArrayList<Recipe>()
     private var recipeReference = FirebaseFirestore
         .getInstance()
         .collection(Constants.RECIPE_COLLECTION)
-
+    private val ingredientReference =
+        uid?.let {
+            FirebaseFirestore
+                .getInstance()
+                .collection(Constants.USER_COLLECTION)
+                .document(it)
+                .collection(Constants.INGREDIENT_COLLECTION)
+        }
+    private val myIngredients: ArrayList<String> = ArrayList()
     private var listenerRegistration: ListenerRegistration? = null
 
     init {
         this.showAll()
+        getMyIngredients()
+    }
+
+    private fun getMyIngredients() {
+        ingredientReference?.addSnapshotListener { snapshot: QuerySnapshot?, e ->
+            if (e != null) {
+                Log.e(Constants.TAG, "EXCEPTION $e")
+                return@addSnapshotListener
+            }
+            for (docChange in snapshot?.documentChanges!!) {
+                val temp = Ingredient.fromSnapshot(docChange.document)
+                myIngredients.add(temp.name)
+            }
+            Log.d(Constants.TAG, "found ingredients: $myIngredients")
+        }
     }
 
     private fun processChange(type: DocumentChange.Type, recipe: Recipe, position: Int) {
@@ -60,9 +83,7 @@ class RecipeAdapter(
                 }
                 for (docChange in snapshot?.documentChanges!!) {
                     val recipe = Recipe.fromSnapshot(docChange.document)
-                    Log.d(Constants.TAG, "Cat: ${recipe.category} ${this.category}")
                     val position = this.recipes.indexOfFirst { it.id == recipe.id }
-//                    if (recipe.category.contains(Constants.VALUE_ALL))
                     this.processChange(docChange.type, recipe, position)
                 }
             }
@@ -86,24 +107,46 @@ class RecipeAdapter(
             }
     }
 
-    private fun addListenerFavorite() {
-        Log.d(Constants.TAG, "size: ${this.categories.size}, ${this.categories}")
-        if (this.categories.isEmpty())
-            return
+    private fun addListenerRecommended() {
         this.listenerRegistration = this.recipeReference
             .orderBy(Recipe.NAME_KEY, Query.Direction.ASCENDING)
-            .whereArrayContainsAny(Constants.KEY_CATEGORY, this.categories)
             .addSnapshotListener { snapshot: QuerySnapshot?, exception: FirebaseFirestoreException? ->
                 if (exception != null) {
                     Log.e(Constants.TAG, "EXCEPTION $exception")
                     return@addSnapshotListener
                 }
+                var x = 0
                 for (docChange in snapshot?.documentChanges!!) {
                     val recipe = Recipe.fromSnapshot(docChange.document)
                     val position = this.recipes.indexOfFirst { it.id == recipe.id }
-                    this.processChange(docChange.type, recipe, position)
+                    if (hasEnoughIngredients(recipe, myIngredients, recipe.recommendPercentage)) {
+                        x++
+                        this.processChange(docChange.type, recipe, position)
+                    }
+                }
+                if (x == 0) {
+                    Toast.makeText(
+                        context,
+                        "You have too few ingredients!",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             }
+    }
+
+    private fun hasEnoughIngredients(recipe: Recipe, list: ArrayList<String>, percentage: Float): Boolean {
+        val ingArray = recipe.ingArray
+        val m = ingArray.size
+        var n = 0
+        for (i in list.indices) {
+            if (ingArray.contains(list[i])) {
+                n++
+            }
+        }
+        if (n/m >= percentage) {
+            return true
+        }
+        return false
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeViewHolder {
@@ -134,11 +177,11 @@ class RecipeAdapter(
         this.addListenerFiltered(filter)
     }
 
-    private fun showFavoriteCategories() {
+    private fun showRecommended() {
         this.listenerRegistration?.remove()
         this.recipes.clear()
         this.notifyDataSetChanged()
-        this.addListenerFavorite()
+        this.addListenerRecommended()
     }
 
     fun selectRecipeAt(adapterPosition: Int) {
@@ -146,12 +189,12 @@ class RecipeAdapter(
         this.listener.onRecipeSelected(recipeID)
     }
 
-    fun toggleFavoriteViewOption(): Boolean {
-        this.showFavorite = !this.showFavorite
-        if (this.showFavorite)
-            this.showFavoriteCategories()
+    fun toggleRecommendedViewOption(): Boolean {
+        this.showRecommended = !this.showRecommended
+        if (this.showRecommended)
+            this.showRecommended()
         else
             this.showAll()
-        return this.showFavorite
+        return this.showRecommended
     }
 }

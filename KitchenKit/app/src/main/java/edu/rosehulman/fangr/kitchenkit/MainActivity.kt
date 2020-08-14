@@ -340,8 +340,8 @@ class MainActivity : AppCompatActivity(),
             ?.let { this.switchTo(it) }
     }
 
-    override fun onFavoriteListButtonPressed(adapter: RecipeAdapter?): Boolean? =
-        adapter?.toggleFavoriteViewOption()
+    override fun onShowRecommendedButtonPressed(adapter: RecipeAdapter?): Boolean? =
+        adapter?.toggleRecommendedViewOption()
 
     override fun onSaveButtonPressed() {
         this.onMyIngredientsButtonPressed()

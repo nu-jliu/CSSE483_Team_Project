@@ -24,7 +24,7 @@ class RecipeViewHolder(itemView: View, adapter: RecipeAdapter) : RecyclerView.Vi
 
     fun bind(recipe: Recipe) {
         this.foodNameTextView.text = recipe.name
-        this.numIngredientsTextView.text = recipe.ingArray.size.toString()
+        this.numIngredientsTextView.text = recipe.amountIng.toString()
         this.caloriesTextView.text = recipe.amountCal.toString()
         this.timeTextView.text = "${recipe.amountTime / 60}h${recipe.amountTime % 60}m"
         Picasso.get().load(recipe.url).into(this.foodImageView)
