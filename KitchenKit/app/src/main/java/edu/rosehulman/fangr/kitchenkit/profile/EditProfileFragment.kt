@@ -262,7 +262,6 @@ class EditProfileFragment : Fragment() {
             return context?.let { BitmapUtils.rotateAndScaleByRatio(it, this.localPath, ratio) }
         }
 
-
         override fun onPostExecute(bitmap: Bitmap?) {
             storageAdd(this.localPath, bitmap)
         }

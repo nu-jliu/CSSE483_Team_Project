@@ -6,14 +6,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import com.google.firebase.firestore.*
-import com.squareup.picasso.Picasso
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 import edu.rosehulman.fangr.kitchenkit.Constants
 import edu.rosehulman.fangr.kitchenkit.R
 import kotlinx.android.synthetic.main.fragment_recipe_detail.view.*
-import java.lang.RuntimeException
 
 const val ARG_RECIPE_ID = "recipe_id"
 
@@ -23,7 +21,7 @@ class RecipeDetailFragment : Fragment() {
     private var listener: OnButtonPressedListener? = null
     private var recipeID: String? = null
 
-    private val recipeRef = FirebaseFirestore
+    private val recipeReference = FirebaseFirestore
         .getInstance()
         .collection(Constants.RECIPE_COLLECTION)
 
@@ -33,23 +31,21 @@ class RecipeDetailFragment : Fragment() {
             this.recipeID = it.getString(ARG_RECIPE_ID)
         }
 
-        recipeRef.addSnapshotListener { snapshot: QuerySnapshot?, e ->
+        this.recipeReference.addSnapshotListener { snapshot: QuerySnapshot?, e ->
             if (e != null) {
                 Log.e(Constants.TAG, "EXCEPTION: $e")
                 return@addSnapshotListener
             }
             for (document in snapshot!!) {
-                val recipe = Recipe.fromSnapshot(document                )
+                val recipe = Recipe.fromSnapshot(document)
                 if (recipe.id == recipeID) {
-                    rootView?.recipe_title?.text = recipe.name
+                    this.rootView?.recipe_title?.text = recipe.name
                     var detail = recipe.ingredient + "\n" + recipe.procedure
                     detail = System.getProperty("line.separator")?.let { detail.replace("\\n", it) }.toString()
-                    rootView?.recipe_detail?.text = detail
+                    this.rootView?.recipe_detail?.text = detail
                 }
             }
-
         }
-
     }
 
     override fun onCreateView(
@@ -57,12 +53,13 @@ class RecipeDetailFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        rootView = inflater.inflate(R.layout.fragment_recipe_detail, container, false)
-        rootView?.button_back?.setOnClickListener {
+        this.rootView = inflater.inflate(R.layout.fragment_recipe_detail, container, false)
+
+        this.rootView?.button_back?.setOnClickListener {
             this.listener?.onRecipeDetailFragmentBackButtonPressed()
         }
 
-        return rootView
+        return this.rootView
     }
 
 
@@ -85,8 +82,8 @@ class RecipeDetailFragment : Fragment() {
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
          *
-         * @param uid the unique ID of the current user
-         * @return A new instance of fragment AddIngredientFragment.
+         * @param recipeID the unique ID of the recipe
+         * @return A new instance of fragment RecipeDetailFragment.
          */
         @JvmStatic
         fun newInstance(recipeID: String) =

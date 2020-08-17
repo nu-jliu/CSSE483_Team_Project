@@ -3,7 +3,6 @@ package edu.rosehulman.fangr.kitchenkit.ingredient
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
-import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
@@ -13,7 +12,6 @@ import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.squareup.picasso.Picasso
-import edu.rosehulman.fangr.kitchenkit.Constants
 import edu.rosehulman.fangr.kitchenkit.R
 import kotlinx.android.synthetic.main.ingredient_card_view.view.*
 import java.text.SimpleDateFormat
@@ -66,10 +64,13 @@ class IngredientsViewHolder(
         }
 
         this.nameTextView.text = ingredient.name
-        this.amountNumTextView.text = this.context.getString(R.string.amount_display, ingredient.amount)
+        this.amountNumTextView.text =
+            this.context.getString(R.string.amount_display, ingredient.amount)
         this.amountUnitTextView.text = ingredient.unit
         if (!ingredient.isFrozen)
             this.isFrozenView.setImageResource(android.R.color.white)
+        else
+            this.isFrozenView.setImageResource(R.drawable.ic_snow)
 
         if (ingredient.bought == null) {
             this.boughtTextView.text = this.context.getString(R.string.zero_day_display)
@@ -150,5 +151,4 @@ class IngredientsViewHolder(
         else if (currentMonth == month && currentDay < day)
             this.warningView.setImageResource(android.R.color.white)
     }
-
 }

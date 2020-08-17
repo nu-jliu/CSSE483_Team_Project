@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp"
     android:layout_margin="8dp"
-    tools:context=".MainActivity"
-    android:id="@+id/card_view"
-    app:cardCornerRadius="20dp">
+    android:padding="8dp"
+    app:cardCornerRadius="20dp"
+    tools:context=".MainActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -25,6 +24,7 @@
             android:layout_marginTop="6dp"
             android:layout_marginEnd="6dp"
             android:layout_marginBottom="6dp"
+            android:contentDescription="@string/food_image"
             app:srcCompat="@drawable/roast_cirtus_turkey" />
 
         <TextView
@@ -32,9 +32,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="110dp"
-            android:text="Roast Cirtus Turkey"
+            android:text="@string/default_recipe_name"
             android:textSize="24sp"
-            tools:ignore="RtlSymmetry" />
+            tools:ignore="RelativeOverlap,RtlSymmetry" />
 
         <TextView
             android:id="@+id/num_ingredients"
@@ -43,7 +43,7 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="50dp"
             android:layout_toEndOf="@+id/food_image"
-            android:text="13"
+            android:text="@string/default_num_ingredients"
             android:textSize="24sp"
             tools:ignore="RtlSymmetry" />
 
@@ -54,9 +54,9 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="60dp"
             android:layout_toEndOf="@+id/num_ingredients"
-            android:text="Ingredients"
+            android:text="@string/title_ingredients"
             android:textSize="10sp"
-            tools:ignore="RtlSymmetry" />
+            tools:ignore="RtlSymmetry,SmallSp" />
 
         <TextView
             android:id="@+id/num_calories"
@@ -65,7 +65,7 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="50dp"
             android:layout_toEndOf="@+id/ingredients"
-            android:text="700"
+            android:text="@string/default_calories"
             android:textSize="24sp"
             tools:ignore="RtlSymmetry" />
 
@@ -76,20 +76,20 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="60dp"
             android:layout_toEndOf="@+id/num_calories"
-            android:text="Calories"
+            android:text="@string/title_calories"
             android:textSize="10sp"
-            tools:ignore="RtlSymmetry" />
+            tools:ignore="RelativeOverlap,RtlSymmetry,SmallSp" />
 
         <TextView
             android:id="@+id/time_needed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="57dp"
             android:layout_alignParentEnd="true"
-            android:text="3h15m"
+            android:layout_marginTop="57dp"
+            android:layout_marginEnd="10dp"
+            android:text="@string/default_time"
             android:textSize="14sp"
-            tools:ignore="RtlSymmetry" />
+            tools:ignore="RelativeOverlap,RtlSymmetry" />
 
         <ImageButton
             android:id="@+id/button_like"
@@ -97,11 +97,9 @@
             android:layout_height="30dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            app:srcCompat="@android:drawable/btn_star"
-            android:background="#00FFFFFF" />
-
+            android:background="#00FFFFFF"
+            android:contentDescription="@string/tag_favorite"
+            app:srcCompat="@android:drawable/btn_star" />
 
     </RelativeLayout>
-
-
 </androidx.cardview.widget.CardView>

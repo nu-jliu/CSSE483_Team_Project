@@ -3,11 +3,11 @@ package edu.rosehulman.fangr.kitchenkit.recipe
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.firestore.CollectionReference
@@ -18,7 +18,6 @@ import edu.rosehulman.fangr.kitchenkit.Constants
 import edu.rosehulman.fangr.kitchenkit.R
 import kotlinx.android.synthetic.main.fragment_recipe_browser.view.*
 import kotlinx.android.synthetic.main.recipe_card_recycler.view.*
-import java.lang.RuntimeException
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -71,12 +70,11 @@ class RecipeBrowserFragment : Fragment(), TabLayout.OnTabSelectedListener {
         val view = inflater.inflate(R.layout.fragment_recipe_browser, container, false)
 
         view.recipe_recycler_view.layoutManager = LinearLayoutManager(this.context)
-        this.adapter = this.context?.let {context ->
+        this.adapter = this.context?.let { context ->
             this.buttonPressedListener?.let { listener ->
                 RecipeAdapter(
                     context,
                     Constants.VALUE_ALL,
-                    this.categories,
                     listener,
                     this.uid
                 )
@@ -101,7 +99,8 @@ class RecipeBrowserFragment : Fragment(), TabLayout.OnTabSelectedListener {
         view.button_recommend.setOnClickListener {
             if (this.adapter?.category != Constants.VALUE_ALL)
                 return@setOnClickListener
-            val showRecommended = this.buttonPressedListener?.onShowRecommendedButtonPressed(this.adapter)
+            val showRecommended =
+                this.buttonPressedListener?.onShowRecommendedButtonPressed(this.adapter)
             if (showRecommended!!)
                 (it as ImageButton).setImageResource(R.drawable.ic_recommand_red)
             else
@@ -140,8 +139,8 @@ class RecipeBrowserFragment : Fragment(), TabLayout.OnTabSelectedListener {
                     RecipeAdapter(
                         it,
                         Constants.VALUE_ALL,
-                        this.categories,
-                        listener
+                        listener,
+                        this.uid
                     )
                 }
             }
@@ -150,8 +149,8 @@ class RecipeBrowserFragment : Fragment(), TabLayout.OnTabSelectedListener {
                     RecipeAdapter(
                         it,
                         Constants.VALUE_DINNER,
-                        this.categories,
-                        listener
+                        listener,
+                        this.uid
                     )
                 }
             }
@@ -160,8 +159,8 @@ class RecipeBrowserFragment : Fragment(), TabLayout.OnTabSelectedListener {
                     RecipeAdapter(
                         it,
                         Constants.VALUE_VEGAN,
-                        this.categories,
-                        listener
+                        listener,
+                        this.uid
                     )
                 }
             }
@@ -170,8 +169,18 @@ class RecipeBrowserFragment : Fragment(), TabLayout.OnTabSelectedListener {
                     RecipeAdapter(
                         it,
                         Constants.VALUE_SNACK,
-                        this.categories,
-                        listener
+                        listener,
+                        this.uid
+                    )
+                }
+            }
+            this.context?.getString(R.string.like) -> this.context?.let {
+                this.buttonPressedListener?.let { listener ->
+                    RecipeAdapter(
+                        it,
+                        Constants.VALUE_LIKE,
+                        listener,
+                        this.uid
                     )
                 }
             }

@@ -3,19 +3,19 @@ package edu.rosehulman.fangr.kitchenkit.profile
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.firebase.firestore.*
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreException
 import com.squareup.picasso.Picasso
 import edu.rosehulman.fangr.kitchenkit.Constants
 import edu.rosehulman.fangr.kitchenkit.R
 import kotlinx.android.synthetic.main.fragment_profile.view.*
-import kotlinx.android.synthetic.main.fragment_profile.view.heading_text_view
-import kotlinx.android.synthetic.main.fragment_profile.view.name_text_view
-import java.lang.RuntimeException
 
 const val ARG_UID_PROFILE = "uid_profile"
 

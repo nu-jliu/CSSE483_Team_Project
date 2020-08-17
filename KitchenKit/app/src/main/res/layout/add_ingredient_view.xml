@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingHorizontal="20dp"
     android:paddingVertical="5dp"
     tools:context=".ingredient.AddIngredientFragment">
-
 
     <ImageView
         android:id="@+id/food_image"
@@ -61,7 +59,8 @@
         android:layout_marginTop="10dp"
         android:hint="@string/title_amount_card_view"
         android:inputType="numberDecimal"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:autofillHints="" />
 
     <Spinner
         android:id="@+id/amount_unit_spinner"
@@ -93,7 +92,7 @@
         android:layout_marginTop="10dp"
         android:backgroundTint="@android:color/black"
         android:padding="18dp"
-        android:text="ADD"
+        android:text="@string/button_add"
         android:textColor="@android:color/white"
         android:textSize="18sp" />
 
@@ -104,7 +103,7 @@
         android:layout_below="@+id/button_add"
         android:layout_marginStart="40dp"
         android:layout_marginTop="43dp"
-        android:text="Can't find your ingredient?"
+        android:text="@string/message_custom"
         android:textColor="@android:color/black"
         android:textSize="14sp" />
 
@@ -117,7 +116,7 @@
         android:layout_marginTop="30dp"
         android:layout_toEndOf="@+id/cant_find_your_ingredient"
         android:backgroundTint="@color/colorPrimary"
-        android:text="Customize one"
+        android:text="@string/customize_one"
         android:textSize="14sp"
         android:textStyle="bold" />
 

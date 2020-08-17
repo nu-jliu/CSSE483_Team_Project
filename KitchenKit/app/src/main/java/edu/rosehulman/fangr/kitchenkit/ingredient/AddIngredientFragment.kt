@@ -3,7 +3,6 @@ package edu.rosehulman.fangr.kitchenkit.ingredient
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,16 +10,14 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 import edu.rosehulman.fangr.kitchenkit.Constants
 import edu.rosehulman.fangr.kitchenkit.R
 import edu.rosehulman.fangr.kitchenkit.Utils
 import kotlinx.android.synthetic.main.add_ingredient_view.view.*
-import kotlinx.android.synthetic.main.add_ingredient_view.view.name_text_spinner
 import kotlinx.android.synthetic.main.fragment_my_ingredients.view.*
-import java.lang.NumberFormatException
-import java.lang.RuntimeException
 
 const val ARG_ADD_UID = "uid_add"
 
@@ -107,7 +104,12 @@ class AddIngredientFragment(private var ingredientList: ArrayList<String>) : Fra
                 return
             }
 
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
                 val content: String = parent?.getItemAtPosition(position).toString()
                 Log.d(Constants.TAG, "item selected: $content")
                 when (parent?.id) {
@@ -130,7 +132,12 @@ class AddIngredientFragment(private var ingredientList: ArrayList<String>) : Fra
                 return
             }
 
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
                 val content: String = parent?.getItemAtPosition(position).toString()
                 Log.d(Constants.TAG, "item selected: $content")
                 when (parent?.id) {

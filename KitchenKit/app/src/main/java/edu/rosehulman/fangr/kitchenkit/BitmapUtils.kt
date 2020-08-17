@@ -1,5 +1,9 @@
+@file:Suppress("DEPRECATION")
+@file:SuppressLint("ExifInterface")
+
 package edu.rosehulman.fangr.kitchenkit
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory

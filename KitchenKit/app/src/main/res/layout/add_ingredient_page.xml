@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="New Ingredient"
+        android:text="@string/title_new_ingredient"
         android:textSize="24sp"
         app:layout_anchor="@+id/appBarLayout"
         app:layout_anchorGravity="top|center" />
@@ -45,6 +45,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
         android:background="#00FFFFFF"
+        android:contentDescription="@string/go_back"
         android:tint="#000"
         app:layout_anchor="@+id/appBarLayout"
         app:layout_anchorGravity="start|center"

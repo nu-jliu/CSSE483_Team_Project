@@ -20,19 +20,21 @@
                 android:id="@+id/button_profile"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginStart="20dp"
                 android:layout_marginVertical="10dp"
+                android:layout_marginStart="20dp"
                 android:backgroundTint="@android:color/white"
+                android:contentDescription="@string/default_favorite"
                 android:tint="@android:color/black"
                 app:srcCompat="@drawable/ic_profile" />
 
             <ImageButton
                 android:id="@+id/button_recommend"
-                android:layout_width="40dp"
+                android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_marginVertical="10dp"
                 android:layout_weight="1"
                 android:backgroundTint="@android:color/white"
+                android:contentDescription="@string/like"
                 android:tint="@android:color/black"
                 app:layout_anchorGravity="top|center"
                 app:srcCompat="@drawable/ic_recommend_recipes" />
@@ -44,18 +46,18 @@
                 android:layout_marginVertical="10dp"
                 android:layout_marginEnd="20dp"
                 android:backgroundTint="@android:color/white"
+                android:contentDescription="@string/search"
                 android:tint="@android:color/black"
                 app:srcCompat="@android:drawable/ic_menu_search" />
 
         </LinearLayout>
-
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" >
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
@@ -82,6 +84,11 @@
                 android:layout_height="wrap_content"
                 android:text="@string/snack" />
 
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/like" />
+
         </com.google.android.material.tabs.TabLayout>
     </androidx.viewpager.widget.ViewPager>
 
@@ -95,10 +102,10 @@
 
     <include
         layout="@layout/recipe_card_recycler"
-        app:layout_anchor="@+id/view_pager"
-        app:layout_anchorGravity="center"
-        android:layout_marginTop="110dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_width="match_parent" />
+        android:layout_marginTop="110dp"
+        app:layout_anchor="@+id/view_pager"
+        app:layout_anchorGravity="center" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

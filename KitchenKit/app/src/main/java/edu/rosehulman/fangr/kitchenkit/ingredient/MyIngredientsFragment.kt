@@ -3,22 +3,19 @@ package edu.rosehulman.fangr.kitchenkit.ingredient
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
-import edu.rosehulman.fangr.kitchenkit.Constants
 import edu.rosehulman.fangr.kitchenkit.R
 import kotlinx.android.synthetic.main.fragment_my_ingredients.view.*
 import kotlinx.android.synthetic.main.recipe_card_recycler.view.*
-import java.lang.RuntimeException
 
 const val ARG_UID = "uid"
 
@@ -127,5 +124,4 @@ class MyIngredientsFragment : Fragment() {
         fun onIngredientSearchButtonPressed(adapter: IngredientsAdapter?)
         fun onIngredientSelected(ingredientID: String)
     }
-
 }

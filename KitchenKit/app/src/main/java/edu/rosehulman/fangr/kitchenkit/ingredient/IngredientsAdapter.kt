@@ -1,21 +1,14 @@
 package edu.rosehulman.fangr.kitchenkit.ingredient
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
 import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.*
 import edu.rosehulman.fangr.kitchenkit.Constants
-import edu.rosehulman.fangr.kitchenkit.MainActivity
 import edu.rosehulman.fangr.kitchenkit.R
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -103,14 +96,6 @@ class IngredientsAdapter(
 
     override fun onBindViewHolder(holder: IngredientsViewHolder, position: Int) {
         holder.bind(this.myIngredients[position])
-    }
-
-    fun edit(position: Int, name: String, amount: Double, isFrozen: Boolean) {
-        val ingredient = this.myIngredients[position]
-        ingredient.name = name
-        ingredient.amount = amount
-        ingredient.isFrozen = isFrozen
-        this.ingredientsRef.document(ingredient.id).set(ingredient)
     }
 
     fun removeAt(position: Int) {

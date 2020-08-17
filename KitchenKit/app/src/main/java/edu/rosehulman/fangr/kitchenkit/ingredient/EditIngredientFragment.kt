@@ -14,9 +14,8 @@ import com.google.firebase.firestore.*
 import com.squareup.picasso.Picasso
 import edu.rosehulman.fangr.kitchenkit.Constants
 import edu.rosehulman.fangr.kitchenkit.R
-import kotlinx.android.synthetic.main.fragment_add_ingredient.view.*
 import kotlinx.android.synthetic.main.add_ingredient_view.view.*
-import java.lang.RuntimeException
+import kotlinx.android.synthetic.main.fragment_add_ingredient.view.*
 import java.util.*
 
 const val ARG_EDIT_ING_UID = "edit_ing_uid"
@@ -58,7 +57,7 @@ class EditIngredientFragment : Fragment() {
             this.ingredient = snapshot?.let { Ingredient.fromSnapshot(it) }
             this.rootView?.amount_edit_text?.setText(this.ingredient?.amount.toString())
             this.rootView?.checkBox?.isChecked = this.ingredient?.isFrozen ?: false
-            this.rootView?.name?.text = this.ingredient?.name?.toUpperCase()
+            this.rootView?.name?.text = this.ingredient?.name?.toUpperCase(Locale.ROOT)
 
             this.storedIngredientReference.addSnapshotListener { ingredientSnapshot: QuerySnapshot?, exception: FirebaseFirestoreException? ->
                 if (exception != null) {
@@ -82,7 +81,7 @@ class EditIngredientFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         this.rootView = inflater.inflate(R.layout.fragment_add_ingredient, container, false)
-        this.rootView?.button_add?.text = "SAVE"
+        this.rootView?.button_add?.text = this.context?.getString(R.string.save)
         initializeUnitSpinner()
 
         this.rootView?.button_add?.setOnClickListener {
@@ -94,7 +93,8 @@ class EditIngredientFragment : Fragment() {
             this.listener?.onSaveButtonPressed()
         }
 
-        this.rootView?.new_ingredient?.text = "Edit Ingredient"
+        this.rootView?.new_ingredient?.text =
+            this.context?.getString(R.string.title_edit_ingredient)
         this.rootView?.name_text_spinner?.isVisible = false
         this.rootView?.button_customize_one?.isVisible = false
         this.rootView?.cant_find_your_ingredient?.isVisible = false
@@ -112,7 +112,12 @@ class EditIngredientFragment : Fragment() {
                 return
             }
 
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
                 val content: String = parent?.getItemAtPosition(position).toString()
                 Log.d(Constants.TAG, "item selected: $content")
                 when (parent?.id) {

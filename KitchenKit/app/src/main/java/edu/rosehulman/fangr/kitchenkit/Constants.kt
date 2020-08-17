@@ -15,10 +15,13 @@ object Constants {
     const val FAVORITES_COLLECTION = "favorites"
     const val STORED_INGREDIENT_COLLECTION = "storedIngredient"
     const val RECIPE_COLLECTION = "recipe"
+    const val FAVORITE_RECIPE_COLLECTION = "favoriteRecipes"
 
     const val KEY_CATEGORY = "category"
+    const val KEY_RECIPE_ID = "rid"
     const val VALUE_ALL = "all"
     const val VALUE_DINNER = "dinner"
     const val VALUE_VEGAN = "vegan"
     const val VALUE_SNACK = "snack"
+    const val VALUE_LIKE = "like"
 }

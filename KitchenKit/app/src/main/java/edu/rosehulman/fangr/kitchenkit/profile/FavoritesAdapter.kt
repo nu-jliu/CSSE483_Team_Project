@@ -67,7 +67,7 @@ class FavoritesAdapter(private val context: Context, private val uid: String) :
         val view = LayoutInflater
             .from(this.context)
             .inflate(R.layout.favorites_row_view, parent, false)
-        return FavoritesViewHolder(view, this)
+        return FavoritesViewHolder(view, this, this.context)
     }
 
     override fun getItemCount(): Int = this.favorites.size
@@ -100,7 +100,7 @@ class FavoritesAdapter(private val context: Context, private val uid: String) :
         )
         spinner.adapter = adapter
         if (position != -1) {
-            val category = this.favorites[position].toLowerCase()
+            val category = this.favorites[position].toLowerCase(Locale.ROOT)
             val index = categories.indexOfFirst { it == category }
             spinner.setSelection(index)
         }
