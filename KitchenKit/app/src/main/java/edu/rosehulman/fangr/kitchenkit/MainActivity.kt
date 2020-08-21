@@ -82,7 +82,8 @@ class MainActivity : AppCompatActivity(),
     private fun registerNotification(uid: String) {
         FirebaseFirestore
             .getInstance()
-            .collection(Constants.USER_COLLECTION).document(uid)
+            .collection(Constants.USER_COLLECTION)
+            .document(uid)
             .collection(Constants.INGREDIENT_COLLECTION)
             .addSnapshotListener { snapshot: QuerySnapshot?, exception: FirebaseFirestoreException? ->
                 if (exception != null) {
@@ -99,7 +100,7 @@ class MainActivity : AppCompatActivity(),
 
         this.createNotificationChannel()
 
-        val intent = Intent(this, this.supportFragmentManager.javaClass).apply {
+        val intent = Intent(this, MainActivity::class.java).apply {
             this.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
@@ -111,14 +112,18 @@ class MainActivity : AppCompatActivity(),
                 .setContentTitle(this.getString(R.string.app_name))
                 .setContentText(message)
                 .setStyle(NotificationCompat.BigTextStyle().bigText(message))
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
 
         NotificationManagerCompat.from(this).notify(0, builder.build())
     }
 
+    /**
+     * see reference at: https://developer.android.com/training/notify-user/build-notification
+     */
     private fun createNotificationChannel() {
+        // since NotificationChannel class is new and is only available in
+        // Android support library with API level of 26+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = "channel_ingredient"
             val descriptionText = "ingredient_changes"
@@ -169,7 +174,7 @@ class MainActivity : AppCompatActivity(),
             AuthUI.getInstance()
                 .createSignInIntentBuilder()
                 .setAvailableProviders(providers)
-                .setLogo(R.drawable.ic_logo)
+                .setLogo(R.drawable.ic_launcher)
                 .build()
 
         this.startActivityForResult(loginIntent, Constants.RC_SIGN_IN)
