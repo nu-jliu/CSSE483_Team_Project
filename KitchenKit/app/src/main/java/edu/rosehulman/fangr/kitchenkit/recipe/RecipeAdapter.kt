@@ -216,13 +216,12 @@ class RecipeAdapter(
         val ingArray = recipe.ingArray
         val size = ingArray.size
         var count = 0
-        for (i in list.indices) {
-            if (ingArray.contains(list[i]))
+        for (ingredient in list) {
+            if (ingArray.contains(ingredient))
                 count++
         }
-        if (count / size >= percentage) {
+        if (count / size >= percentage)
             return true
-        }
         return false
     }
 
@@ -237,26 +236,19 @@ class RecipeAdapter(
             this.addListenerLike()
         else
             this.addListenerAll()
-        this.showAllFavorites()
         this.notifyDataSetChanged()
     }
 
     fun showFiltered(filter: String) {
         this.resetListener()
         this.addListenerFiltered(filter)
-        this.showAllFavorites()
         this.notifyDataSetChanged()
     }
 
     private fun showRecommended() {
         this.resetListener()
         this.addListenerRecommended()
-        this.showAllFavorites()
         this.notifyDataSetChanged()
-    }
-
-    private fun showAllFavorites() {
-        Log.d(Constants.TAG, "favorite recipes: ${this.favoriteRecipes}")
     }
 
     fun selectRecipeAt(adapterPosition: Int) {

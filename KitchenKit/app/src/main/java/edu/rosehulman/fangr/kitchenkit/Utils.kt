@@ -30,6 +30,4 @@ object Utils {
         )
 
     fun getIngUrlFromName(name: String): String? = this.ingredientNameToUrl[name]
-
-    fun existsIngredient(name: String): Boolean = this.ingredientNameToUrl.containsKey(name)
 }

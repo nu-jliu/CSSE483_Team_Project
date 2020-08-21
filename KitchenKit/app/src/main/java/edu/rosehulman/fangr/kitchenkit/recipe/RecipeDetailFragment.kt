@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.QuerySnapshot
 import edu.rosehulman.fangr.kitchenkit.Constants
 import edu.rosehulman.fangr.kitchenkit.R
@@ -31,9 +32,9 @@ class RecipeDetailFragment : Fragment() {
             this.recipeID = it.getString(ARG_RECIPE_ID)
         }
 
-        this.recipeReference.addSnapshotListener { snapshot: QuerySnapshot?, e ->
-            if (e != null) {
-                Log.e(Constants.TAG, "EXCEPTION: $e")
+        this.recipeReference.addSnapshotListener { snapshot: QuerySnapshot?, exception: FirebaseFirestoreException? ->
+            if (exception != null) {
+                Log.e(Constants.TAG, "EXCEPTION: $exception")
                 return@addSnapshotListener
             }
             for (document in snapshot!!) {
@@ -41,7 +42,9 @@ class RecipeDetailFragment : Fragment() {
                 if (recipe.id == recipeID) {
                     this.rootView?.recipe_title?.text = recipe.name
                     var detail = recipe.ingredient + "\n" + recipe.procedure
-                    detail = System.getProperty("line.separator")?.let { detail.replace("\\n", it) }.toString()
+                    detail = System.getProperty("line.separator")
+                        ?.let { detail.replace("\\n", it) }
+                        .toString()
                     this.rootView?.recipe_detail?.text = detail
                 }
             }

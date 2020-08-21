@@ -10,7 +10,8 @@ import com.squareup.picasso.Picasso
 import edu.rosehulman.fangr.kitchenkit.R
 import kotlinx.android.synthetic.main.recipe_card_view.view.*
 
-class RecipeViewHolder(itemView: View, adapter: RecipeAdapter, private val context: Context) : RecyclerView.ViewHolder(itemView) {
+class RecipeViewHolder(itemView: View, adapter: RecipeAdapter, private val context: Context) :
+    RecyclerView.ViewHolder(itemView) {
 
     private val foodNameTextView = itemView.food_name as TextView
     private val numIngredientsTextView = itemView.num_ingredients as TextView
@@ -33,7 +34,11 @@ class RecipeViewHolder(itemView: View, adapter: RecipeAdapter, private val conte
         this.foodNameTextView.text = recipe.name
         this.numIngredientsTextView.text = recipe.amountIng.toString()
         this.caloriesTextView.text = recipe.amountCal.toString()
-        this.timeTextView.text = this.context.getString(R.string.time_format, recipe.amountTime / 60, recipe.amountTime % 60)
+        this.timeTextView.text = this.context.getString(
+            R.string.time_format,
+            recipe.amountTime / 60,
+            recipe.amountTime % 60
+        )
         Picasso.get().load(recipe.url).into(this.foodImageView)
 
         if (isLiked)

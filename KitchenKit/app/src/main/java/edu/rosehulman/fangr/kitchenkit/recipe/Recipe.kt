@@ -1,10 +1,8 @@
 package edu.rosehulman.fangr.kitchenkit.recipe
 
 import android.os.Parcelable
-import android.util.Log
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Exclude
-import edu.rosehulman.fangr.kitchenkit.Constants
 import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 
@@ -20,7 +18,6 @@ data class Recipe(
     var ingArray: List<String> = ArrayList(),
     var category: ArrayList<String> = arrayListOf("all"),
     var recommendPercentage: Float = 0.8f
-//    var category: String = ""
 ) : Parcelable {
 
     @IgnoredOnParcel
